@@ -1,25 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import { 
+  Route, 
+  Switch 
+} from "react-router-dom";
 import './App.css';
+import Signup from './pages/signup';
+import Landing from './pages/landing';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route exact path='/'>
+          {/* Landing page */}
+          <Landing />
+        </Route>
+
+
+        <Route exact path='/musical/main'>
+          {/* Main page */}
+        </Route>
+        <Route exact path='/search'>
+          {/* 추천페이지 */}
+        </Route>
+        <Route exact path='/search/:title'>
+          {/* 작품 상세페이지 */}
+        </Route>
+
+
+        <Route path='/user/signin'>
+          {/* Sign in */}
+        </Route>
+        <Route path='/user/signup'>
+          {/* Sign up */}
+        </Route>
+        <Route path='/user/info'>
+          {/* My page */}
+        </Route>
+
+
+        <Route path='/admin'>
+          {/* Admin page */}
+        </Route>
+
+      </Switch>
+    </>
   );
 }
 
