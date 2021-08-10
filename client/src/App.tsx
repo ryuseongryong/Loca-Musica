@@ -3,6 +3,8 @@ import {
   Switch 
 } from "react-router-dom";
 import './App.css';
+import Signup from './pages/signup';
+import Landing from './pages/landing';
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
       <Switch>
         <Route exact path='/'>
           {/* Landing page */}
+          <Landing />
         </Route>
 
 
