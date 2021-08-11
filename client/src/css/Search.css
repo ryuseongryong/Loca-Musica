@@ -1,0 +1,110 @@
+.search-main {
+	width: 1420px;
+	height: 680px;
+	display: flex;
+	background: black;
+	color: white;
+	overflow: auto;
+}
+
+.search-section1 {
+	border : 1px solid red;
+	flex: 1; 
+}
+
+.search-section2 {
+	display: flex;
+	flex-direction: column;
+	border : 1px solid red;
+	flex: 2; 
+}
+
+.search-section3 {
+	border : 1px solid red;
+	flex: 1; 
+}
+
+.search-section2-top {
+	display: flex;
+	border : 1px solid aquamarine;
+	flex: 1; 
+}
+
+.search-section2-middle {
+	display: flex;
+	flex-direction: column;
+	border : 1px solid aquamarine;
+	flex: 2; 
+}
+
+.search-section2-bottom {
+	border : 1px solid aquamarine;
+	flex: 1; 
+	justify-content: center;
+	align-items: center;
+}
+
+.search-left {
+	height: 100%;
+	flex: 1; 
+	border : 1px solid greenyellow;
+}
+
+.search-right {
+	height: 100%;
+	flex: 3; 
+	border : 1px solid greenyellow;
+	justify-content: center;
+	align-items: center;
+}
+
+.category1 {
+	display: flex;
+	flex: 1; 
+	border : 1px solid palegoldenrod;
+}
+
+.category2 {
+	display: flex;
+	flex: 1; 
+	border : 1px solid palegoldenrod;
+}
+
+.hashtags {
+	display: flex;
+	flex: 3; 
+	border : 1px solid palegoldenrod;
+}
+
+.hashtags-list {
+	list-style: none;
+}
+
+/* 추천 결과 ul */
+.search-result-list {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap-reverse;
+	list-style: none;
+	padding: 5px;
+}
+
+/* 추천 결과 li */
+.search-result-musical {
+	width: 202px;
+	height: 297px;
+	border:1px solid;
+	margin-bottom: 20px;
+	cursor: pointer;
+	border-radius: 10px;
+	left: 16px;
+	top: 15px;
+	border-radius: 10px;
+}
+
+/* 추천 결과 img */ 
+.search-result-musical-image {
+	width: 90%;
+	height: 90%;
+	border-radius: 10px;
+}
