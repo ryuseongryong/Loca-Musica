@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { json } from 'express';
 import { get } from 'http';
-import { Users } from 'src/entities/Users';
 import { UserService } from './user.service';
+import { UserDataDto } from '../dtos/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -38,7 +38,7 @@ export class UserController {
   }
 
   @Post('signup')
-  async signup(@Body() userData: UserData, @Res() res): Promise<void> {
+  async signup(@Body() userData: UserDataDto, @Res() res): Promise<void> {
     // 입력 받은 email이 기존에 등록된 회원의 email과 일치하면 res.status(409).send({message:''})
 
     const { email, username, password } = userData;
