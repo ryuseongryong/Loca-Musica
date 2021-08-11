@@ -1,3 +1,43 @@
+/* 기본 font Montserrat */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
+
+/* common reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  word-break: keep-all;
+}
+
+body {
+  font-size: 18px;
+  letter-spacing: -0.015em;
+}
+
+/* list bullet reset */
+ul,
+li,
+ol {
+  list-style: none;
+}
+
+/* button reset */
+button {
+  border: 0;
+  cursor: pointer;
+  background-color: (0, 0, 0, 0);
+}
+
+input {
+  background: #484848;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 50px;
+}
+
 .App {
   text-align: center;
 }
