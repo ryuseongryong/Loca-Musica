@@ -4,11 +4,13 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Signup from './pages/signup';
+import Signin from './pages/signin';
 import Landing from './pages/landing';
 import Header from './components/header';
 import Search from './pages/search';
 import Admin from './pages/admin';
-
+import UserInfo from './pages/userinfo';
+import Footer from './components/footer';
 
 function App() {
   return (
@@ -33,13 +35,13 @@ function App() {
 
 
         <Route path='/user/signin'>
-          {/* Sign in */}
+          <Signin />
         </Route>
         <Route path='/user/signup'>
-          {/* Sign up */}
+          <Signup />
         </Route>
         <Route path='/user/info'>
-          {/* My page */}
+          <UserInfo />
         </Route>
 
 
@@ -49,6 +51,8 @@ function App() {
         </Route>
 
       </Switch>
+
+      <Footer />
     </>
   );
 }
