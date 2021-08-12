@@ -46,7 +46,6 @@ function Signup () {
                     <span>로그인</span>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }
