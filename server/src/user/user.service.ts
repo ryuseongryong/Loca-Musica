@@ -15,16 +15,16 @@ export class UserService {
     return this.usersRepository.insert(userData);
   }
 
+  create(userData: UserDataDto) {
+    return this.usersRepository.insert(userData);
+  }
+
   findAll(): Promise<Users[]> {
     return this.usersRepository.find();
   }
 
-  async findOne(userData: UserDataDto): Promise<Users> {
-    const { email, username, password } = userData;
-    return this.usersRepository.findOne({
-      email,
-      password,
-    });
+  async findOne(email: string): Promise<any> {
+    return this.usersRepository.findOne({ email: email });
   }
 
   async findAuth(email: string): Promise<Users | undefined> {
