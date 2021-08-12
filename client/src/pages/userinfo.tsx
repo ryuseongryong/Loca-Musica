@@ -78,7 +78,7 @@ function UserInfo () {
                     회원탈퇴
                 </button>
             </div>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 }

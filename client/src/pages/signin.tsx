@@ -32,7 +32,6 @@ function Signin () {
                     <span> 가입하기</span>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }
