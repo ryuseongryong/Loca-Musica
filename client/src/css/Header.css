@@ -1,68 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 
 .header-main {
-	box-sizing: border-box;
-	display: flex;
-	position: fixed;
-	z-index: 99;
-	top: 0;
-	right: 0;
-	left: 0;
-	background: black;
-	padding: 15px 0;
-	width: 100%;
-	height: 10%;
-	justify-content: center;
-    align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  position: sticky;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: black;
+  padding: 15px 0;
+  width: 100%;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
 }
 
-.header-logo {	
-	flex: 2; 
-	text-align: center;
-	/* border: 1px red solid; */
+.header-logo {
+  flex: 2;
+  text-align: center;
+  /* border: 1px red solid; */
 }
-  
-.header-section1 {	
-	flex: 1; 
-	text-align: center;
-	/* border: 1px red solid; */
+
+.header-section1 {
+  flex: 1;
+  text-align: center;
+  /* border: 1px red solid; */
 }
 
 .header-section2 {
-	flex: 5; 
-	text-align: center;
-	/* border: 1px red solid; */
+  flex: 5;
+  text-align: center;
+  /* border: 1px red solid; */
 }
 
 .header-section3 {
-	flex: 3; 
-	text-align: center;
-	/* border: 1px red solid; */
+  flex: 3;
+  text-align: center;
+  /* border: 1px red solid; */
 }
 
 .header-section4 {
-	flex: 1; 
-	text-align: center;
-	/* border: 1px red solid;	 */
+  flex: 1;
+  text-align: center;
+  /* border: 1px red solid;	 */
 }
 
 .header-section5 {
-	flex: 1; 
-	text-align: center;
-	/* border: 1px red solid;	 */
+  flex: 1;
+  text-align: center;
+  /* border: 1px red solid;	 */
 }
 
 .logo {
-	font-family: 'Montserrat', sans-serif;
-	font-size: 25px;
-	color: white;
-	overflow: hidden;
-	flex-wrap: wrap;
-	
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  color: white;
+  overflow: hidden;
+  flex-wrap: wrap;
 }
 
 .recommend-musical-button {
-	/* background: none;
+  /* background: none;
 	width: 80px;
 	height: 35px;
 	color: white;
@@ -74,25 +73,22 @@
 }
 
 .signin-button {
-
 }
 
 .signup-button {
-
 }
 .search-div {
-	border : 1px solid yellow;
-	border-radius: 100rem;
+  border: 1px solid yellow;
+  border-radius: 100rem;
 }
 
 .search-image {
-	width: 10px;
-	height: 10px;
+  width: 10px;
+  height: 10px;
 }
 
 @media only screen and (max-width: 768px) {
-
-	.header-main {
-		height: 100vh;
-	}
+  .header-main {
+    height: 100vh;
+  }
 }
