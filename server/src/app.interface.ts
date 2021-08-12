@@ -1,4 +1,5 @@
 // interface 모음
+
 interface UserData {
   id?: number;
   username?: string;
@@ -9,9 +10,9 @@ interface UserData {
   admin?: boolean;
 }
 
-interface resForm {
-  message: string;
-}
+// interface resForm {
+//   message: string;
+// }
 
 // interface Student {
 //   name: string;

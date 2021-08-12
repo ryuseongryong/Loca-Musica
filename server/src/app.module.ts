@@ -43,7 +43,10 @@ import { AuthModule } from './auth/auth.module';
         UserNumber,
         MusicalHashtag,
       ],
-      synchronize: true, // DB Schema sync
+      charset: 'utf8mb4',
+      synchronize: false, // DB Schema sync
+      logging: true,
+      keepConnectionAlive: true,
     }),
     AuthModule,
   ],
