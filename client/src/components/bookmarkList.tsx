@@ -8,6 +8,21 @@ function BookmarkList () {
                 <li className=''>몬테크리스토</li>
                 <li className=''>레베카</li>
                 <li className=''>위키드</li>
+                <li className=''>몬테크리스토</li>
+                <li className=''>레베카</li>
+                <li className=''>위키드</li>
+                <li className=''>몬테크리스토</li>
+                <li className=''>레베카</li>
+                <li className=''>위키드</li>
+                <li className=''>몬테크리스토</li>
+                <li className=''>레베카</li>
+                <li className=''>위키드</li>
+                <li className=''>몬테크리스토</li>
+                <li className=''>레베카</li>
+                <li className=''>위키드</li>
+                <li className=''>몬테크리스토</li>
+                <li className=''>레베카</li>
+                <li className=''>위키드</li>
             </ul>
             <p>북마크한 뮤지컬이 없습니다.</p>
         </div>
