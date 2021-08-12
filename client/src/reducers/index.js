@@ -21,9 +21,6 @@ const rootReducer = combineReducers({
 });
 
 export default persistReducer(persistConfig, rootReducer);
-export type RootState = ReturnType<typeof rootReducer>;
-
-
 
 
 // npm(https://www.npmjs.com/package/redux-persist) Nested Presists 참고
