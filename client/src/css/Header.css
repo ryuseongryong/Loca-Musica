@@ -30,13 +30,15 @@
 
 .header-section2 {
 	flex: 5; 
-	text-align: center;
+	display: flex;
+	justify-content: flex-end;
 	/* border: 1px red solid; */
 }
 
 .header-section3 {
 	flex: 3; 
-	text-align: center;
+	display: flex;
+	justify-content : center;
 	/* border: 1px red solid; */
 }
 
@@ -54,42 +56,181 @@
 
 .logo {
 	font-family: 'Montserrat', sans-serif;
-	font-size: 25px;
+	font-size: 30px;
 	color: white;
 	overflow: hidden;
 	flex-wrap: wrap;
-	
+	text-decoration: none;
 }
 
+/* 버튼 테두리 그라데이션 효과 */
 .recommend-musical-button {
-	/* background: none;
-	width: 80px;
-	height: 35px;
-	color: white;
+	width: 167px;
+    height: 47px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
 
-	border: 2px solid;
-	border-radius: 100rem;
-	border-image-slice: 1;
-	border-image-source: linear-gradient(to left, #743ad5, #d53a9d);  */
+	text-align: center;
+	line-height: 42px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 18px;
+	color: white;
+}
+
+/* react-router-dom Link태그 밑줄 제거 */
+.header-link-router {
+	text-decoration: none;
 }
 
 .signin-button {
+	width: 104px;
+    height: 39px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+	/* margin-left: 33em; */
 
+	text-align: center;
+	line-height: 34px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
 }
 
 .signup-button {
+	width: 104px;
+    height: 39px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+	/* margin-left: 33em; */
 
+	text-align: center;
+	line-height: 34px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
 }
+
+.signout-button {
+	width: 104px;
+    height: 39px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+	/* margin-left: 33em; */
+
+	text-align: center;
+	line-height: 34px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
+}
+
 .search-div {
-	border : 1px solid yellow;
+	width: 90%;
+	height: 39px;
+	display: flex;
+	background-color: #484848;
 	border-radius: 100rem;
 }
 
-.search-image {
-	width: 10px;
-	height: 10px;
+.search-icon-div {
+	flex: 1; 
+	display: flex;
+	justify-content : flex-end;
+	align-items: center;
 }
 
+.search-input-div {
+	flex: 6; 
+	display: flex;
+	justify-content : center;
+	align-items: center;
+}
+
+.search-input {
+	font-size: 16px;
+	width: 90%;
+	color: white;
+}
+
+.search-input:focus {
+	outline:none;
+}
+
+.search-input::placeholder {
+	font-size: 16px;
+  }
+
+.search-icon {
+	cursor: pointer;
+	color: white;
+}
+
+/* small button */
+.admin-musical-post-button {
+	width: 104px;
+    height: 39px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+	/* margin-left: 33em; */
+
+	text-align: center;
+	line-height: 34px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
+}
+
+.mypage-button {
+	width: 104px;
+    height: 39px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(black, black), linear-gradient(to right, #E30052, #6200EE);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+
+	text-align: center;
+	line-height: 34px;
+
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	color: white;
+}
+
+
+/* 반응형 css */
 @media only screen and (max-width: 768px) {
 
 	.header-main {

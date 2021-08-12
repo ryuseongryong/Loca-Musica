@@ -15,6 +15,7 @@ import Footer from './components/footer';
 function App() {
   return (
     <>
+      <Header />
       <Switch>
         <Route exact path='/'>
           {/* Landing page */}
