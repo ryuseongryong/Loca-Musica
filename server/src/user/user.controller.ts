@@ -45,7 +45,6 @@ export class UserController {
     return userData;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('signup')
   async signup(
     @Body() userData: UserDataDto,
