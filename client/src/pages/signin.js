@@ -1,9 +1,19 @@
 import './signin.css'
 import Header from '../components/header';
 import Footer from '../components/footer';
+import KakaoLogin from '../components/kakaoOAuth'
 
 
 function Signin () {
+
+    const kakaoSigninRequestHandler = () => {
+        window.location.assign(
+            process.env.REACT_APP_KAKAO_REDIRECT
+        )
+        console.log(process.env.REACT_APP_KAKAO_REDIRECT)
+    }
+
+
     return (
         <div id='signin'>
             <div className='signinContainer'>
@@ -25,8 +35,13 @@ function Signin () {
                 <button className='btnSignin'>
                     로그인
                 </button>
-                <button className='btnKakaoSignin'>
-                </button>
+                <div>
+                    <button className='btnKakaoSignin'
+                        onClick={kakaoSigninRequestHandler}
+                    >
+                    </button>
+                    <KakaoLogin />
+                </div>
                 <div className='signupCheckWrap'>
                     <p>계정이 없으신가요?</p>
                     <span> 가입하기</span>
