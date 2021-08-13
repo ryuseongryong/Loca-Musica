@@ -1,7 +1,7 @@
 /* 페이지 화면 크기 지정(여기서 페이지 크기 조절 가능, footer 조절) */
 .search-container {
 	display: table;
-	margin: 0 auto;
+	margin-top: 80px;
 	width: 100%;
 	/* footer조절 */
 	height: calc(100vh - 10rem);
