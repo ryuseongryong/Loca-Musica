@@ -7,7 +7,7 @@
 	right: 0;
 	bottom: 0;
 	margin: auto;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.7);
 	display: flex;
 	justify-content: center;
 	align-items : center;
@@ -23,19 +23,130 @@
 
   .searchModal-main {
 	background-color: black;
-	width: 60%;
-	height: 80%;
+	width: 40%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	margin-top: 100px;
   }
 
   .searchModal-section1 {
-	border : 1px solid red;
-	flex: 1; 
+	display: flex;
+	/* border : 1px solid red; */
+	flex: 8; 
   }
 
   .searchModal-section2 {
-	border : 1px solid red;
-	flex: 1; 
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	/* border : 1px solid red; */
+	flex: 9; 
+  }
+
+  .searchModal-left {
+	flex: 1;
+	/* border: 1px solid orange; */
+  }
+
+  .searchModal-middle {
+	display: flex;
+	flex-direction: column;
+	flex: 3;
+	/* border: 1px solid orange; */
+  }
+
+  .searchModal-right {
+	flex: 1;
+	/* border: 1px solid orange; */
+  }
+
+  .searchModal-middle-top {
+	flex: 1;
+	/* border: 1px solid greenyellow; */
+  }
+
+  .searchModal-middle-input {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 5;
+	/* border: 1px solid greenyellow; */
+  }
+
+  .searchModal-middle-bottom {
+	display: flex;
+	justify-content: space-around;
+	align-items: space-around;
+	flex: 1;
+	margin-top: 10px;
+	/* border: 1px solid greenyellow; */
+  }
+
+  .searchModal-middle-input > input {
+	color: white;
+	margin: 5px;
+	width: 314px;
+	height: 39px;
+  }
+
+  #startdate {}
+  #endddate {}
+  #currentpage::-webkit-outer-spin-button,
+  #currentpage::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+    margin: 0;
+  }
+
+  #rows::-webkit-outer-spin-button,
+  #rows::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+    margin: 0;
+  }
+
+  #musicaltitle {}
+
+  .searchModal-search-btn {
+	  margin-top: 5px;
+  }
+
+  .searchModal-seperate-area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+  }
+
+  .searchModal-seperate-line {
+	width: 90%;
+	border: 1px solid gray;
+  }
+
+  .searchModal-result-ul {
+	width: 90%;
+	height: 270px;
+	overflow: auto;
+	/* border: 1px solid palevioletred; */
+	display: flex;
+	flex-direction: column;
+  }
+
+  .searchModal-result-li {
+	  margin-bottom: 10px;
+	  display: flex;
+  }
+
+  .searchModal-result-post {
+	width: 180px;
+	height: 260px;
+	cursor: pointer;
+  }
+
+  .searchModal-result-image {
+
+  }
+
+  .searchModal-result-input {
+
   }

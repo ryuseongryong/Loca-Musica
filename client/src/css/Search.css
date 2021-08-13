@@ -185,7 +185,7 @@
 	/* border : 1px solid greenyellow; */
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-end;
 }
 
 /* 추천 결과 info */
@@ -195,7 +195,7 @@
 	font-weight: 400;
 	letter-spacing: -0.015em;
 	text-align: center;
-
+	margin: 40px;
 }
 
 .no-search-result {
@@ -210,8 +210,9 @@
 /* 추천 결과 ul */
 .search-result-list {
 	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap-reverse;
+	justify-content: left;
+	/* flex-wrap : wrap -> 새로운 요소 추가시 아래로 추가 */
+	flex-wrap: wrap; 
 	list-style: none;
 	padding: 5px;
 }
@@ -221,8 +222,8 @@
 	width: 202px;
 	height: 297px;
 	/* border:1px solid; */
-	margin-left: 20px;
-	margin-right: 20px;
+	margin-left: 38px;
+	margin-right: 38px;
 	margin-bottom: 20px;
 	cursor: pointer;
 	border-radius: 10px;
