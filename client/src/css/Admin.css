@@ -1,6 +1,6 @@
 .admin-container {
 	display: table;
-	margin: 0 auto;
+	margin-top: 80px;
 	width: 100%;
 	/* footer조절 */
 	height: calc(100vh - 5rem);
@@ -37,6 +37,7 @@
 	flex: 1; 
 	display: flex;
 	justify-content: left;
+	align-items: center;
 }
 
 .admin-section2-middle{
@@ -165,7 +166,6 @@
 	width: 104px;
 	height: 39px;
 	font-size: 14px;
-	margin-left: 50px;
 }
 
 .admin-musical-post {
