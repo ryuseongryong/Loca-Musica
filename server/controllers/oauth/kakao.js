@@ -22,8 +22,8 @@ module.exports = {
         },
         params: {
           grant_type: 'authorization_code',
-          client_id: '4ac93d8079f2bf758e69a637619310d1',
-          redirect_uri: 'http://localhost:3000/user/signin',
+          client_id: process.env.KAKAO_CLIENT_ID,
+          redirect_uri: process.env.KAKAO_REDIRECT_URI,
           code: authorizationCode,
         }
       })
