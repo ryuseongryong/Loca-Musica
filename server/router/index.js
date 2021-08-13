@@ -4,7 +4,7 @@ const router = express.Router();
 const { user, search, oauth, musical, admin } = require('../controllers');
 
 router.post('/user/signin', user.signin.post);
-router.post('/user/signin', user.signup.post);
+router.post('/user/signup', user.signup.post);
 router.post('/user/signout', user.signout.post);
 router.get('/user/info', user.info.get);
 router.get('/user/auth', user.auth.get);
