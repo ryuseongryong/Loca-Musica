@@ -3,6 +3,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const router = require('./router');
+require('dotenv').config();
 
 const app = express();
 const port = 80;
@@ -12,7 +13,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['https://loca-musica.com'],
+    // 실제 배포시에는 localhost 삭제
+    origin: ['https://loca-musica.com', 'http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   })
