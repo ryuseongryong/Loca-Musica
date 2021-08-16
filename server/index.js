@@ -28,17 +28,6 @@ app.get('/', (req, res) => {
 
 app.use('/', router);
 
-// app.post('/signup', signup);
-// app.post('/signin', signin.post);
-// app.get('/signin', signin.get);
-// app.get('/signout', signout);
-// app.get('/auth', auth);
-// app.post('/mypage', mypage);
-// app.post('/oauth', oauth.post);
-// app.post('/post', post);
-// app.get('/explore', explore.get);
-// app.post('/postlist', postlist);
-
 app.listen(port, () => {
   console.log(`서버가 ${port}번에서 작동중입니다.`);
 });
