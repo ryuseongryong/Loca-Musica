@@ -1,11 +1,81 @@
+/*eslint-disable*/
+
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios';
+
 import './signin.css'
-import Header from '../components/header';
-import Footer from '../components/footer';
 import KakaoLogin from '../components/kakaoOAuth'
+import { signin, notify } from '../actions';
 
 
-function Signin () {
+function Signin() {
 
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.userReducer)
+
+    const { isSignin, userInfo, notify } = useSelector(state => {
+        // console.log(state)
+        return {
+        isSignin: state.userReducer.isSignin,
+        userInfo: state.userReducer.userInfo,
+        notifications: state.notificationReducer.notifications
+        }
+    })
+
+
+    // 현재 페이지에서만 관리가 필요한 state
+    //* input에 입력되는 value(로그인에 필요한 사용자정보)
+    const [inputValue, setInputValue] = useState({
+        email: '',
+        password: '',
+    })
+    //* input에 입력되는 value에 따른 에러메세지
+    const [errMessage, setErrMessage] = useState('')
+
+    // 핸들러함수
+    //* input에 입력되는 value 변경 함수
+    const inputHandler = (event) => {
+        const { name, value } = event.target
+        setInputValue({
+            ...inputValue,
+            [name]: value
+        })
+    }
+
+    //* 로그인 핸들러
+    const signinRequestHandler = (event) => {
+
+        const { email, password } = inputValue
+
+        if (email && password) {
+            axios
+                .post(`${process.env.REACT_APP_END_POINT}/user/signin`,
+                    {
+                        email,
+                        password
+                    },
+                    { withCredentials: true }
+                )
+                .then((res) => {
+                    console.log('res', res)
+                    console.log('res.cookie', res.cookie)
+                    // dispatch로 로그인상태 state 관리
+                    dispatch(signin(res.data.data))
+                    dispatch(notify('반갑습니다'))
+                })
+                .then((res) => {
+                    history.push('/musical/main')
+                })
+                .catch((err) => {
+                    setErrMessage('이메일과 비밀번호를 다시 확인해주세요')
+                })
+        }
+    }
+
+    //* 카카오로그인 핸들러
     const kakaoSigninRequestHandler = () => {
         window.location.assign(
             process.env.REACT_APP_KAKAO_REDIRECT
@@ -23,16 +93,42 @@ function Signin () {
                         className='inpt'
                         name='email'
                         type='email'
-                        placeholder='이메일' 
+                        placeholder='이메일'
+                        required
+                        value={inputValue.email}
+                        onChange={inputHandler}
+                        onFocus={() => {
+                            setErrMessage('')
+                        }}
                     />
                     <input
                         className='inpt'
                         name='password'
                         type='password'
-                        placeholder='비밀번호' 
+                        placeholder='비밀번호'
+                        required
+                        value={inputValue.password}
+                        onChange={inputHandler}
+                        onFocus={() => {
+                            setErrMessage('')
+                        }}
+                        onKeyUp={(event) => (
+                            event.key === 'Enter'
+                                ? signinRequestHandler(event)
+                                : null
+                        )}
                     />
                 </form>
-                <button className='btnSignin'>
+                <div>
+                    {
+                        errMessage &&
+                        <p className='errMsg'>{errMessage}</p>
+                    }
+                </div>
+                <button
+                    className='btnSignin'
+                    onClick={signinRequestHandler}
+                >
                     로그인
                 </button>
                 <div>
@@ -44,7 +140,9 @@ function Signin () {
                 </div>
                 <div className='signupCheckWrap'>
                     <p>계정이 없으신가요?</p>
-                    <span> 가입하기</span>
+                    <span
+                        onClick={() => history.push('/user/signup')}
+                    > 가입하기</span>
                 </div>
             </div>
         </div>

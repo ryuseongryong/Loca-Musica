@@ -22,10 +22,10 @@ const usernameChecker = (username) => {
     } 
     else {
         if(regex.test(username) === false) {
-            return 'validUsername'
+            return 'invalidUsername'
         }
         else {
-            return 'invalidUsername'
+            return 'validUsername'
         }
     }
 }
