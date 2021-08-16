@@ -36,6 +36,11 @@
   left: 50%;
   transform: translate(-50%, 15%);
 }
+.errMsg {
+  font-size: 0.75rem;
+  display: block;
+  margin: 5px 0 15px 20px;
+}
 .btnSignin {
   font-size: 1rem;
   width: 100%;

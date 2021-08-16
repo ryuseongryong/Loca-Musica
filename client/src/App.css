@@ -40,6 +40,7 @@ button {
 
 input {
   background: #484848;
+  color: rgb(255, 255, 255);
   padding: 0 25px;
   border: 0;
   border-radius: 50px;
@@ -47,6 +48,42 @@ input {
 }
 input:focus {
   outline: none;
+}
+
+/* 알림 container */
+.notification-container {
+  font-size: 1rem;
+  position: fixed;
+  z-index: 999999;
+  top: 80px;
+  right: 12px;
+}
+.notification {
+  transition: transform 0.6s ease-in-out;
+  animation: toast-in-right 0.6s;
+  background: #232323;
+  transition: 0.3s ease;
+  border-radius: 20px;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+
+  height: 50px;
+  width: 360px;
+  color: #fff;
+  padding: 15px;
+  margin: 10px;
+}
+.fade-out {
+  opacity: 0;
+  transform: opacity 2s;
+}
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .App {
