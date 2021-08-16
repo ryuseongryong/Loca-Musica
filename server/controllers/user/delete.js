@@ -20,7 +20,7 @@ module.exports = {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
-      const { id } = accessTokenData;
+      const { id, email, username, profile, resign, admin } = accessTokenData;
       const { password } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
