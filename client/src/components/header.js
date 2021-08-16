@@ -38,7 +38,7 @@ function Header() {
             </div>
             <div className='header-section4'>
                 {/* 로그인 버튼 */}
-                <Link to='/signin' className='header-link-router'>
+                <Link to='/user/signin' className='header-link-router'>
                     <div className='signin-button'>
                         로그인
                     </div>
@@ -49,7 +49,7 @@ function Header() {
             </div>
             <div className='header-section5'>
                 {/* 회원가입 버튼 */}
-                <Link to='/signup' className='header-link-router'>
+                <Link to='/user/signup' className='header-link-router'>
                     <div className='signup-button'>
                         회원가입
                     </div>
