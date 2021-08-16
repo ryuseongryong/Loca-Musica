@@ -12,13 +12,13 @@ module.exports = {
         res.cookie('accessToken', 'accessToken', {
           httpOnly: true,
           maxAge: 1000,
-          secure: false,
+          secure: true,
           sameSite: 'None',
         });
         res.cookie('refreshToken', 'refreshToken', {
           httpOnly: true,
           maxAge: 1000,
-          secure: false,
+          secure: true,
           sameSite: 'None',
         });
 
