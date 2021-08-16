@@ -33,7 +33,7 @@ module.exports = {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 1,
-      secure: true,
+      secure: false,
       sameSite: 'None',
     });
   },
