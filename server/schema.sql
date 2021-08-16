@@ -64,7 +64,7 @@ CREATE TABLE numbers (
   id INT auto_increment,
   musical_id INT not null, 
   title varchar(255),
-  url varchar(255) not null,
+  videoId varchar(255) not null,
   PRIMARY KEY (id),
   FOREIGN KEY (musical_id) REFERENCES musicals(id)
 );

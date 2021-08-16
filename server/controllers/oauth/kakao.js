@@ -16,6 +16,7 @@ module.exports = {
     // Kakao authorization code 가 없을 경우
     if (!authorizationCode) {
       res.status(401).send({ message: 'no authorization code' });
+      return;
     }
 
     try {
@@ -59,15 +60,16 @@ module.exports = {
       connection.beginTransaction();
       
       // Check email
-      const [_userData] = await connection.query(
-        `SELECT * FROM users WHERE email = "${email}"`
+      const [_userData] = await connection.execute(
+        `SELECT * FROM users WHERE email = ?`,
+        [email]
       );
       let userData = _userData[0];
       console.log('existing user data: ', userData)
 
       // Email 이 이미 존재할 경우: login 진행
       if (userData) {
-        connection.destroy();
+        connection.release();
 
         const { id, username, email, profile, resign, admin } = userData;
 
@@ -96,12 +98,13 @@ module.exports = {
         sendRefreshToken(res, refreshToken);
         
         res.status(200).json({ data: userData, message: 'ok' });
+        return;
       }
 
       // Email 이 존재하지 않았을 경우: 회원가입 진행
       // Kakao profile image 가 제공될 경우
       if (profile_image_url){
-        const [created] = await connection.query(
+        const [created] = await connection.execute(
           `INSERT INTO users (email, username, profile) VALUES (?, ?, ?)`,
           [email, username, profile_image_url]
         );
@@ -109,20 +112,21 @@ module.exports = {
       } 
       // 제공되지 않을 경우
       else {
-        const [created] = await connection.query(
+        const [created] = await connection.execute(
           `INSERT INTO users (email, username) VALUES (?, ?)`,
           [email, username]
         );
         console.log('created: ', created)
       }
       
-      const [_newUserData] = await connection.query(
-        `SELECT * FROM users WHERE email = "${email}"`
+      const [_newUserData] = await connection.execute(
+        `SELECT * FROM users WHERE email = ?`,
+        [email]
       );
       const newUserData = _newUserData[0];
       console.log(newUserData);
       connection.commit();
-      connection.destroy();
+      connection.release();
 
       // Token 생성
       {
