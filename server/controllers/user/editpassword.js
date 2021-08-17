@@ -6,6 +6,7 @@ const {
   sendAccessToken,
   checkAccessToken,
 } = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
 
 module.exports = {
   patch: async (req, res) => {
@@ -32,22 +33,25 @@ module.exports = {
         [id]
       );
       connection1.commit();
+      const match = await bcrypt.compare(password, userData[0].password);
 
       if (userData.length === 0) {
         connection1.release();
         res.status(404).send({ message: 'user not found' });
         // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
-      } else if (userData[0].password !== password) {
+      } else if (!match) {
         connection1.release();
         res.status(403).send({ message: 'invalid password' });
       } else {
         // 유저 정보가 있는 경우 새로운 비밀번호 적용
         // newPassword의 기준이 충족되지 않는 경우는 클라에서 막음
         // 비밀번호를 수정하는 경우
+        const saltRounds = 10;
+        const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
 
         await connection1.execute(
           `UPDATE users SET password = ? WHERE users.id = ?`,
-          [newPassword, id]
+          [hashedNewPassword, id]
         );
         connection1.commit();
         connection1.release();

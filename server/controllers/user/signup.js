@@ -6,12 +6,16 @@ const {
   sendAccessToken,
   checkAccessToken,
 } = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
 
 module.exports = {
   post: async (req, res) => {
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    if (!username || !email || !hashedPassword) {
       res.status(422).send({ message: 'input empty' });
     }
 
@@ -32,7 +36,7 @@ module.exports = {
       } else {
         const [create] = await connection1.execute(
           `INSERT INTO users (email, password, username) VALUES (?, ?, ?)`,
-          [email, password, username]
+          [email, hashedPassword, username]
         );
         connection1.commit();
 

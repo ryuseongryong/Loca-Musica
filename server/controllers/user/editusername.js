@@ -49,12 +49,13 @@ module.exports = {
         connection1.release();
         res.status(404).send({ message: 'user not found' });
       }
-      //! username 중복 방지
-      else if (conflictCheck.some((user) => user.username === newUsername)) {
-        // username이 이미 있는 경우 새로운 비밀번호 적용
-        connection1.release();
-        res.status(409).send({ message: 'username conflict' });
-      } else {
+      // //! username 중복 방지
+      // else if (conflictCheck.some((user) => user.username === newUsername)) {
+      //   // username이 이미 있는 경우 새로운 비밀번호 적용
+      //   connection1.release();
+      //   res.status(409).send({ message: 'username conflict' });
+      // }
+      else {
         // username을 수정
         await connection1.execute(
           `UPDATE users SET username = ? WHERE users.id = ?`,
