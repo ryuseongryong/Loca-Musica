@@ -23,11 +23,11 @@ function WithdrawalModal() {
   //* 탈퇴요청
   //! 탈퇴요청이 완료되면 signout의 과정을 거처야함
   const withdrawalRequestHandler = () => {
-    const { password } = inputValue;
+    const password = inputValue;
     axios
       .patch(
         `${process.env.REACT_APP_END_POINT}/user/delete`,
-        { password },
+        { password: password },
         { withCredentials: true }
       )
       .then((res) => {
@@ -51,7 +51,7 @@ function WithdrawalModal() {
       <form>
         <input
           name="password"
-          type="password"
+          type="text"
           placeholder="비밀번호 확인"
           required
           value={inputValue}
