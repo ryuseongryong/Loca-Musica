@@ -109,23 +109,23 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
         // Object.keys(obj).length === 0 -> 빈객체 확인, 길이가 0이면 빈객체
         let result2 = convert.xml2js(result.data, { compact: true });
         console.log(result2.dbs.db);
+                    // server api 추가시
+                    // console.log(result.data);
+                    // // 검색 결과가 없는 경우
+                    // if (Object.keys(result.data.data.dbs).length === 0) {
+                    //     setkopisSearchList([]);
+                    // }
+                    // // 여러개 검색된 경우, 배열로 반환됨으로 배열로 유지
+                    // else if (Array.isArray(result.data.data.dbs.db)) {
+                    //     console.log(result.data.data.dbs.db);
+                    //     setkopisSearchList(result.data.data.dbs.db);
+                    // }
+                    // // 1개만 검색된 경우, 객체로 반환됨으로 배열로 변경
+                    // else {
+                    //     console.log(result.data.data.dbs.db);
+                    //     setkopisSearchList([result.data.data.dbs.db]);
+                    // }
 
-        /* server api 추가시
-                    // 검색 결과가 없는 경우
-                    if (Object.keys(result.data.data.dbs).length === 0) {
-                        setkopisSearchList([]);
-                    }
-                    // 여러개 검색된 경우, 배열로 반환됨으로 배열로 유지
-                    else if (Array.isArray(result.data.data.dbs.db)) {
-                        console.log(result.data.data.dbs.db);
-                        setkopisSearchList(result.data.data.dbs.db);
-                    }
-                    // 1개만 검색된 경우, 객체로 반환됨으로 배열로 변경
-                    else {
-                        console.log(result.data.data.dbs.db);
-                        setkopisSearchList([result.data.data.dbs.db]);
-                    }
-                    */
 
         // 검색 결과가 없는 경우
         if (Object.keys(result2.dbs.db).length === 0) {
