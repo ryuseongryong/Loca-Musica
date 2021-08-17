@@ -5,12 +5,8 @@ const {
   sendRefreshToken,
   sendAccessToken,
   checkAccessToken,
-<<<<<<< HEAD
 } = require("../tokenFunctions");
-=======
-} = require('../tokenFunctions');
-const bcrypt = require('bcrypt');
->>>>>>> cb47c07c706cb9913a68f7f6324625ebd8eff239
+const bcrypt = require("bcrypt");
 
 module.exports = {
   patch: async (req, res) => {
@@ -23,7 +19,6 @@ module.exports = {
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
     try {
       if (!accessTokenData) {
-        console.log("token");
         res.status(401).send({ message: "invalid access token" });
       }
       const { id, email, username, profile, admin } = accessTokenData;
@@ -43,15 +38,9 @@ module.exports = {
 
       if (userData.length === 0) {
         connection1.release();
-<<<<<<< HEAD
         res.status(404).send({ message: "user not found" });
-      } else if (userData[0].password !== password) {
-=======
-        res.status(404).send({ message: 'user not found' });
       } else if (!match) {
->>>>>>> cb47c07c706cb9913a68f7f6324625ebd8eff239
         connection1.release();
-        console.log("password", userData[0].password, password);
         res.status(401).send({ message: "invalid password" });
       } else {
         // 탈퇴 시 resign의 값을 true로 변경
