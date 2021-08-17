@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-function Search({ setIsRecommend }) {
+function Search({ setIsRecommend, recommendUserHashtag }) {
   // react-slider require object
   const settings = {
     dots: true,
@@ -13,6 +13,8 @@ function Search({ setIsRecommend }) {
     slidesToScroll: 1,
     arrows: true,
   };
+
+  // recommendUserHashtag = [hashtag1 [,hashtag2] [,hashtag3]] / 사용자에게 받은 해시태그
 
   const replayRecommend = () => {
     setIsRecommend(true);

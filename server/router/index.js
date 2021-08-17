@@ -25,4 +25,5 @@ router.get('/search', search.search.get);
 router.post('/admin/post', admin.post.post);
 router.put('/admin/edit', admin.edit.put);
 router.delete('/admin/delete/:code', admin.delete.delete);
+router.get('/admin/getKopisSearch', admin.getKopisSearch.get); // kopis 공연목록 조회
 module.exports = router;

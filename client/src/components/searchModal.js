@@ -6,7 +6,7 @@ const convert = require("xml-js");
 
 function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
   const [searchInput, setSearchInput] = useState({
-    service: "ac1cdebda89d4c6983ea8219d9ca7e36",
+    service: process.env.REACT_APP_KOPIS_SERVICE,
     stdate: "",
     eddate: "",
     cpage: "",
@@ -21,7 +21,7 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
   const closeModal = () => {
     // state변수 초기화
     setSearchInput({
-      service: "ac1cdebda89d4c6983ea8219d9ca7e36",
+      service: process.env.REACT_APP_KOPIS_SERVICE,
       stdate: "",
       eddate: "",
       cpage: "",
@@ -103,44 +103,45 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
       // `${process.env.REACT_APP_END_POINT}/admin/getKopisSearch` -> server에 api임의 추가시 url
       axios({
         method: "get",
-        url: `http://kopis.or.kr/openApi/restful/pblprfr`,
+        url: `${process.env.REACT_APP_END_POINT}/admin/getKopisSearch`,
         params: searchInput,
       }).then((result) => {
         // Object.keys(obj).length === 0 -> 빈객체 확인, 길이가 0이면 빈객체
-        let result2 = convert.xml2js(result.data, { compact: true });
-        console.log(result2.dbs.db);
-                    // server api 추가시
-                    // console.log(result.data);
-                    // // 검색 결과가 없는 경우
-                    // if (Object.keys(result.data.data.dbs).length === 0) {
-                    //     setkopisSearchList([]);
-                    // }
-                    // // 여러개 검색된 경우, 배열로 반환됨으로 배열로 유지
-                    // else if (Array.isArray(result.data.data.dbs.db)) {
-                    //     console.log(result.data.data.dbs.db);
-                    //     setkopisSearchList(result.data.data.dbs.db);
-                    // }
-                    // // 1개만 검색된 경우, 객체로 반환됨으로 배열로 변경
-                    // else {
-                    //     console.log(result.data.data.dbs.db);
-                    //     setkopisSearchList([result.data.data.dbs.db]);
-                    // }
+        // let result2 = convert.xml2js(result.data, { compact: true });
+        // console.log(result2.dbs.db);
 
-
+        //server api 추가시
+        console.log(result.data);
         // 검색 결과가 없는 경우
-        if (Object.keys(result2.dbs.db).length === 0) {
+        if (Object.keys(result.data.data.dbs).length === 0) {
           setkopisSearchList([]);
         }
         // 여러개 검색된 경우, 배열로 반환됨으로 배열로 유지
-        else if (Array.isArray(result2.dbs.db)) {
-          console.log(result2.dbs.db);
-          setkopisSearchList(result2.dbs.db);
+        else if (Array.isArray(result.data.data.dbs.db)) {
+          console.log(result.data.data.dbs.db);
+          setkopisSearchList(result.data.data.dbs.db);
         }
         // 1개만 검색된 경우, 객체로 반환됨으로 배열로 변경
         else {
-          console.log(result2.dbs.db);
-          setkopisSearchList([result2.dbs.db]);
+          console.log(result.data.data.dbs.db);
+          setkopisSearchList([result.data.data.dbs.db]);
         }
+
+
+        // // 검색 결과가 없는 경우
+        // if (Object.keys(result2.dbs.db).length === 0) {
+        //   setkopisSearchList([]);
+        // }
+        // // 여러개 검색된 경우, 배열로 반환됨으로 배열로 유지
+        // else if (Array.isArray(result2.dbs.db)) {
+        //   console.log(result2.dbs.db);
+        //   setkopisSearchList(result2.dbs.db);
+        // }
+        // // 1개만 검색된 경우, 객체로 반환됨으로 배열로 변경
+        // else {
+        //   console.log(result2.dbs.db);
+        //   setkopisSearchList([result2.dbs.db]);
+        // }
       });
     }
     // 필수요소중 1개라도 입력이 안된 경우 + 1~999범위내 작성안한 경우
