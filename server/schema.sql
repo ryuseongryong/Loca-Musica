@@ -26,7 +26,8 @@ CREATE TABLE musicals (
 CREATE TABLE hashtags (
   id INT AUTO_INCREMENT,
   name varchar(255) not null UNIQUE,
-  tagcount int default 1,
+  totalLikeCount int default 1,
+  musicalCount int default 1,
   PRIMARY KEY (id)
 );
 
@@ -44,6 +45,7 @@ CREATE TABLE musical_hashtag (
   id INT AUTO_INCREMENT,
   hashtag_id int not null,
   musical_id int not null,
+  likeCount int default 1,
   PRIMARY KEY (id),
   FOREIGN KEY (hashtag_id) REFERENCES hashtags(id), 
   FOREIGN KEY (musical_id) REFERENCES musicals(id),
@@ -53,11 +55,11 @@ CREATE TABLE musical_hashtag (
 CREATE TABLE user_hashtag (
   id INT AUTO_INCREMENT, 
   user_id INT not null, 
-  hashtag_id INT not null, 
+  musical_hashtag_id INT not null, 
   PRIMARY KEY(id), 
   FOREIGN KEY (user_id) REFERENCES users(id), 
-  FOREIGN KEY (hashtag_id) REFERENCES hashtags(id),
-  CONSTRAINT userHashtag UNIQUE (user_id, hashtag_id)
+  FOREIGN KEY (musical_hashtag_id) REFERENCES musical_hashtag(id),
+  CONSTRAINT userHashtag UNIQUE (user_id, musical_hashtag_id)
 );
 
 CREATE TABLE numbers (
