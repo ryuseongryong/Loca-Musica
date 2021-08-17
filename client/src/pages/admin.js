@@ -116,9 +116,12 @@ function Admin() {
         setAdminPostInfo(Object.assign(adminPostInfo, { code: nowClickMusical.code }));
 
         console.log(adminPostInfo);
-        axios.post(`${process.env.REACT_APP_END_POINT}/admin/post`, {
-            ...adminPostInfo
-        }, {
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_END_POINT}/admin/post`,
+            data: {
+                ...adminPostInfo
+            },
             withCredentials: true,
         })
             .then(function (response) {
@@ -232,7 +235,9 @@ function Admin() {
                                     </div>
                                     <div className='admin-manual-category-div-hashtag'>
                                         <div className='admin-musical-hashtag-info'>해시태그</div>
-                                        <input type="text" className='admin-musical-hashtag' placeholder='뮤지컬 해시태그 입력(선택사항)' />
+
+                                        <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' />
+
                                     </div>
                                 </div>
                             </div>

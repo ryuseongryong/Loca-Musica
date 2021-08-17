@@ -70,8 +70,8 @@
   flex: 3;
   /* border : 1px solid greenyellow; */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 .search-right-info {
   padding-bottom: 10px;
@@ -87,7 +87,7 @@
 	flex: 3; 
 	/* border : 1px solid greenyellow; */
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 }
 
@@ -95,24 +95,24 @@
   margin-top: 10px;
   display: flex;
   flex: 1;
-  border: 2px solid palegoldenrod;
-  border-radius: 2rem;
+  /* border: 2px solid palegoldenrod;
+  border-radius: 2rem; */
 }
 
 .search-category2 {
   margin-top: 10px;
   display: flex;
   flex: 1;
-  border: 2px solid palegoldenrod;
-  border-radius: 2rem;
+  /* border: 2px solid palegoldenrod;
+  border-radius: 2rem; */
 }
 
 .search-hashtags {
   margin-top: 10px;
   display: flex;
   flex: 3;
-  border: 2px solid palegoldenrod;
-  border-radius: 2rem;
+  /* border: 2px solid palegoldenrod;
+  border-radius: 2rem; */
 }
 
 .hashtags-list {
@@ -122,12 +122,29 @@
   overflow: auto;
 }
 
+/* 스크롤바 css */
+.hashtags-list::-webkit-scrollbar {
+  width: 6px;
+}
+.hashtags-list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.hashtags-list::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: white;
+}
+.hashtags-list::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+/* 스크롤바 css */
+
 .hashtag {
   height: 20px;
-  width: 22%;
+  width: 23%;
   float: left;
   margin-left: 6px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .category {
@@ -135,6 +152,7 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 	/* text-align: center; */
+  cursor: pointer;
 }
 
 /* 카테고리 클릭시 변경된 카테고리로 보이는 클래스명 */
@@ -148,6 +166,9 @@
 	color: black;
 	display: flex;
 	align-items: center;
+
+  /* margin-top: 5px;
+	margin-bottom: 5px; */
 }
 
 .show-category-closebtn {
@@ -273,4 +294,26 @@
   font-weight: 700;
   letter-spacing: -0.015em;
   text-align: center;
+}
+
+/* 해시태그 클릭시 변경된 해시태그로 보이는 클래스명 */
+.selected-hashtag {
+	height: 20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: white;
+	border-radius: 100rem;
+	color: black;
+	display: flex;
+	align-items: center;
+}
+
+.search-left-hashtag {
+  height: 100%;
+	flex: 1; 
+	/* border : 1px solid greenyellow; */
+	display: flex;
+  flex-direction: column;
+	justify-content: space-around;
+  align-items: center;
 }
