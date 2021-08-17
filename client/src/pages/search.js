@@ -1,18 +1,19 @@
-import '../css/Search.css';
+import "../css/Search.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import SearchResult from '../components/searchResult';
-import { useState } from 'react';
+import SearchResult from "../components/searchResult";
+import { useState } from "react";
 
 function Search() {
-    // 추천 결과 여부 파악 state변수
-    const [isRecommend, setIsRecommend] = useState(true);
+  // 추천 결과 여부 파악 state변수
+  const [isRecommend, setIsRecommend] = useState(true);
 
-    // 추천결과 출력
-    const doRecommend = () => {
-        setIsRecommend(false);
-    }
+  // 추천결과 출력
+  const doRecommend = () => {
+    setIsRecommend(false);
+  };
+
 
     return (
         <>
@@ -235,6 +236,7 @@ function Search() {
             }
         </>
     )
+
 }
 
 export default Search;
