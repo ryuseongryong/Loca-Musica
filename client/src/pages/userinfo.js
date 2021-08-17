@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import "../css/userinfo.css";
-import { signout, notify, signin } from "../actions";
+import { notify, signin } from "../actions";
 import { usernameChecker, passwordChecker } from "../utils/validateCheck";
 import BookmarkList from "../components/bookmarkList";
 import Footer from "../components/footer";
@@ -165,7 +165,7 @@ function UserInfo() {
           { withCredentials: true }
         )
         .then((res) => {
-          dispatch(signin(res.data.data));
+          // dispatch(signin(res.data.data));
           console.log("비밀번호 잘 변경되었어요");
         })
         .then(() => {
@@ -198,7 +198,6 @@ function UserInfo() {
       <div id="userInfo">
         <div className="userInfoWrap">
           <div className="txtWelcome">
-            {/* userInfo에 따라 다르게 보이도록 대체 */}
             <p className="fs28px">반가워요, {userInfo.username} 님!</p>
             <p className="fs20px">{userInfo.email}</p>
           </div>
@@ -303,20 +302,25 @@ function UserInfo() {
 
         <div className="bookmarkWrap">
           <p className="fs28px">북마크한 뮤지컬</p>
-          <div className="testWrap">
+          {/* <div className="testWrap">
             <span className="testimg"></span>
             <span className="testimg"></span>
             <span className="testimg"></span>
             <span className="testimg"></span>
             <span className="testimg"></span>
-          </div>
-          {/* <BookmarkList /> */}
+          </div> */}
+          <BookmarkList />
         </div>
 
         <button className="btnWithdrawal" onClick={withdrawalModalHandler}>
           회원탈퇴
         </button>
-        {isModalOpen ? <WithdrawalModal /> : null}
+        {isModalOpen ? (
+          <WithdrawalModal
+            withdrawalModalHandler={withdrawalModalHandler}
+            setIsModalOpen={setIsModalOpen}
+          />
+        ) : null}
       </div>
       <Footer />
     </div>
