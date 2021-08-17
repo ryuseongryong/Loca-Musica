@@ -20,7 +20,7 @@ module.exports = {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
-      const { id, email, username, profile, resign, admin } = accessTokenData;
+      const { id, email, username, profile, admin } = accessTokenData;
       const { password } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
@@ -64,16 +64,16 @@ module.exports = {
         res.cookie('accessToken', 'please come back', {
           httpOnly: true,
           maxAge: 1000,
-          secure: false,
+          secure: true,
           sameSite: 'None',
         });
         res.cookie('refreshToken', 'completed, bye!', {
           httpOnly: true,
           maxAge: 1000,
-          secure: false,
+          secure: true,
           sameSite: 'None',
         });
-
+        const { resign } = resignedUserData[0];
         const data = { id, email, username, profile, resign, admin };
 
         res.status(200).json({ data: data, message: 'ok' });
