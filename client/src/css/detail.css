@@ -1,0 +1,118 @@
+.detailPageWrap {
+  width: 100%;
+  margin: 80px auto 0;
+  padding-top: 180px;
+}
+#detailPage {
+  max-width: 1078px;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+.adminBtnWrap {
+  text-align: right;
+  padding: 0 50px 0 0;
+}
+.adminBtnWrap > button {
+  width: 100px;
+  height: 35px;
+  margin-left: 10px;
+}
+
+.pfInfoContainer {
+  padding: 20px;
+  /* border: 1px solid red; */
+}
+.pfInfo {
+  height: 460px;
+  display: flex;
+  padding: 10px 0;
+  margin-bottom: 30px;
+  /* border: 1px solid blue; */
+}
+.pfItem {
+  font-size: 1.25rem;
+  margin: 0 0 16px 0;
+}
+
+/* 뮤지컬 정보 텍스트 css */
+.pfInfoTextWrap {
+  width: 70%;
+  /* border: 1px solid green; */
+}
+.pfTitleWrap {
+  color: #868686;
+  display: flex;
+  align-items: center;
+  margin: 0 0 30px 0;
+}
+.cGreen {
+  color: #3fff52;
+}
+
+.pfTitle {
+  color: rgb(255, 255, 255);
+  font-size: 3rem;
+  margin: 0 30px 0 0;
+}
+.pfStory {
+  line-height: 1.75rem;
+  height: 250px;
+}
+
+/* 뮤지컬 포스터 이미지 css */
+.pfInfoImgWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  width: 30%;
+  /* border: 1px solid green; */
+}
+.pfPoster {
+  width: 257px;
+  height: 368px;
+  border-radius: 10px;
+  margin: 0 auto;
+  border: 1px solid green;
+}
+#btnBookmark {
+  width: 138px;
+  height: 43px;
+  margin: 0 auto;
+  background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+}
+.iconBtn {
+  margin: 0 5px 0 0;
+  padding: 2px 0 0;
+}
+
+/* 뮤지컬 대표넘버 관련 css */
+.pfNumberWrap {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 30px;
+  /* border: 1px solid blue; */
+}
+.pfNumberList {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 0 0;
+}
+.numberVideo {
+  width: 100%;
+  padding: 0 5px;
+}
+.numberVideo > p {
+  font-size: 1.25rem;
+  margin: 15px 0;
+}
+.video {
+  width: 100%;
+}
+
+/* 뮤지컬 해시태그 관련 css */
+.pfTagWrap {
+  height: 580px;
+  border: 1px solid blue;
+}
