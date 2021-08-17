@@ -61,6 +61,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-weight: bold;
 }
 
 .search-right {
@@ -79,6 +80,14 @@
 	display: flex;
 	justify-content: left;
 	align-items: flex-end;
+}
+.search-right-category {
+	height: 100%;
+	flex: 3; 
+	/* border : 1px solid greenyellow; */
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .search-category1 {
@@ -118,7 +127,7 @@
 }
 
 .category {
-	width: 18%;
+	/* width: 18%; */
 	margin-top: 5px;
 	margin-bottom: 5px;
 	/* text-align: center; */
@@ -126,8 +135,9 @@
 
 /* 카테고리 클릭시 변경된 카테고리로 보이는 클래스명 */
 .selected-category {
-	height: 22px;
+	height: 30px;
 	padding-left: 5px;
+	padding-right: 5px;
 	background-color: white;
 	border-radius: 100rem;
 	color: black;
@@ -157,6 +167,7 @@
 
 .category-text {
 	flex: 6;
+	margin-right: 5px;
 }
 
 .recommend-result-btn {

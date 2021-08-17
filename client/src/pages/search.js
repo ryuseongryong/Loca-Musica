@@ -23,20 +23,25 @@ function Search() {
                             <div className='search-section1'></div>
                             <div className='search-section2'>
                                 <div className='search-section2-top'>
-                                    {/* 추천하기 이전 */}
                                     <div className='search-left'></div>
                                     <div className='search-right-info'>
                                         <p className='search-info'>취향에 따라 최대 3개를 선택해주세요(카테고리 내 중복선택 가능)</p>
                                     </div>
                                 </div>
                                 <div className='search-section2-middle'>
-                                    {/* 추천하기 이전 */}
                                     <div className='search-category1'>
-                                        <div className='search-left'>분류 기준1</div>
-                                        <div className='search-right'>
+                                        <div className='search-left'>장르</div>
+                                        <div className='search-right-category'>
                                             {/* 선택안되면 클래스명 category만 존재/주석 */}
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>드라마</span>
+                                                {/* 선택 안되면 클래스명 none-category-closebtn 으로 변경/주석 */}
+                                                <div className='none-category-closebtn'>
+                                                    <div className='category-select-cancel-btn'>x</div>
+                                                </div>
+                                            </span>
+                                            <span className='category'>
+                                                <span className='category-text'>로맨스</span>
                                                 {/* 선택 안되면 클래스명 none-category-closebtn 으로 변경/주석 */}
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
@@ -44,26 +49,32 @@ function Search() {
                                             </span>
                                             {/* 선택되면 클래스명  selected-category 추가/주석 */}
                                             <span className='category selected-category'>
-                                                <span className='category-text'>#가나다라마</span>
+                                                <span className='category-text'>판타지</span>
                                                 {/* 선택되면 클래스명 show-category-closebtn 으로 변경/주석 */}
                                                 <div className='show-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>코미디</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>역사</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>스릴러</span>
+                                                <div className='none-category-closebtn'>
+                                                    <div className='category-select-cancel-btn'>x</div>
+                                                </div>
+                                            </span>
+                                            <span className='category'>
+                                                <span className='category-text'>가족</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
@@ -71,34 +82,40 @@ function Search() {
                                         </div>
                                     </div>
                                     <div className='search-category2'>
-                                        <div className='search-left'>분류 기준2</div>
-                                        <div className='search-right'>
+                                        <div className='search-left'>동행인 기준</div>
+                                        <div className='search-right-category'>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>혼자</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#가나다라마</span>
+                                                <span className='category-text'>연인과 함께</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>가족과 함께</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category'>
-                                                <span className='category-text'>#???</span>
+                                                <span className='category-text'>친구와 함께</span>
                                                 <div className='none-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
                                             </span>
                                             <span className='category selected-category'>
-                                                <span className='category-text'>#바사아자차</span>
+                                                <span className='category-text'>아이와 함께</span>
+                                                <div className='show-category-closebtn'>
+                                                    <div className='category-select-cancel-btn'>x</div>
+                                                </div>
+                                            </span>
+                                            <span className='category selected-category'>
+                                                <span className='category-text'>동료와 함께</span>
                                                 <div className='show-category-closebtn'>
                                                     <div className='category-select-cancel-btn'>x</div>
                                                 </div>
@@ -205,7 +222,6 @@ function Search() {
                                     </div>
                                 </div>
                                 <div className='search-section2-bottom'>
-                                    {/* 추천하기 이전 */}
                                     <div className='recommend-result-btn' onClick={doRecommend}>
                                         추천받기 &nbsp;{'>'}
                                     </div>
