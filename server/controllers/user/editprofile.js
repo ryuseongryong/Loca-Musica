@@ -6,6 +6,22 @@ const {
   sendAccessToken,
   checkAccessToken,
 } = require('../tokenFunctions');
+
+const multer = require('multer');
+const fs = require('fs');
+const S3 = require('aws-sdk/clients/s3');
+
+const bucketName = process.env.AWS_BUCKET_NAME;
+const region = process.env.AWS_BUCKET_REGION;
+const accessKeyId = process.env.AWS_ACCESS_KEY;
+const secretAccessKey = process.env.AWS_SECRET_KEY;
+
+const s3 = new S3({
+  region,
+  accessKeyId,
+  secretAccessKey,
+});
+
 module.exports = {
   patch: async (req, res) => {
     // cookie에 담겨있는 access token을 확인하고
@@ -21,7 +37,7 @@ module.exports = {
       }
 
       const { id, email, username, resign, admin } = accessTokenData;
-      const { url } = req.body;
+      const { url, file } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
 
@@ -40,7 +56,32 @@ module.exports = {
       } else {
         // 유저 정보가 있는 경우 새로운 profile url 적용
         //! url의 기준(??)이 충족되지 않는 경우는 클라에서 막음
-        // 비밀번호를 수정하는 경우
+
+        //! uploads to s3
+        if (file) {
+          const fileStream = fs.createReadStream(file.path);
+
+          const uploadParams = {
+            Bucket: bucketName,
+            Body: fileStream,
+            Key: file.filename,
+          };
+
+          const uploadFile = s3.upload(uploadParams).promise();
+          console.log(uploadFile);
+          return;
+        }
+        //! downloads from s3
+        if (fileKey) {
+          const downloadParams = {
+            Key: fileKey,
+            Bucket: bucketName,
+          };
+          const downldadFile = s3.getObject(downloadParams).createReadStream();
+
+          redaStream;
+        }
+
         await connection1.execute(
           `UPDATE users SET profile = ? WHERE users.id = ?`,
           [url, id]

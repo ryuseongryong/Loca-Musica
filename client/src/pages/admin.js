@@ -1,8 +1,9 @@
-import { useState } from "react"; // 임시로 state지정, redux로 변경
-import "../css/Admin.css";
-import SearchModal from "../components/searchModal";
-import MusicalBaseImage from "../images/musical_baseimage.jpg";
-import axios from "axios";
+import { useState } from 'react'; // 임시로 state지정, redux로 변경 
+import '../css/Admin.css';
+import SearchModal from '../components/searchModal';
+import MusicalBaseImage from '../images/musical_baseimage.jpg'
+import axios from 'axios';
+
 
 function Admin() {
     const [isOpen, setIsOpen] = useState(false); // 임시로 state지정, redux로 변경
@@ -115,9 +116,12 @@ function Admin() {
         setAdminPostInfo(Object.assign(adminPostInfo, { code: nowClickMusical.code }));
 
         console.log(adminPostInfo);
-        axios.post(`${process.env.REACT_APP_END_POINT}/admin/post`, {
-            ...adminPostInfo
-        }, {
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_END_POINT}/admin/post`,
+            data: {
+                ...adminPostInfo
+            },
             withCredentials: true,
         })
             .then(function (response) {
@@ -128,201 +132,126 @@ function Admin() {
                 console.log(error);
             });
 
-    let hashtag = document.querySelector(".admin-musical-hashtag").value;
-    // hashtag작성시 전달, optional이기 때문
-    if (hashtag) {
-      categoryList.push(hashtag);
     }
-    // number목록(url)
-    setAdminPostInfo(Object.assign(adminPostInfo, { numbers: numberList }));
-    // category + hashtag 목록
-    setAdminPostInfo(Object.assign(adminPostInfo, { hashtags: categoryList }));
 
-    // thumbnail
-    setAdminPostInfo(
-      Object.assign(adminPostInfo, { thumbnail: nowClickMusical.image })
-    );
-    // title
-    setAdminPostInfo(
-      Object.assign(adminPostInfo, { title: nowClickMusical.title })
-    );
-    // state
-    setAdminPostInfo(
-      Object.assign(adminPostInfo, { state: nowClickMusical.state })
-    );
-    // code
-    setAdminPostInfo(
-      Object.assign(adminPostInfo, { code: nowClickMusical.code })
-    );
+    return (
+        <div className='admin-container'>
+            <div className='admin-main'>
+                <div className='admin-section1'></div>
+                <div className='admin-section2'>
+                    <div className='admin-section2-top'>
+                        <button className='admin-musical-search-btn' onClick={searchModalOpen}>작품검색</button>
+                    </div>
+                    <div className='admin-section2-middle'>
+                        <div className='admin-auto-info'>
+                            <div className='admin-auto-info-image'>
+                                <img src={nowClickMusical.image ? nowClickMusical.image : MusicalBaseImage}
+                                    alt="musical-postimage" className='admin-musical-post' />
+                            </div>
+                            <div className='admin-auto-info-input'>
+                                <div className='admin-auto-musical-title-div'>
+                                    <div className='admim-auto-musical-title'>공연명 :</div>
+                                    <div className='admin-auto-musical-title-input'>{nowClickMusical.title}</div>
+                                </div>
+                                <div className='admin-auto-info-musical-state-div'>
+                                    <div className='admin-auto-info-musical-state'>공연상태 : </div>
+                                    {nowClickMusical.state ?
+                                        // 현재 클릭한 정보가 있는 경우
+                                        nowClickMusical.state === '공연완료' ?
+                                            <div className='admin-auto-info-musical-state-input-end '>공연완료</div>
+                                            :
+                                            <div className='admin-auto-info-musical-state-input-ing '>공연중</div>
+                                        :
+                                        // 현재 클릭한 정보가 없는 경우
+                                        ''
+                                    }
 
-    // console.log(adminPostInfo);
-    axios
-      .post(
-        `${process.env.REACT_APP_END_POINT}/admin/post`,
-        {
-          ...adminPostInfo,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then(function (response) {
-        alert("새 글이 작성완료 되었습니다.");
-        window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+                                </div>
+                                <div className='admin-auto-info-actor-div'>
+                                    <div className='admin-auto-info-actor'>출연진 :</div>
+                                    <input type="text" className='admin-auto-info-actor-input' placeholder='뮤지컬 배우 입력' onChange={writeActors} />
+                                </div>
+                                <div className='admin-auto-info-story-div'>
+                                    <div className='admin-auto-info-story'>줄거리</div>
+                                    <textarea className='admin-auto-info-story-input' rows='8' placeholder='줄거리 입력' onChange={writeStory} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='admin-manual-info'>
+                            <div className='admin-manual-info-url'>
+                                <p className='admin-manual-url-text'>대표넘버</p>
+                                <div className='admin-manual-info-url-div'>
+                                    <div className='admin-manual-title'>title</div>
+                                    <input type="text" className='admin-musical-title-input' placeholder='뮤지컬 넘버 title 입력' />
+                                    <div className='admin-manual-videoId'>video Id</div>
+                                    <input type="text" className='admin-musical-videoId-input' placeholder='뮤지컬 넘버 video id 입력' />
+                                </div>
+                                <div className='admin-manual-info-url-div'>
+                                    <div className='admin-manual-title'>title</div>
+                                    <input type="text" className='admin-musical-title-input' placeholder='뮤지컬 넘버 title 입력' />
+                                    <div className='admin-manual-videoId'>video Id</div>
+                                    <input type="text" className='admin-musical-videoId-input' placeholder='뮤지컬 넘버 video id 입력' />
+                                </div>
+                                <div className='admin-manual-info-url-div'>
+                                    <div className='admin-manual-title'>title</div>
+                                    <input type="text" className='admin-musical-title-input' placeholder='뮤지컬 넘버 title 입력' />
+                                    <div className='admin-manual-videoId'>video Id</div>
+                                    <input type="text" className='admin-musical-videoId-input' placeholder='뮤지컬 넘버 video id 입력' />
+                                </div>
+                            </div>
+                            <div className='admin-manual-info-category'>
+                                <p className='admin-manual-category-text'>분류기준</p>
+                                <div className='admin-manual-category-div'>
+                                    <div className='admin-manual-category-div-category'>
+                                        <div className='admin-musical-category-info'>장르</div>
+                                        {/* <input type="text" className='admin-musical-category' placeholder='뮤지컬 장르 입력' /> */}
+                                        <div className='admin-musical-category'>
+                                            <select className='admin-musical-category-select' onChange={writeGenre} onClick={disableGenreInfo}>
+                                                <option className='admin-musical-category-value' id='admin-musical-genre-info' value=''>장르 선택</option>
+                                                <option className='admin-musical-category-genre-value' value='드라마' >드라마</option>
+                                                <option className='admin-musical-category-genre-value' value='로맨스' >로맨스</option>
+                                                <option className='admin-musical-category-genre-value' value='판타지' >판타지</option>
+                                                <option className='admin-musical-category-genre-value' value='코미디' >코미디</option>
+                                                <option className='admin-musical-category-genre-value' value='역사' >역사</option>
+                                                <option className='admin-musical-category-genre-value' value='스릴러' >스릴러</option>
+                                                <option className='admin-musical-category-genre-value' value='가족' >가족</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='admin-manual-category-div-category'>
+                                        <div className='admin-musical-category-info'>동행인</div>
+                                        {/* <input type="text" className='admin-musical-category' placeholder='뮤지컬 동행인 분류 입력' /> */}
+                                        <div className='admin-musical-category'>
+                                            <select className='admin-musical-category-select' onChange={writeWithPeople} onClick={disableWithPeopleInfo}>
+                                                <option className='admin-musical-category-value' id='admin-musical-withPeople-info' value=''>동행인 기준 선택</option>
+                                                <option className='admin-musical-category-together-value' value='혼자' >혼자</option>
+                                                <option className='admin-musical-category-together-value' value='연인과 함께' >연인과 함께</option>
+                                                <option className='admin-musical-category-together-value' value='가족과 함께' >가족과 함께</option>
+                                                <option className='admin-musical-category-together-value' value='친구와 함께' >친구와 함께</option>
+                                                <option className='admin-musical-category-together-value' value='아이와 함께' >아이와 함께</option>
+                                                <option className='admin-musical-category-together-value' value='동료와 함께' >동료와 함께</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='admin-manual-category-div-hashtag'>
+                                        <div className='admin-musical-hashtag-info'>해시태그</div>
 
+                                        <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' />
 
-  return (
-    <div className="admin-container">
-      <div className="admin-main">
-        <div className="admin-section1"></div>
-        <div className="admin-section2">
-          <div className="admin-section2-top">
-            <button
-              className="admin-musical-search-btn"
-              onClick={searchModalOpen}
-            >
-              작품검색
-            </button>
-          </div>
-          <div className="admin-section2-middle">
-            <div className="admin-auto-info">
-              <div className="admin-auto-info-image">
-                <img
-                  src={
-                    nowClickMusical.image
-                      ? nowClickMusical.image
-                      : MusicalBaseImage
-                  }
-                  alt="musical-postimage"
-                  className="admin-musical-post"
-                />
-              </div>
-              <div className="admin-auto-info-input">
-                <div className="admin-auto-musical-title-div">
-                  <div className="admim-auto-musical-title">공연명 :</div>
-                  <div className="admin-auto-musical-title-input">
-                    {nowClickMusical.title}
-                  </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='admin-section2-bottom'>
+                        <button className='admin-musical-post-btn' onClick={adminPostDB}>등록</button>
+                    </div>
                 </div>
-                <div className="admin-auto-info-musical-state-div">
-                  <div className="admin-auto-info-musical-state">
-                    공연상태 :{" "}
-                  </div>
-                  {nowClickMusical.state ? (
-                    // 현재 클릭한 정보가 있는 경우
-                    nowClickMusical.state === "공연완료" ? (
-                      <div className="admin-auto-info-musical-state-input-end ">
-                        공연완료
-                      </div>
-                    ) : (
-                      <div className="admin-auto-info-musical-state-input-ing ">
-                        공연중
-                      </div>
-                    )
-                  ) : (
-                    // 현재 클릭한 정보가 없는 경우
-                    ""
-                  )}
-                </div>
-                <div className="admin-auto-info-actor-div">
-                  <div className="admin-auto-info-actor">출연진 :</div>
-                  <input
-                    type="text"
-                    className="admin-auto-info-actor-input"
-                    placeholder="뮤지컬 배우 입력"
-                    onChange={writeActors}
-                  />
-                </div>
-                <div className="admin-auto-info-story-div">
-                  <div className="admin-auto-info-story">줄거리</div>
-                  <textarea
-                    className="admin-auto-info-story-input"
-                    rows="8"
-                    placeholder="줄거리 입력"
-                    onChange={writeStory}
-                  />
-                </div>
-              </div>
+                <div className='admin-section3'></div>
+                <SearchModal isOpen={isOpen} searchModalClose={searchModalClose} setNowClickMusical={setNowClickMusical} />
             </div>
-            <div className="admin-manual-info">
-              <div className="admin-manual-info-url">
-                <p className="admin-manual-url-text">대표넘버</p>
-                <div className="admin-manual-info-url-div">
-                  <div className="admin-manual-url">url1</div>
-                  <input
-                    type="text"
-                    className="admin-musical-url-input"
-                    placeholder="뮤지컬 넘버 url 입력"
-                  />
-                </div>
-                <div className="admin-manual-info-url-div">
-                  <div className="admin-manual-url">url2</div>
-                  <input
-                    type="text"
-                    className="admin-musical-url-input"
-                    placeholder="뮤지컬 넘버 url 입력"
-                  />
-                </div>
-                <div className="admin-manual-info-url-div">
-                  <div className="admin-manual-url">url3</div>
-                  <input
-                    type="text"
-                    className="admin-musical-url-input"
-                    placeholder="뮤지컬 넘버 url 입력"
-                  />
-                </div>
-              </div>
-              <div className="admin-manual-info-category">
-                <p className="admin-manual-category-text">분류기준</p>
-                <div className="admin-manual-category-div">
-                  <div className="admin-manual-category-div-category">
-                    <div className="admin-musical-category-info">분류기준1</div>
-                    <input
-                      type="text"
-                      className="admin-musical-category"
-                      placeholder="뮤지컬 분류 입력"
-                    />
-                  </div>
-                  <div className="admin-manual-category-div-category">
-                    <div className="admin-musical-category-info">분류기준2</div>
-                    <input
-                      type="text"
-                      className="admin-musical-category"
-                      placeholder="뮤지컬 분류 입력"
-                    />
-                  </div>
-                  <div className="admin-manual-category-div-hashtag">
-                    <div className="admin-musical-hashtag-info">해시태그</div>
-                    <input
-                      type="text"
-                      className="admin-musical-hashtag"
-                      placeholder="뮤지컬 해시태그 입력(선택사항)"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="admin-section2-bottom">
-            <button className="admin-musical-post-btn" onClick={adminPostDB}>
-              등록
-            </button>
-          </div>
         </div>
-        <div className="admin-section3"></div>
-        <SearchModal
-          isOpen={isOpen}
-          searchModalClose={searchModalClose}
-          setNowClickMusical={setNowClickMusical}
-        />
-      </div>
-    </div>
-  );
+    )
 }
 
 export default Admin;

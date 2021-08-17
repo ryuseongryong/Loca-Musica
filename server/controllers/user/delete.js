@@ -5,7 +5,12 @@ const {
   sendRefreshToken,
   sendAccessToken,
   checkAccessToken,
+<<<<<<< HEAD
 } = require("../tokenFunctions");
+=======
+} = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
+>>>>>>> cb47c07c706cb9913a68f7f6324625ebd8eff239
 
 module.exports = {
   patch: async (req, res) => {
@@ -33,12 +38,18 @@ module.exports = {
         [id]
       );
       connection1.commit();
+      const match = await bcrypt.compare(password, userData[0].password);
       // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
 
       if (userData.length === 0) {
         connection1.release();
+<<<<<<< HEAD
         res.status(404).send({ message: "user not found" });
       } else if (userData[0].password !== password) {
+=======
+        res.status(404).send({ message: 'user not found' });
+      } else if (!match) {
+>>>>>>> cb47c07c706cb9913a68f7f6324625ebd8eff239
         connection1.release();
         console.log("password", userData[0].password, password);
         res.status(401).send({ message: "invalid password" });

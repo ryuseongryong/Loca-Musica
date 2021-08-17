@@ -70,59 +70,94 @@ module.exports = {
       console.log('created musical: ', postedMusical[0])
 
       // numbers 등록
-      const postedNumbers = [];
+      const arrNumbersData = [];
       if (numbers) {
         for (let number of numbers) {
           const {title, videoId} = number;
           let [created] = await connection.execute(
-            `INSERT INTO numbers (musical_id, title, url) VALUES (?, ?, ?)`,
+            `INSERT INTO numbers (musical_id, title, videoId) VALUES (?, ?, ?)`,
             [musical_id, title, videoId]
           );
-          const [postedNumber] = await connection.execute(
+          const [editedNumber] = await connection.execute(
             `SELECT * FROM numbers WHERE id = ?`,
             [created.insertId]
           )
-          console.log('Created number: ', postedNumber[0]);
-          postedNumbers.push(postedNumber[0]);
+          console.log('Created number: ', editedNumber[0]);
+          arrNumbersData.push(editedNumber[0]);
         }
       }
 
       // hashtag 등록
-      // if (hashtags) {
-      //   for (let hashtag of hashtags) {
-      //     const [existingHashtag] = await connection.query(
-      //       `SELECT * from hashtags WHERE name = "${hashtag}"`
-      //     );
-      //     console.log('existing hashtag: ', existingHashtag[0]);
+      const arrHashtagsData = [];
 
-      //     // 해당 hashtag 가 등록되지 않았다면 등록
-      //     let hashtag_id;
-      //     if (existingHashtag[0]) {
-      //       hashtag_id = existingHashtag[0].id;
-      //     } else {
-      //       const [createdHashtag] = await connection.query(
-      //         `INSERT INTO hashtags (name, tagcount) VALUES (?, ?)`,
-      //         [hashtag, 1]
-      //       );
-      //       hashtag_id = createdHashtag.insertId;
-      //       console.log('Created hashtag id: ', hashtag_id);
-      //     }
+      if (hashtags) {
+        for (let i = 0; i < hashtags.length; i++) {
+          let hashtag, hashtag_id, name, likeCount, totalLikeCount, musicalCount;
 
-      //     // musical_hashtag 등록(musical 에 hashtag 부여)
-      //     const [musical_hashtag] = await connection.query(
-      //       `INSERT INTO musical_hashtag (hashtag_id, musical_id) VALUES (?, ?)`,
-      //       [hashtag_id, musical_id]
-      //     );
-      //     console.log('musical_hashtag_id', musical_hashtag.insertId);
-      //   }
-      // }
+          // 이미 등록된 hashtag 인지 검색
+          [hashtag] = await connection.execute(
+            `SELECT * from hashtags WHERE name = ?`,
+            [hashtags[i]]
+          );
 
-      
+          // 이미 등록된 hashtag 라면 id 를 가져오고, musicalCount + 1, totalLikeCount + 1
+          if (hashtag[0]) {
+            console.log('existing hashtag: ', hashtag[0]);
+            hashtag_id = hashtag[0].id;
+            await connection.execute(`
+              UPDATE hashtags 
+              SET musicalCount = musicalCount + 1, totalLikeCount = totalLikeCount + 1
+              WHERE id = ?`,
+              [hashtag_id]  
+            );
+            
+            // Update 된 hashtag 로 갱신
+            [hashtag] = await connection.execute(
+              `SELECT * from hashtags WHERE name = ?`,
+              [hashtags[i]]
+            );
+          }
+          // 해당 hashtag 가 등록되지 않았다면 등록하고 id 가져옴.
+          else {
+            let [created] = await connection.execute(
+              `INSERT INTO hashtags (name) VALUES (?)`,
+              [hashtags[i]]
+            );
+            hashtag_id = created.insertId;
+
+            [hashtag] = await connection.execute(
+              `SELECT * FROM hashtags WHERE id = ?`,
+              [hashtag_id]
+            )
+            console.log("created hashtag: ", hashtag[0])
+          }
+
+          // musical_hashtag 등록(musical 에 hashtag 부여)
+          let [musical_hashtag] = await connection.execute(
+            `INSERT INTO musical_hashtag (hashtag_id, musical_id) VALUES (?, ?)`,
+            [hashtag_id, musical_id]
+          );
+          const [created_musical_hashtag] = await connection.execute(
+            `SELECT * FROM musical_hashtag WHERE id = ?`,
+            [musical_hashtag.insertId]
+          )
+          console.log('created_musical_hashtag: ', created_musical_hashtag[0]);
+
+          // 클라이언트에 보낼 hashtag data 정리
+          name = hashtag[0].name
+          likeCount = created_musical_hashtag[0].likeCount;
+          totalLikeCount = hashtag[0].totalLikeCount
+          musicalCount = hashtag[0].musicalCount
+
+          const hashtagData = {name, likeCount, totalLikeCount, musicalCount};
+          arrHashtagsData.push(hashtagData);
+        }
+      }
 
       connection.commit();
       connection.release();
       
-      const data = {...postedMusical, numbers: postedNumbers, }
+      const data = {...postedMusical[0], numbers: arrNumbersData, hashtags: arrHashtagsData}
       console.log(data);
 
       res.status(201).json({ data: data, message: 'created' });
