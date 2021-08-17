@@ -5,10 +5,10 @@ module.exports = {
      //const accessTokenData = checkAccessToken(req);
 
     // Access token 이 없거나 유효하지 않은 경우 종료
-    if (!accessTokenData){
-      res.status(401).send({ message: 'invalid access token' });
-      return;
-    }
+    // if (!accessTokenData){
+    //   res.status(401).send({ message: 'invalid access token' });
+    //   return;
+    // }
     
     const connection = await db.getConnection(async (conn) => conn);
     connection.beginTransaction();
@@ -29,11 +29,11 @@ module.exports = {
       //   return;
       // }
 
-      const code = req.params.code;
+      const musical_id = req.params.id;
 
       const [existingMusical] = await connection.execute(
-        `SELECT * FROM musicals WHERE code = ?`,
-        [code]
+        `SELECT * FROM musicals WHERE id = ?`,
+        [musical_id]
       )
       if (!existingMusical[0]){
         res.status(404).send({message: "musical not found"})
@@ -41,16 +41,29 @@ module.exports = {
       }
 
       // numbers 삭제
-      const [deleted] = await connection.exeucte(
+      const [numbersDeleted] = await connection.exeucte(
         `DELETE FROM numbers WHERE id = ?`,
+        [musical_id]
+      )
+      console.log("Numbers deleted: ", numbersDeleted)
+
+      // musical_hashtag 삭제
+
+      // hashtag 삭제
+
+      // musical 삭제
+      const [musicalDeleted] = await connection.execute(
+        `DELETE FROM musicals WHERE code = ?`,
         [code]
       )
+      console.log("Musical deleted: ", musicalDeleted)
       
       connection.commit();
       connection.release();
 
       res.status(200).send({message: "ok"})
     } catch (err) {
+      connection.release();
       res.status(500).send({message: "internal server error"})
     }
   }
