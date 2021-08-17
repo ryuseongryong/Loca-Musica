@@ -235,7 +235,9 @@ function Admin() {
                                     </div>
                                     <div className='admin-manual-category-div-hashtag'>
                                         <div className='admin-musical-hashtag-info'>해시태그</div>
+
                                         <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' />
+
                                     </div>
                                 </div>
                             </div>

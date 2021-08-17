@@ -23,7 +23,8 @@ module.exports = {
       //   return res.status(403).send({message: "not admin"})
       //}
 
-      console.log(req.body);
+      console.log("body:, ", req.body, "params :", req.params);
+      const musical_id = req.params.id;
       const {
         code,
         title,
@@ -37,8 +38,8 @@ module.exports = {
 
       // musical 검색
       const [existingMusical] = await connection.execute(
-        `SELECT * FROM musicals WHERE code = ?`,
-        [code]
+        `SELECT * FROM musicals WHERE id = ?`,
+        [musical_id]
       );
       console.log('existing musical: ', existingMusical[0]);
 
@@ -49,53 +50,123 @@ module.exports = {
         return;
       }
 
-      const musical_id = existingMusical.id;
       // 뮤지컬 정보 수정
-      let [updated] = await connection.execute(`
+      await connection.execute(`
         UPDATE musicals 
         SET 
+          code = ?,
           title = ?,
           thumbnail = ?,
           contents = ?,
           state = ?,
           actors = ?
         WHERE id = ?`,
-        [title, thumbnail, contents, state, actors, musical_id]
+        [code, title, thumbnail, contents, state, actors, musical_id]
       );
       const [editedMusical] = await connection.execute(
         `SELECT * FROM musicals WHERE id = ?`,
         [musical_id]
       );
-      console.log("edited :", editedMusical[0]);
+      console.log('Edited musical:', editedMusical[0]);
 
-      // numbers 가 있을 경우 number 의 id 로 기존 number 를 수정
-      const allNumbers = [];
+      // number 수정
+      const arrNumbersData = [];
       if (numbers) {
         for (let number of numbers) {
-          const {id, title, videoId} = number;
-          let [edited] = await connection.execute(
-            `UPDATE numbers SET title = ?, url = ? WHERE id = ?`,
+          const { id, title, videoId } = number;
+          await connection.execute(
+            `UPDATE numbers SET title = ?, videoId = ? WHERE id = ?`,
             [title, videoId, id]
           );
-          const [editedNumber] = await connection.execute(
+          let [updated] = await connection.execute(
             `SELECT * FROM numbers WHERE id = ?`,
-            [edited.insertId]
-          )
-          console.log('Edited number: ', editedNumber[0]);
-          allNumbers.push(editedNumber[0]);
+            [id]
+          );
+          console.log('Edited number: ', updated[0]);
+          arrNumbersData.push(updated[0]);
         }
       }
 
-      // hashtag 가 있을 경우 hashtag 수정
-      // ...
+      // hashtag 수정
+      const arrHashtagsData = [];
+
+      if (hashtags) {
+        const [oldHashtags] = await connection.execute(
+          `SELECT * FROM musical_hashtag WHERE musical_id = ?`,
+          [musical_id]
+        )
+
+        console.log("oldHashtags: ", oldHashtags);
+
+        // const arrHashtagToDelete = oldHashtags.filter(oldhashtag => {
+        //   return oldhashtag.hashtag_id !== hashtags.
+        // })
+        const arrHashtagToAdd = [];
+
+        for (let i = 0; i < hashtags.length; i++) {
+          let hashtag, hashtag_id, name, likeCount, totalLikeCount, musicalCount;
+
+          // 새로운 hashtag 를 뮤지컬에 부여할 경우
+
+          // 이미 등록된 hashtag 인지 검색
+          [hashtag] = await connection.execute(
+            `SELECT * from hashtags WHERE name = ?`,
+            [hashtags[i]]
+          );
+          console.log('existing hashtag: ', hashtag[0]);
+
+          // 이미 등록된 hashtag 라면 id 를 가져오고, musicalCount + 1, totalLikeCount + 1
+          if (hashtag[0]) {
+            console.log('existing hashtag: ', hashtag[0]);
+            hashtag_id = hashtag[0].id;
+            await connection.execute(`
+              UPDATE hashtags 
+              SET musicalCount = musicalCount + 1, totalLikeCount = totalLikeCount + 1
+              WHERE id = ?`,
+              [hashtag_id]  
+            );
+            
+            // Update 된 hashtag 로 갱신
+            [hashtag] = await connection.execute(
+              `SELECT * from hashtags WHERE name = ?`,
+              [hashtags[i]]
+            );
+          }
+          // 해당 hashtag 가 등록되지 않았다면 등록하고 id 가져옴.
+          else {
+            let [created] = await connection.execute(
+              `INSERT INTO hashtags (name) VALUES (?)`,
+              [hashtags[i]]
+              );
+            hashtag_id = created.insertId;
+
+            [hashtag] = await connection.execute(
+              `SELECT * FROM hashtags WHERE id = ?`,
+              [hashtag_id]
+            )
+            console.log("created hashtag: ", hashtag[0])
+          }
+
+          // musical_hashtag 등록(musical 에 hashtag 부여)
+          let [musical_hashtag] = await connection.execute(
+            `INSERT INTO musical_hashtag (hashtag_id, musical_id) VALUES (?, ?)`,
+            [hashtag_id, musical_id]
+          );
+          const [created_musical_hashtag] = await connection.execute(
+            `SELECT * FROM musical_hashtag WHERE id = ?`,
+            [musical_hashtag.insertId]
+          )
+          console.log('created_musical_hashtag: ', created_musical_hashtag[0]);
+        }
+      }
 
       connection.commit();
       connection.release();
 
-      const data = {...editedMusical, numbers: allNumbers, }
+      const data = { ...editedMusical[0], numbers: arrNumbersData, hashtags: arrHashtagsData };
       console.log(data);
 
-      res.status(200).json({data: data, message: "ok"});
+      res.status(200).json({ data: data, message: 'ok' });
     } catch (err) {
       connection.release();
       res.status(500).send({ message: 'internal server error' });

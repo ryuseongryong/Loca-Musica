@@ -22,7 +22,7 @@ module.exports = {
           sameSite: 'None',
         });
 
-        res.status(200).json({ data: accessTokenData[0], message: 'ok' });
+        res.status(200).json({ message: 'ok' });
       }
     } catch (err) {
       res.status(500).send({ message: 'internal server error' });

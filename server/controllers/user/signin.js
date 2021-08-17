@@ -6,10 +6,12 @@ const {
   sendAccessToken,
   checkAccessToken,
 } = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
 
 module.exports = {
   post: async (req, res) => {
     const { email, password } = req.body;
+
     try {
       const connection1 = await db.getConnection(async (conn) => conn);
 
@@ -22,10 +24,11 @@ module.exports = {
       );
       connection1.commit();
       connection1.release();
+      const match = await bcrypt.compare(password, userData[0].password);
 
       if (userData.length === 0) {
         res.status(404).send({ message: 'invalid email' });
-      } else if (userData[0].password !== password) {
+      } else if (!match) {
         res.status(404).send({ message: 'invalid password' });
       } else if (userData[0].resign === 1) {
         res.status(404).send({ message: 'resigned user!' });

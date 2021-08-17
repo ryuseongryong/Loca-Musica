@@ -23,7 +23,8 @@ router.post('/musical/bookmark', musical.bookmark.post);
 router.get('/search', search.search.get);
 
 router.post('/admin/post', admin.post.post);
-router.put('/admin/edit', admin.edit.put);
-router.delete('/admin/delete/:code', admin.delete.delete);
 router.get('/admin/getKopisSearch', admin.getKopisSearch.get); // kopis 공연목록 조회
+router.put('/admin/edit/:id', admin.edit.put);
+router.delete('/admin/delete/:id', admin.delete.delete);
+
 module.exports = router;

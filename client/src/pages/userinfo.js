@@ -182,14 +182,15 @@ function UserInfo() {
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log("회원탈퇴가 안되면 알려줘", err);
         });
     }
   };
 
   //* 회원탈퇴 요청 함수
-  const withdrawalRequestHandler = () => {
+  const withdrawalModalHandler = () => {
     // 탈퇴버튼을 누르면 모달이 하나 생기고, 그 모달 안에서 동의버튼에 체크하고 비밀번호 치고 submit버튼 누르면 실행되게
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
@@ -312,8 +313,10 @@ function UserInfo() {
           {/* <BookmarkList /> */}
         </div>
 
-        <button className="btnWithdrawal">회원탈퇴</button>
-        <WithdrawalModal />
+        <button className="btnWithdrawal" onClick={withdrawalModalHandler}>
+          회원탈퇴
+        </button>
+        {isModalOpen ? <WithdrawalModal /> : null}
       </div>
       <Footer />
     </div>
