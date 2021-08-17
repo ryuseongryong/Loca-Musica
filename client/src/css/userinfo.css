@@ -37,8 +37,6 @@
   display: block;
   max-width: 240px;
   height: 240px;
-  /* background: url("../images/dummyProfile.png") no-repeat;
-  background-size: cover; */
   border-radius: 120px;
   border: 1px solid red;
   margin: 50px auto 20px;
@@ -73,6 +71,12 @@
   height: 47px;
   margin: 5px 0 0 60px;
 }
+.mypageMsg {
+  text-align: left;
+  font-size: 0.75rem;
+  display: block;
+  margin: 5px 0 10px 50px;
+}
 
 .bookmarkWrap {
   max-width: 1286px;
@@ -84,6 +88,18 @@
   width: 120px;
   height: 47px;
   margin: 0 auto;
+}
+
+.withdrawalModalWrap {
+  width: 300px;
+  height: 300px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .testWrap {
