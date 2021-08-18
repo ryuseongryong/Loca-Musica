@@ -13,17 +13,24 @@ module.exports = {
     const { email, password } = req.body;
 
     try {
-      const connection1 = await db.getConnection(async (conn) => conn);
+      const connection = await db.getConnection(async (conn) => conn);
 
-      connection1.beginTransaction();
+      connection.beginTransaction();
 
       // 이메일과 비밀번호를
-      let [userData] = await connection1.execute(
+      const [userData] = await connection.execute(
         `SELECT * FROM users WHERE email = ?`,
         [email]
       );
-      connection1.commit();
-      connection1.release();
+      const { id } = userData[0];
+
+      const [bookmarksData] = await connection.execute(
+        `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ?`,
+        [id]
+      );
+      connection.commit();
+      connection.release();
+
       const match = await bcrypt.compare(password, userData[0].password);
 
       if (userData.length === 0) {
@@ -34,7 +41,7 @@ module.exports = {
         res.status(404).send({ message: 'resigned user!' });
       } else {
         // Access Token 발급
-        const { id, email, username, profile, resign, admin } = userData[0];
+        const { email, username, profile, resign, admin } = userData[0];
 
         const accessToken = generateAccessToken({
           id,
@@ -58,10 +65,19 @@ module.exports = {
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin };
+        const data = {
+          id,
+          email,
+          username,
+          profile,
+          resign,
+          admin,
+          bookmarksData,
+        };
         res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
+      console.log(err);
       res.status(500).send({ message: 'internal server error' });
     }
   },

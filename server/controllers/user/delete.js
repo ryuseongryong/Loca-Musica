@@ -1,12 +1,12 @@
-const db = require("../../db");
+const db = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
   sendRefreshToken,
   sendAccessToken,
   checkAccessToken,
-} = require("../tokenFunctions");
-const bcrypt = require("bcrypt");
+} = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
 
 module.exports = {
   patch: async (req, res) => {
@@ -19,7 +19,7 @@ module.exports = {
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
     try {
       if (!accessTokenData) {
-        res.status(401).send({ message: "invalid access token" });
+        res.status(401).send({ message: 'invalid access token' });
       }
       const { id, email, username, profile, admin } = accessTokenData;
       const { password } = req.body;
@@ -38,10 +38,10 @@ module.exports = {
 
       if (userData.length === 0) {
         connection1.release();
-        res.status(404).send({ message: "user not found" });
+        res.status(404).send({ message: 'user not found' });
       } else if (!match) {
         connection1.release();
-        res.status(401).send({ message: "invalid password" });
+        res.status(401).send({ message: 'invalid password' });
       } else {
         // 탈퇴 시 resign의 값을 true로 변경
         await connection1.execute(
@@ -63,26 +63,26 @@ module.exports = {
         // connection1.release();
 
         // Token 수정 = 바로 로그아웃 처리
-        res.cookie("accessToken", "please come back", {
+        res.cookie('accessToken', 'please come back', {
           httpOnly: true,
           maxAge: 1000,
-          secure: true,
-          sameSite: "None",
+          secure: false,
+          sameSite: 'None',
         });
-        res.cookie("refreshToken", "completed, bye!", {
+        res.cookie('refreshToken', 'completed, bye!', {
           httpOnly: true,
           maxAge: 1000,
-          secure: true,
-          sameSite: "None",
+          secure: false,
+          sameSite: 'None',
         });
         const { resign } = resignedUserData[0];
         const data = { id, email, username, profile, resign, admin };
 
-        res.status(200).json({ data: data, message: "ok" });
+        res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: "internal server error" });
+      res.status(500).send({ message: 'internal server error' });
     }
   },
 };
