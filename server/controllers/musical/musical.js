@@ -7,10 +7,10 @@ module.exports = {
   clickMusical: async (req, res) => {
     const { title } = req.params;
 
-    try {
-      const connection = await db.getConnection(async (conn) => conn);
-      await connection.beginTransaction();
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
 
+    try {
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
         [title]
@@ -49,11 +49,11 @@ module.exports = {
   // musical?title="wikid"
   searchByTitle: async (req, res) => {
     const { title } = req.query;
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
+
     try {
       console.log(Object.keys(req.query).length);
-
-      const connection = await db.getConnection(async (conn) => conn);
-      await connection.beginTransaction();
 
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,

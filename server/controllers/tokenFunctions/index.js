@@ -11,7 +11,7 @@ module.exports = {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 30,
-      secure: true,
+      secure: ture,
       sameSite: 'None',
     });
   },
@@ -24,7 +24,7 @@ module.exports = {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 1,
-      secure: true,
+      secure: ture,
       sameSite: 'None',
     });
   },
@@ -33,7 +33,7 @@ module.exports = {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 1,
-      secure: true,
+      secure: ture,
       sameSite: 'None',
     });
   },

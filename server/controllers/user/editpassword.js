@@ -17,6 +17,9 @@ module.exports = {
     // 새로운 access Token 발급
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
+    const connection1 = await db.getConnection(async (conn) => conn);
+    connection1.beginTransaction();
+
     try {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
@@ -24,10 +27,6 @@ module.exports = {
       const { id, email, username, profile, resign, admin, kakao } =
         accessTokenData;
       const { password, newPassword } = req.body;
-
-      const connection1 = await db.getConnection(async (conn) => conn);
-
-      connection1.beginTransaction();
 
       const [userData] = await connection1.execute(
         `SELECT * from users WHERE id = ?`,

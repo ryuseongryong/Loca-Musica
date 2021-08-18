@@ -18,12 +18,10 @@ module.exports = {
     if (!username || !email || !hashedPassword) {
       res.status(422).send({ message: 'input empty' });
     }
+    const connection1 = await db.getConnection(async (conn) => conn);
+    connection1.beginTransaction();
 
     try {
-      const connection1 = await db.getConnection(async (conn) => conn);
-
-      connection1.beginTransaction();
-
       // 이메일과 비밀번호를
       let [userData] = await connection1.execute(
         `SELECT * FROM users WHERE email = ?`,

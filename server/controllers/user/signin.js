@@ -11,12 +11,10 @@ const bcrypt = require('bcrypt');
 module.exports = {
   post: async (req, res) => {
     const { email, password } = req.body;
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
 
     try {
-      const connection = await db.getConnection(async (conn) => conn);
-
-      await connection.beginTransaction();
-
       // 이메일과 비밀번호를
       const [userData] = await connection.execute(
         `SELECT * FROM users WHERE email = ?`,
