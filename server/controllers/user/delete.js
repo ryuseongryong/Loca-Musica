@@ -65,13 +65,13 @@ module.exports = {
         res.cookie('accessToken', 'please come back', {
           httpOnly: true,
           maxAge: 1000,
-          secure: ture,
+          secure: true,
           sameSite: 'None',
         });
         res.cookie('refreshToken', 'completed, bye!', {
           httpOnly: true,
           maxAge: 1000,
-          secure: ture,
+          secure: true,
           sameSite: 'None',
         });
         const { resign } = resignedUserData[0];
