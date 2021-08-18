@@ -37,7 +37,7 @@ function Search() {
                     }
                 }
                 */
-                // console.log(response.data.data);
+                console.log(response.data.data);
 
                 // 장르 카테고리
                 setAllGenreCategory(response.data.data.category1Data);
@@ -203,7 +203,7 @@ function Search() {
                                             {/* server에서 받아와서 처리 */}
                                             {allGenreCategory.map((el, index) =>
                                                 <span className='category' key={index}>
-                                                    <span className='category-text' onClick={selectCategory}>{el}</span>
+                                                    <span className='category-text' onClick={selectCategory}>{el.name}</span>
                                                 </span>
                                             )}
                                         </div>
@@ -214,7 +214,7 @@ function Search() {
                                             {/* server에서 받아와서 처리 */}
                                             {allWithPeopleCategory.map((el, index) =>
                                                 <span className='category' key={index}>
-                                                    <span className='category-text' onClick={selectCategory}>{el}</span>
+                                                    <span className='category-text' onClick={selectCategory}>{el.name}</span>
                                                 </span>
                                             )}
                                         </div>
