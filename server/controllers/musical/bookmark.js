@@ -12,7 +12,7 @@ module.exports = {
         res.status(401).send({ message: 'invalid access token' });
       }
       const connection = await db.getConnection(async (conn) => conn);
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
@@ -24,13 +24,14 @@ module.exports = {
           `INSERT IGNORE INTO user_musical (user_id, musical_id) VALUES (?, ?)`,
           [id, musicalId]
         );
-        connection.commit();
+        await connection.commit();
         connection.release();
 
         res.status(200).json({ message: 'ok' });
       }
     } catch (err) {
       console.log(err);
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

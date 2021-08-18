@@ -57,7 +57,7 @@ module.exports = {
 
       // DB connection open
       const connection = await db.getConnection(async (conn) => conn);
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
       // Check email
       const [_userData] = await connection.execute(
@@ -125,7 +125,7 @@ module.exports = {
       );
       const newUserData = _newUserData[0];
       // console.log(newUserData);
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       // Token 생성
@@ -161,6 +161,7 @@ module.exports = {
       }
     } catch (err) {
       // console.log('Error!');
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

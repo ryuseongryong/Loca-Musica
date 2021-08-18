@@ -78,6 +78,7 @@ module.exports = {
         res.status(201).json({ data: data, message: 'signup success' });
       }
     } catch (err) {
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
