@@ -5,6 +5,7 @@ CREATE TABLE users (
 	email varchar(255) not null UNIQUE,
 	password varchar(255) not null,
 	profile varchar(255),
+  kakao boolean not null default false,
   resign boolean not null default false,
   admin boolean not null default false,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP,

@@ -21,7 +21,7 @@ module.exports = {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
-      const { id, email, username, profile, admin } = accessTokenData;
+      const { id, email, username, profile, admin, kakao } = accessTokenData;
       const { password } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
@@ -76,7 +76,7 @@ module.exports = {
           sameSite: 'None',
         });
         const { resign } = resignedUserData[0];
-        const data = { id, email, username, profile, resign, admin };
+        const data = { id, email, username, profile, resign, admin, kakao };
 
         res.status(200).json({ data: data, message: 'ok' });
       }

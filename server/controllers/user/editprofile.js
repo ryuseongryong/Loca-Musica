@@ -36,7 +36,7 @@ module.exports = {
         res.status(401).send({ message: 'invalid access token' });
       }
 
-      const { id, email, username, resign, admin } = accessTokenData;
+      const { id, email, username, resign, admin, kakao } = accessTokenData;
       const { url, file } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
@@ -102,6 +102,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -111,13 +112,14 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin };
+        const data = { id, email, username, profile, resign, admin, kakao };
 
         res.status(200).json({ data: data, message: 'ok' });
       }

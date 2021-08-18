@@ -47,7 +47,7 @@ module.exports = {
         connection1.commit();
         connection1.release();
 
-        const { id, profile, resign, admin } = newUserData[0];
+        const { id, profile, resign, admin, kakao } = newUserData[0];
 
         const accessToken = generateAccessToken({
           id,
@@ -56,6 +56,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -65,13 +66,14 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin };
+        const data = { id, email, username, profile, resign, admin, kakao };
 
         res.status(201).json({ data: data, message: 'signup success' });
       }
