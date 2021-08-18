@@ -1,6 +1,17 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { ImHeart } from "react-icons/im";
 
 function PerformanceInfo() {
+  const dispatch = useDispatch();
+  const bookmarkList = useSelector(
+    (state) => state.bookmarkReducer.bookmarkList
+  );
+
+  // console.log("상세페이지: 북마크리스트를 보여줘", bookmarkList);
+
   return (
     <div>
       <div className="pfInfo">
@@ -41,9 +52,9 @@ function PerformanceInfo() {
             <iframe
               className="video"
               src="https://www.youtube.com/embed/dZ55pb_edC0"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
             <p>너희에게 선사하는 지옥</p>
           </div>
@@ -51,9 +62,9 @@ function PerformanceInfo() {
             <iframe
               className="video"
               src="https://www.youtube.com/embed/pH8Cq5uMSqw"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
             <p>너희에게 선사하는 지옥</p>
           </div>
@@ -61,9 +72,9 @@ function PerformanceInfo() {
             <iframe
               className="video"
               src="https://www.youtube.com/embed/fD9VU6NvN8I"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
             <p>너희에게 선사하는 지옥</p>
           </div>
