@@ -14,9 +14,11 @@ const db = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
+const a = async () => {
+  await db.getConnection((err) => {
+    if (err) throw err;
+  });
+};
 
-await db.getConnection((err) => {
-  if (err) throw err;
-});
-
+a();
 module.exports = db;
