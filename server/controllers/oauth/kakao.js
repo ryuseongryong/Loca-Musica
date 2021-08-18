@@ -19,6 +19,10 @@ module.exports = {
       return;
     }
 
+    // DB connection open
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
+
     try {
       // Bring access token for kakao
       const kakaoToken = await axios({
@@ -55,10 +59,6 @@ module.exports = {
       const { profile_image_url, thumbnail_image_url } =
         kakaoUser.data.kakao_account.profile;
 
-      // DB connection open
-      const connection = await db.getConnection(async (conn) => conn);
-      await connection.beginTransaction();
-
       // Check email
       const [_userData] = await connection.execute(
         `SELECT * FROM users WHERE email = ?`,
@@ -71,7 +71,7 @@ module.exports = {
       if (userData) {
         connection.release();
 
-        const { id, username, email, profile, resign, admin } = userData;
+        const { id, username, email, profile, resign, admin, kakao } = userData;
 
         const accessToken = generateAccessToken({
           id,
@@ -80,6 +80,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -89,9 +90,10 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
-        // console.log('a', accessToken, 'r', refreshToken);
+        console.log('a', accessToken, 'r', refreshToken);
 
         // send Token
         sendAccessToken(res, accessToken);

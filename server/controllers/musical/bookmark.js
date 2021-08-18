@@ -7,12 +7,13 @@ module.exports = {
     const { id } = accessTokenData;
     const { title } = req.body;
 
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
+
     try {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
-      const connection = await db.getConnection(async (conn) => conn);
-      await connection.beginTransaction();
 
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
