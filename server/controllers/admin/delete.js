@@ -14,47 +14,97 @@ module.exports = {
     connection.beginTransaction();
     
     try {
-      // const {email} = accessTokenData;
-      // console.log(req.body);
-      // const email = req.body.email;
-
-      // const [userData] = await connection1.query(
-      //   `SELECT * FROM users WHERE email = "${email}"`
-      // );
+      // const {admin} = accessTokenData;
 
       // Admin 이 아닌 경우 종료
-      // if (!userData[0].admin){
-      //   connection1.release();
+      // if (!admin){
+      //   connection.release();
       //   res.status(403).send({message: "not admin"})
       //   return;
-      // }
+      //}
 
       const musical_id = req.params.id;
+      console.log("musical_id: ", musical_id)
 
       const [existingMusical] = await connection.execute(
         `SELECT * FROM musicals WHERE id = ?`,
         [musical_id]
       )
+      console.log("existingMusical: ", existingMusical)
+
       if (!existingMusical[0]){
         res.status(404).send({message: "musical not found"})
         return;
       }
 
+      // 삭제 순서: (user_number) -> numbers -> user_hashtag -> musical_hashtag -> hashtags(musicalCount가 0 이면) -> user_musical -> musical
+
       // numbers 삭제
-      const [numbersDeleted] = await connection.exeucte(
-        `DELETE FROM numbers WHERE id = ?`,
+      const [numbersDeleted] = await connection.execute(
+        `DELETE FROM numbers WHERE musical_id = ?`,
         [musical_id]
       )
       console.log("Numbers deleted: ", numbersDeleted)
 
-      // musical_hashtag 삭제
+      // user_hashtag 삭제
+      // const [userHashtagDeleted] = await connection.execute(
+      //   `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
+      //   [musical_id]
+      // )
+      // console.log("userMusicalDeleted: ", userHashtagDeleted);
 
-      // hashtag 삭제
+      // musical_hashtag
+      // 기존의 musical_hashtag 검색
+      const [musical_hashtags_toDelete] = await connection.execute(`
+        SELECT musical_hashtag.*, hashtags.*
+        FROM musical_hashtag
+        JOIN hashtags
+        ON musical_hashtag.hashtag_id = hashtags.id
+        WHERE musical_hashtag.musical_id = ?`,
+        [musical_id]
+      )
+      console.log("musical_hashtag: ", musical_hashtags_toDelete);
+
+      for (let musical_hashtag of musical_hashtags_toDelete) {
+        // musical_hashtag 에서 삭제
+        const {musical_id, hashtag_id, likeCount} = musical_hashtag;
+        const [deletedMusicalHashtag] = await connection.execute(
+          `DELETE FROM musical_hashtag WHERE musical_id = ? AND hashtag_id = ?`,
+          [musical_id, hashtag_id]
+        )
+        console.log("deletedMusicalHashtag: ", deletedMusicalHashtag)
+
+        // hashtag update
+        await connection.execute(`
+          UPDATE hashtags
+          SET totalLikeCount = totalLikeCount - ?, musicalCount = musicalCount - 1
+          WHERE hashtags.id = ?`,
+          [likeCount, hashtag_id]
+        )
+        const [updated] = await connection.execute(
+          `SELECT * FROM hashtags WHERE hashtags.id = ?`,
+          [hashtag_id]
+        )
+        console.log("updated: ", updated[0])
+      }
+
+      // hashtags 삭제(musicalCount가 0 이면)
+      const [hashtagsDeleted] = await connection.query(
+        `DELETE FROM hashtags WHERE musicalCount < 1`
+      )
+      console.log("hashtagsDeleted: ", hashtagsDeleted)
+
+      // user_musical 삭제
+      const [userMusicalDeleted] = await connection.execute(
+        `DELETE FROM user_musical WHERE musical_id = ?`,
+        [musical_id]
+      )
+      console.log("userMusicalDeleted: ", userMusicalDeleted)
 
       // musical 삭제
       const [musicalDeleted] = await connection.execute(
-        `DELETE FROM musicals WHERE code = ?`,
-        [code]
+        `DELETE FROM musicals WHERE id = ?`,
+        [musical_id]
       )
       console.log("Musical deleted: ", musicalDeleted)
       

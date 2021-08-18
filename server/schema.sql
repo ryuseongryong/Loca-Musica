@@ -43,6 +43,7 @@ CREATE TABLE user_musical (
 
 CREATE TABLE musical_hashtag (
   id INT AUTO_INCREMENT,
+  name varchar(255) not null UNIQUE,
   hashtag_id int not null,
   musical_id int not null,
   likeCount int default 1,
