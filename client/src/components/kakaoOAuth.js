@@ -22,8 +22,7 @@ function KakaoLogin() {
         .then((res) => {
           console.log("카카오에 대한 응답", res);
           // dispatch로 로그인상태 state 관리
-          // dispatch(signin(res.data.data))
-          // console.log(state)
+          dispatch(signin(res.data.data));
         })
         .then((res) => {
           history.push("/musical/main");
