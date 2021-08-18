@@ -14,7 +14,7 @@ export const DEQUEUE_NOTIFICATION = "DEQUEUE_NOTIFICATION";
 // 로그인 액션
 export const signin = (data) => {
   // console.log('data를 보여줘', data)
-  const { email, username, profile, resign, admin } = data;
+  const { email, username, profile, resign, admin, kakao } = data;
   return {
     type: SIGN_IN,
     payload: {
@@ -25,6 +25,7 @@ export const signin = (data) => {
         profile,
         resign,
         admin,
+        kakao,
       },
     },
   };
