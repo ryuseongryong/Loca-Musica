@@ -41,7 +41,7 @@ module.exports = {
         res.status(404).send({ message: 'resigned user!' });
       } else {
         // Access Token 발급
-        const { email, username, profile, resign, admin } = userData[0];
+        const { email, username, profile, resign, admin, kakao } = userData[0];
 
         const accessToken = generateAccessToken({
           id,
@@ -50,6 +50,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -59,6 +60,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         // send Token
@@ -72,6 +74,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
           bookmarksData,
         };
         res.status(200).json({ data: data, message: 'ok' });

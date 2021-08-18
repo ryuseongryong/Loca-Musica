@@ -34,4 +34,10 @@ module.exports = {
       res.status(500).send({ message: 'internal server error' });
     }
   },
+  delete: async (req, res) => {
+    // const accessTokenData = checkAccessToken(req);
+    // const { id } = accessTokenData;
+    const { title } = req.params;
+    console.log(title);
+  },
 };

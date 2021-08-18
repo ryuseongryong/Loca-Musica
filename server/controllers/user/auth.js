@@ -10,7 +10,8 @@ module.exports = {
   // 클라이언트에서 보낸 access token이 만료된 경우
   get: (req, res) => {
     const refreshTokenData = checkRefreshToken(req);
-    const { id, username, email, profile, resign, admin } = refreshTokenData;
+    const { id, username, email, profile, resign, admin, kakao } =
+      refreshTokenData;
 
     console.log('rt: ', refreshTokenData);
 
@@ -25,6 +26,7 @@ module.exports = {
         profile,
         resign,
         admin,
+        kakao,
       });
 
       resendAccessToken(res, accessTokenData);

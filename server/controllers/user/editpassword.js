@@ -21,7 +21,8 @@ module.exports = {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
-      const { id, email, username, profile, resign, admin } = accessTokenData;
+      const { id, email, username, profile, resign, admin, kakao } =
+        accessTokenData;
       const { password, newPassword } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
@@ -39,6 +40,8 @@ module.exports = {
         connection1.release();
         res.status(404).send({ message: 'user not found' });
         // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
+      } else if (userData.kakao === 1) {
+        // 바로 탈퇴
       } else if (!match) {
         connection1.release();
         res.status(403).send({ message: 'invalid password' });
@@ -65,6 +68,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -74,13 +78,14 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin };
+        const data = { id, email, username, profile, resign, admin, kakao };
 
         // 비밀번호 수정 완료
         res.status(200).json({ data: data, message: 'ok' });

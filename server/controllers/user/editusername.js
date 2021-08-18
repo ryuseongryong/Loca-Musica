@@ -21,7 +21,7 @@ module.exports = {
         res.status(401).send({ message: 'invalid access token' });
       }
       //! 사용자 이름은 중복 가능하게 만든다??
-      const { id, email, profile, resign, admin } = accessTokenData;
+      const { id, email, profile, resign, admin, kakao } = accessTokenData;
       const { newUsername } = req.body;
 
       const connection1 = await db.getConnection(async (conn) => conn);
@@ -42,8 +42,6 @@ module.exports = {
         `SELECT username from users`
       );
       connection2.commit();
-
-      console.log('conflictCheck is ', conflictCheck);
 
       if (userData.length === 0) {
         connection1.release();
@@ -77,6 +75,7 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         const refreshToken = generateRefreshToken({
@@ -86,13 +85,14 @@ module.exports = {
           profile,
           resign,
           admin,
+          kakao,
         });
 
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin };
+        const data = { id, email, username, profile, resign, admin, kakao };
 
         // username 수정 완료
         res.status(200).json({ data: data, message: 'ok' });
