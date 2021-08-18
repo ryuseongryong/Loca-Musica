@@ -7,23 +7,19 @@ module.exports = {
 
     // Access token 이 없거나 유효하지 않은 경우 종료
     // if (!accessTokenData){
-    //   res.status(401).send({ message: 'invalid access token' });
-    //   return;
+    //   return res.status(401).send({ message: 'invalid access token' });
     // }
-    //   
-
-    const connection = await db.getConnection(async (conn) => conn);
-    connection.beginTransaction();
 
     try {
       // const {admin} = accessTokenData;
 
       // Admin 이 아닌 경우 종료
       // if (!admin){
-      //   connection.release();
-      //   res.status(403).send({message: "not admin"})
-      //   return;
+      //   return res.status(403).send({message: "not admin"})
       //}
+
+      const connection = await db.getConnection(async (conn) => conn);
+      connection.beginTransaction();
 
       console.log("request body: ", req.body);
       const {
@@ -47,8 +43,7 @@ module.exports = {
       // 이미 등록된 뮤지컬일 경우 종료
       if (existingMusical[0]) {
         connection.release();
-        res.status(409).send({ message: 'duplicate musical' });
-        return;
+        return res.status(409).send({ message: 'duplicate musical' });
       }
 
       // musical 등록
@@ -62,6 +57,7 @@ module.exports = {
         [musical_id]
       );
       console.log('created musical: ', postedMusical[0])
+      delete postedMusical[0].id;
 
       // numbers 등록
       if (numbers) {

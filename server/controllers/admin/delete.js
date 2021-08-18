@@ -6,38 +6,36 @@ module.exports = {
 
     // Access token 이 없거나 유효하지 않은 경우 종료
     // if (!accessTokenData){
-    //   res.status(401).send({ message: 'invalid access token' });
-    //   return;
+    //   return res.status(401).send({ message: 'invalid access token' });
     // }
-    
-    const connection = await db.getConnection(async (conn) => conn);
-    connection.beginTransaction();
-    
+
     try {
       // const {admin} = accessTokenData;
 
       // Admin 이 아닌 경우 종료
       // if (!admin){
-      //   connection.release();
-      //   res.status(403).send({message: "not admin"})
-      //   return;
+      //   return res.status(403).send({message: "not admin"})
       //}
 
-      const musical_id = req.params.id;
-      console.log("musical_id: ", musical_id)
+      const connection = await db.getConnection(async (conn) => conn);
+      connection.beginTransaction();
+
+      const title = req.params.title;
+      console.log("title: ", title)
 
       const [existingMusical] = await connection.execute(
-        `SELECT * FROM musicals WHERE id = ?`,
-        [musical_id]
+        `SELECT * FROM musicals WHERE title = ?`,
+        [title]
       )
       console.log("existingMusical: ", existingMusical)
 
       if (!existingMusical[0]){
-        res.status(404).send({message: "musical not found"})
-        return;
+        connection.release();
+        return res.status(404).send({message: "musical not found"})
       }
 
       // 삭제 순서: (user_number) -> numbers -> user_hashtag -> musical_hashtag -> hashtags(musicalCount가 0 이면) -> user_musical -> musical
+      const musical_id = existingMusical[0].id;
 
       // numbers 삭제
       const [numbersDeleted] = await connection.execute(
@@ -47,11 +45,13 @@ module.exports = {
       console.log("Numbers deleted: ", numbersDeleted)
 
       // user_hashtag 삭제
-      // const [userHashtagDeleted] = await connection.execute(
-      //   `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
-      //   [musical_id]
-      // )
-      // console.log("userMusicalDeleted: ", userHashtagDeleted);
+      const [userHashtagDeleted] = await connection.execute(`
+        DELETE FROM user_hashtag 
+        WHERE musical_hashtag_id IN
+          ( SELECT id FROM musical_hashtag WHERE musical_id = ? )`,
+        [musical_id]
+      )
+      console.log("userMusicalDeleted: ", userHashtagDeleted);
 
       // musical_hashtag
       // 기존의 musical_hashtag 검색

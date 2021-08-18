@@ -8,21 +8,19 @@ module.exports = {
     // if (!accessTokenData)
     //   return res.status(401).send({ message: 'invalid access token' });
 
-    const connection = await db.getConnection(async (conn) => conn);
-    connection.beginTransaction();
-
     try {
       // const {admin} = accessTokenData;
 
       // Admin 이 아닌 경우 종료
       // if (!admin){
-      //   connection.release();
-      //   res.status(403).send({message: "not admin"})
-      //   return;
+      //   return res.status(403).send({message: "not admin"})
       //}
 
-      console.log("body:, ", req.body, "params :", req.params);
-      const musical_id = req.params.id;
+      const connection = await db.getConnection(async (conn) => conn);
+      connection.beginTransaction();
+
+      console.log("body:, ", req.body);
+
       const {
         code,
         title,
@@ -34,32 +32,32 @@ module.exports = {
         numbers,
       } = req.body;
 
-      // musical 검색
+      // musical 검색 (code 는 수정사항이 아니므로 code 로 검색)
       const [existingMusical] = await connection.execute(
-        `SELECT * FROM musicals WHERE id = ?`,
-        [musical_id]
+        `SELECT * FROM musicals WHERE code = ?`,
+        [code]
       );
       console.log('existing musical: ', existingMusical[0]);
 
       // 수정하고자 하는 뮤지컬이 없을 경우 종료
       if (!existingMusical[0]) {
         connection.release();
-        res.status(404).send({ message: 'musical not found' });
-        return;
+        return res.status(404).send({ message: 'musical not found' });
       }
+
+      const musical_id = existingMusical[0].id;
 
       // 뮤지컬 정보 수정
       await connection.execute(`
         UPDATE musicals 
         SET 
-          code = ?,
           title = ?,
           thumbnail = ?,
           contents = ?,
           state = ?,
           actors = ?
         WHERE id = ?`,
-        [code, title, thumbnail, contents, state, actors, musical_id]
+        [title, thumbnail, contents, state, actors, musical_id]
       );
       const [editedMusical] = await connection.execute(
         `SELECT * FROM musicals WHERE id = ?`,
@@ -86,9 +84,16 @@ module.exports = {
       // hashtag 수정
       if (hashtags) 
       {
-        // 기존의 hashtag 검색
+        // 기존의 musical_hashtag 검색
         const [oldHashtags] = await connection.execute(`
-          SELECT musical_hashtag.*, hashtags.*
+          SELECT 
+            musical_hashtag.id AS muscial_hashtag_id,
+            musical_hashtag.hashtag_id,
+            musical_hashtag.musical_id, 
+            musical_hashtag.likeCount,
+            hashtags.name,
+            hashtags.totalLikeCount,
+            hashtags.musicalCount
           FROM musical_hashtag
           JOIN hashtags
           ON musical_hashtag.hashtag_id = hashtags.id
@@ -120,15 +125,16 @@ module.exports = {
 
         // hashtag 삭제
         for (let delHashtag of arrHashtagToDelete) {
-          // user_hashtag 삭제
-          // const [userHashtagDeleted] = await connection.execute(
-          //   `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
-          //   [musical_id]
-          // )
-          // console.log("userMusicalDeleted: ", userHashtagDeleted);
+          const {muscial_hashtag_id, musical_id, hashtag_id, likeCount} = delHashtag;
+
+          //user_hashtag 삭제
+          const [userHashtagDeleted] = await connection.execute(
+            `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
+            [muscial_hashtag_id]
+          )
+          console.log("userMusicalDeleted: ", userHashtagDeleted);
 
           // musical_hashtag 에서 삭제
-          const {musical_id, hashtag_id, likeCount} = delHashtag;
           await connection.execute(
             `DELETE FROM musical_hashtag WHERE musical_id = ? AND hashtag_id = ?`,
             [musical_id, hashtag_id]
@@ -142,7 +148,7 @@ module.exports = {
             [likeCount, hashtag_id]
           )
 
-          const [updated] = await connection.execute(
+          let [updated] = await connection.execute(
             `SELECT * FROM hashtags WHERE hashtags.id = ?`,
             [hashtag_id]
           )
@@ -150,9 +156,10 @@ module.exports = {
         }
 
         // musicalCount 가 0 이면 삭제
-        await connection.query(
+        let [deleted] = await connection.query(
           `DELETE FROM hashtags WHERE musicalCount < 1`
         )
+        console.log("Deleted hashtags: ", deleted);
 
         // hashtag 추가
         for (let i = 0; i < arrHashtagToAdd.length; i++) {
