@@ -17,9 +17,9 @@ module.exports = {
       //}
 
       const connection = await db.getConnection(async (conn) => conn);
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
-      console.log("body:, ", req.body);
+      console.log('body:, ', req.body);
 
       const {
         code,
@@ -48,7 +48,8 @@ module.exports = {
       const musical_id = existingMusical[0].id;
 
       // 뮤지컬 정보 수정
-      await connection.execute(`
+      await connection.execute(
+        `
         UPDATE musicals 
         SET 
           title = ?,
@@ -82,10 +83,10 @@ module.exports = {
       }
 
       // hashtag 수정
-      if (hashtags) 
-      {
+      if (hashtags) {
         // 기존의 musical_hashtag 검색
-        const [oldHashtags] = await connection.execute(`
+        const [oldHashtags] = await connection.execute(
+          `
           SELECT 
             musical_hashtag.id AS muscial_hashtag_id,
             musical_hashtag.hashtag_id,
@@ -99,67 +100,67 @@ module.exports = {
           ON musical_hashtag.hashtag_id = hashtags.id
           WHERE musical_hashtag.musical_id = ?`,
           [musical_id]
-        )
+        );
 
-        console.log("oldHashtags: ", oldHashtags);
+        console.log('oldHashtags: ', oldHashtags);
 
         // 삭제할 hashtag 추출
-        const arrHashtagToDelete = oldHashtags.filter(oldHashtag => {
-          for (let i = 0; i < hashtags.length; i++){
-            if (oldHashtag.name === hashtags[i])
-              return false;
+        const arrHashtagToDelete = oldHashtags.filter((oldHashtag) => {
+          for (let i = 0; i < hashtags.length; i++) {
+            if (oldHashtag.name === hashtags[i]) return false;
           }
           return true;
-        })
-        console.log("arrHashtagToDelete: ", arrHashtagToDelete)
+        });
+        console.log('arrHashtagToDelete: ', arrHashtagToDelete);
 
         // 추가할 hashtag 추출
-        const arrHashtagToAdd = hashtags.filter(hashtag => {
-          for (let i = 0; i < oldHashtags.length; i++){
-            if (hashtag === oldHashtags[i].name)
-              return false;
+        const arrHashtagToAdd = hashtags.filter((hashtag) => {
+          for (let i = 0; i < oldHashtags.length; i++) {
+            if (hashtag === oldHashtags[i].name) return false;
           }
           return true;
-        })
-        console.log("arrHashtagToAdd :", arrHashtagToAdd)
+        });
+        console.log('arrHashtagToAdd :', arrHashtagToAdd);
 
         // hashtag 삭제
         for (let delHashtag of arrHashtagToDelete) {
-          const {muscial_hashtag_id, musical_id, hashtag_id, likeCount} = delHashtag;
+          const { muscial_hashtag_id, musical_id, hashtag_id, likeCount } =
+            delHashtag;
 
           //user_hashtag 삭제
           const [userHashtagDeleted] = await connection.execute(
             `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
             [muscial_hashtag_id]
-          )
-          console.log("userMusicalDeleted: ", userHashtagDeleted);
+          );
+          console.log('userMusicalDeleted: ', userHashtagDeleted);
 
           // musical_hashtag 에서 삭제
           await connection.execute(
             `DELETE FROM musical_hashtag WHERE musical_id = ? AND hashtag_id = ?`,
             [musical_id, hashtag_id]
-          )
+          );
 
           // hashtag update
-          await connection.execute(`
+          await connection.execute(
+            `
             UPDATE hashtags
             SET totalLikeCount = totalLikeCount - ?, musicalCount = musicalCount - 1
             WHERE hashtags.id = ?`,
             [likeCount, hashtag_id]
-          )
+          );
 
           let [updated] = await connection.execute(
             `SELECT * FROM hashtags WHERE hashtags.id = ?`,
             [hashtag_id]
-          )
-          console.log("updated: ", updated[0])
+          );
+          console.log('updated: ', updated[0]);
         }
 
         // musicalCount 가 0 이면 삭제
         let [deleted] = await connection.query(
           `DELETE FROM hashtags WHERE musicalCount < 1`
-        )
-        console.log("Deleted hashtags: ", deleted);
+        );
+        console.log('Deleted hashtags: ', deleted);
 
         // hashtag 추가
         for (let i = 0; i < arrHashtagToAdd.length; i++) {
@@ -176,13 +177,14 @@ module.exports = {
           if (hashtag[0]) {
             console.log('existing hashtag: ', hashtag[0]);
             hashtag_id = hashtag[0].id;
-            await connection.execute(`
+            await connection.execute(
+              `
               UPDATE hashtags 
               SET musicalCount = musicalCount + 1, totalLikeCount = totalLikeCount + 1
               WHERE id = ?`,
-              [hashtag_id]  
+              [hashtag_id]
             );
-            
+
             // Update 된 hashtag 로 갱신
             [hashtag] = await connection.execute(
               `SELECT * from hashtags WHERE name = ?`,
@@ -194,14 +196,14 @@ module.exports = {
             let [created] = await connection.execute(
               `INSERT INTO hashtags (name) VALUES (?)`,
               [arrHashtagToAdd[i]]
-              );
+            );
             hashtag_id = created.insertId;
 
             [hashtag] = await connection.execute(
               `SELECT * FROM hashtags WHERE id = ?`,
               [hashtag_id]
-            )
-            console.log("created hashtag: ", hashtag[0])
+            );
+            console.log('created hashtag: ', hashtag[0]);
           }
 
           // musical_hashtag 등록(musical 에 hashtag 부여)
@@ -212,28 +214,34 @@ module.exports = {
           const [created_musical_hashtag] = await connection.execute(
             `SELECT * FROM musical_hashtag WHERE id = ?`,
             [musical_hashtag.insertId]
-          )
+          );
           console.log('created_musical_hashtag: ', created_musical_hashtag[0]);
         }
       }
 
       const [arrNumberData] = await connection.execute(
-        `SELECT * FROM numbers WHERE musical_id = ?`, [musical_id]  
+        `SELECT * FROM numbers WHERE musical_id = ?`,
+        [musical_id]
       );
 
-      const [arrHashtagData] = await connection.execute(`
+      const [arrHashtagData] = await connection.execute(
+        `
         SELECT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount
         FROM hashtags
         JOIN musical_hashtag
         ON musical_hashtag.hashtag_id = hashtags.id
         WHERE musical_hashtag.musical_id = ?`,
         [musical_id]
-      )
+      );
 
-      connection.commit();
+      await connection.commit();
       connection.release();
 
-      const data = { ...editedMusical[0], numbers: arrNumberData, hashtags: arrHashtagData };
+      const data = {
+        ...editedMusical[0],
+        numbers: arrNumberData,
+        hashtags: arrHashtagData,
+      };
       console.log(data);
 
       res.status(200).json({ data: data, message: 'ok' });

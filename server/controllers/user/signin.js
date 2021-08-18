@@ -15,7 +15,7 @@ module.exports = {
     try {
       const connection = await db.getConnection(async (conn) => conn);
 
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
       // 이메일과 비밀번호를
       const [userData] = await connection.execute(
@@ -28,7 +28,7 @@ module.exports = {
         `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ?`,
         [id]
       );
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       const match = await bcrypt.compare(password, userData[0].password);
@@ -81,6 +81,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

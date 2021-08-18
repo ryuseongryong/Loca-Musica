@@ -9,13 +9,16 @@ module.exports = {
 
     try {
       const connection = await db.getConnection(async (conn) => conn);
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
         [title]
       );
+      await connection.commit();
+
       if (Object.keys(req.params).length === 0 || musicalData.length === 0) {
+        connection.release();
         return res.status(404).send({ message: 'musical not found' });
       }
       const musicalId = musicalData[0].id;
@@ -29,7 +32,7 @@ module.exports = {
         `select numbers.id, numbers.title, numbers.videoId from (numbers inner join musicals on musicals.id = ?)`,
         [musicalId]
       );
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       const data = { ...musicalData[0], numbersData, hashtagsData };
@@ -39,6 +42,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
@@ -49,20 +53,21 @@ module.exports = {
       console.log(Object.keys(req.query).length);
 
       const connection = await db.getConnection(async (conn) => conn);
-      connection.beginTransaction();
+      await connection.beginTransaction();
 
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
         [title]
       );
       if (Object.keys(req.query).length === 0 || musicalData.length === 0) {
+        connection.release();
         return res.status(404).send({ message: 'not found' });
       }
 
       const musicalId = musicalData[0].id;
       console.log(musicalData, musicalId);
 
-      connection.commit();
+      await connection.commit();
       connection.release();
 
       const data = { ...musicalData[0] };
@@ -73,6 +78,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
