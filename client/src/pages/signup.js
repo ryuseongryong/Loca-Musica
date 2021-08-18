@@ -167,7 +167,7 @@ function Signup() {
             });
         })
         .catch((err) => {
-          console.log("회원가입에러", err.response.status);
+          console.log("회원가입에러", err);
           if (err.response.status === 409) {
             setErrMessage({
               ...errMessage,

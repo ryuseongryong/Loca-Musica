@@ -16,32 +16,35 @@ function Detail() {
       bookmarkList: state.bookmarkReducer.bookmarkList,
     };
   });
-  console.log("사용자정보를 보여줘", userInfo);
-  console.log("뷱마크리스트를 보여줘", bookmarkList);
+  // console.log("사용자정보를 보여줘", userInfo);
+  // console.log("뷱마크리스트를 보여줘", bookmarkList);
   const [performanceInfo, setPerformanceInfo] = useState({
+    id: "",
     code: "",
     title: "",
     thumbnail: "",
     contents: "",
     state: "",
     actors: "",
+    numbersData: [],
+    hashtagsData: [],
   });
 
-  useEffect(() => {
-    // const title = ''
-    // 쿼리에서 title만 뽑아와야하는데!
-    axios
-      .get(`${process.env.REACT_APP_END_POINT}/musical/:title`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
-        setPerformanceInfo(res.data.data);
-      })
-      .catch((err) => {
-        console.log("작품정보를 불러오지 못한 이유는?", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // const title = ''
+  //   // 쿼리에서 title만 뽑아와야하는데!
+  //   axios
+  //     .get(`${process.env.REACT_APP_END_POINT}/musical/:title`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
+  //       setPerformanceInfo(res.data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("작품정보를 불러오지 못한 이유는?", err);
+  //     });
+  // }, []);
 
   // 핸들러함수
   return (
