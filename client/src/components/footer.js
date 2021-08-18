@@ -1,5 +1,5 @@
 import "../css/footer.css";
-import Github from "./githubLogo";
+import github from "../images/github_logo.png";
 
 function Footer() {
   return (
@@ -15,7 +15,7 @@ function Footer() {
                   (window.location.href = "https://github.com/ryuseongryong")
                 }
               >
-                <Github />
+                <img className="github" src={github} />
                 유성룡,
               </span>
               <span
@@ -23,7 +23,7 @@ function Footer() {
                   (window.location.href = "https://github.com/ezyeon07")
                 }
               >
-                <Github />
+                <img className="github" src={github} />
                 이지연,
               </span>
               <span
@@ -31,7 +31,7 @@ function Footer() {
                   (window.location.href = "https://github.com/200911184")
                 }
               >
-                <Github />
+                <img className="github" src={github} />
                 정승환,
               </span>
               <span
@@ -39,11 +39,17 @@ function Footer() {
                   (window.location.href = "https://github.com/jhoryong")
                 }
               >
-                <Github />
+                <img className="github" src={github} />
                 정호룡
               </span>
             </p>
           </div>
+        </div>
+        <div className="footerSrcWrap">
+          <p className="apiSource">
+            Loca Musica 는 (재)예술경영지원센터
+            공연예술통합전산망(www.kopis.or.kr) API 를 사용하고 있습니다.
+          </p>
           <p>Copyright 2021&#169; Loca Musica All Rights Reserved.</p>
         </div>
       </div>
