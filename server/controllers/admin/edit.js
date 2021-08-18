@@ -12,15 +12,13 @@ module.exports = {
     connection.beginTransaction();
 
     try {
-      // const email = accessTokenData.email;
-      // const [userData] = await connection.query(
-      //   `SELECT * FROM users WHERE email = "${email}"`
-      // );
+      // const {admin} = accessTokenData;
 
       // Admin 이 아닌 경우 종료
-      // if (!userData[0].admin){
+      // if (!admin){
       //   connection.release();
-      //   return res.status(403).send({message: "not admin"})
+      //   res.status(403).send({message: "not admin"})
+      //   return;
       //}
 
       console.log("body:, ", req.body, "params :", req.params);
@@ -43,7 +41,7 @@ module.exports = {
       );
       console.log('existing musical: ', existingMusical[0]);
 
-      // 등록된 뮤지컬이 없을 경우 종료
+      // 수정하고자 하는 뮤지컬이 없을 경우 종료
       if (!existingMusical[0]) {
         connection.release();
         res.status(404).send({ message: 'musical not found' });
@@ -70,7 +68,6 @@ module.exports = {
       console.log('Edited musical:', editedMusical[0]);
 
       // number 수정
-      const arrNumbersData = [];
       if (numbers) {
         for (let number of numbers) {
           const { id, title, videoId } = number;
@@ -83,35 +80,88 @@ module.exports = {
             [id]
           );
           console.log('Edited number: ', updated[0]);
-          arrNumbersData.push(updated[0]);
         }
       }
 
       // hashtag 수정
-      const arrHashtagsData = [];
-
-      if (hashtags) {
-        const [oldHashtags] = await connection.execute(
-          `SELECT * FROM musical_hashtag WHERE musical_id = ?`,
+      if (hashtags) 
+      {
+        // 기존의 hashtag 검색
+        const [oldHashtags] = await connection.execute(`
+          SELECT musical_hashtag.*, hashtags.*
+          FROM musical_hashtag
+          JOIN hashtags
+          ON musical_hashtag.hashtag_id = hashtags.id
+          WHERE musical_hashtag.musical_id = ?`,
           [musical_id]
         )
 
         console.log("oldHashtags: ", oldHashtags);
 
-        // const arrHashtagToDelete = oldHashtags.filter(oldhashtag => {
-        //   return oldhashtag.hashtag_id !== hashtags.
-        // })
-        const arrHashtagToAdd = [];
+        // 삭제할 hashtag 추출
+        const arrHashtagToDelete = oldHashtags.filter(oldHashtag => {
+          for (let i = 0; i < hashtags.length; i++){
+            if (oldHashtag.name === hashtags[i])
+              return false;
+          }
+          return true;
+        })
+        console.log("arrHashtagToDelete: ", arrHashtagToDelete)
 
-        for (let i = 0; i < hashtags.length; i++) {
-          let hashtag, hashtag_id, name, likeCount, totalLikeCount, musicalCount;
+        // 추가할 hashtag 추출
+        const arrHashtagToAdd = hashtags.filter(hashtag => {
+          for (let i = 0; i < oldHashtags.length; i++){
+            if (hashtag === oldHashtags[i].name)
+              return false;
+          }
+          return true;
+        })
+        console.log("arrHashtagToAdd :", arrHashtagToAdd)
 
-          // 새로운 hashtag 를 뮤지컬에 부여할 경우
+        // hashtag 삭제
+        for (let delHashtag of arrHashtagToDelete) {
+          // user_hashtag 삭제
+          // const [userHashtagDeleted] = await connection.execute(
+          //   `DELETE FROM user_hashtag WHERE musical_hashtag_id = ?`,
+          //   [musical_id]
+          // )
+          // console.log("userMusicalDeleted: ", userHashtagDeleted);
+
+          // musical_hashtag 에서 삭제
+          const {musical_id, hashtag_id, likeCount} = delHashtag;
+          await connection.execute(
+            `DELETE FROM musical_hashtag WHERE musical_id = ? AND hashtag_id = ?`,
+            [musical_id, hashtag_id]
+          )
+
+          // hashtag update
+          await connection.execute(`
+            UPDATE hashtags
+            SET totalLikeCount = totalLikeCount - ?, musicalCount = musicalCount - 1
+            WHERE hashtags.id = ?`,
+            [likeCount, hashtag_id]
+          )
+
+          const [updated] = await connection.execute(
+            `SELECT * FROM hashtags WHERE hashtags.id = ?`,
+            [hashtag_id]
+          )
+          console.log("updated: ", updated[0])
+        }
+
+        // musicalCount 가 0 이면 삭제
+        await connection.query(
+          `DELETE FROM hashtags WHERE musicalCount < 1`
+        )
+
+        // hashtag 추가
+        for (let i = 0; i < arrHashtagToAdd.length; i++) {
+          let hashtag, hashtag_id;
 
           // 이미 등록된 hashtag 인지 검색
           [hashtag] = await connection.execute(
             `SELECT * from hashtags WHERE name = ?`,
-            [hashtags[i]]
+            [arrHashtagToAdd[i]]
           );
           console.log('existing hashtag: ', hashtag[0]);
 
@@ -129,14 +179,14 @@ module.exports = {
             // Update 된 hashtag 로 갱신
             [hashtag] = await connection.execute(
               `SELECT * from hashtags WHERE name = ?`,
-              [hashtags[i]]
+              [arrHashtagToAdd[i]]
             );
           }
           // 해당 hashtag 가 등록되지 않았다면 등록하고 id 가져옴.
           else {
             let [created] = await connection.execute(
               `INSERT INTO hashtags (name) VALUES (?)`,
-              [hashtags[i]]
+              [arrHashtagToAdd[i]]
               );
             hashtag_id = created.insertId;
 
@@ -160,10 +210,23 @@ module.exports = {
         }
       }
 
+      const [arrNumberData] = await connection.execute(
+        `SELECT * FROM numbers WHERE musical_id = ?`, [musical_id]  
+      );
+
+      const [arrHashtagData] = await connection.execute(`
+        SELECT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount
+        FROM hashtags
+        JOIN musical_hashtag
+        ON musical_hashtag.hashtag_id = hashtags.id
+        WHERE musical_hashtag.musical_id = ?`,
+        [musical_id]
+      )
+
       connection.commit();
       connection.release();
 
-      const data = { ...editedMusical[0], numbers: arrNumbersData, hashtags: arrHashtagsData };
+      const data = { ...editedMusical[0], numbers: arrNumberData, hashtags: arrHashtagData };
       console.log(data);
 
       res.status(200).json({ data: data, message: 'ok' });
