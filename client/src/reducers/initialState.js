@@ -7,6 +7,7 @@ export const initialState = {
     profile: "",
     resign: "",
     admin: "",
+    kakao: "",
   },
 
   // bookmark list와 관련된 초기상태
