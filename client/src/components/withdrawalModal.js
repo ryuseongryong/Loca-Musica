@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,8 +25,8 @@ function WithdrawalModal({ withdrawalModalHandler }) {
   const inputHandler = (event) => {
     setInputValue(event.target.value);
   };
+
   //* 탈퇴요청
-  //! 탈퇴요청이 완료되면 signout의 과정을 거처야함
   const withdrawalRequestHandler = (event) => {
     event.preventDefault();
     const password = inputValue;
