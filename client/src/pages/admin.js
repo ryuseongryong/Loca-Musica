@@ -97,9 +97,9 @@ function Admin() {
         let categoryList = [genre, withPeople];
 
         let hashtag = document.querySelector('.admin-musical-hashtag').value;
-        // hashtag작성시 전달, optional이기 때문
-        if (hashtag) {
-            categoryList.push(hashtag);
+        // hashtag작성시 전달, optional이기 때문(빈칸이 없어야 전달됨)
+        if (hashtag && !hashtag.includes(' ')) {
+            categoryList.push(`#${hashtag}`);
         }
         // number목록(url)
         setAdminPostInfo(Object.assign(adminPostInfo, { numbers: numberList }));
@@ -132,6 +132,13 @@ function Admin() {
                 console.log(error);
             });
 
+    }
+    // 해시태그 입력시 빈칸이 들어갈 수 없도록 설정
+    const noSpaceHashtag = (event) => {
+        if (event.target.value.includes(' ')) {
+            alert('해시태그에 빈칸을 입력할 수 없습니다!');
+            event.target.value = ''
+        }
     }
 
     return (
@@ -236,7 +243,7 @@ function Admin() {
                                     <div className='admin-manual-category-div-hashtag'>
                                         <div className='admin-musical-hashtag-info'>해시태그</div>
 
-                                        <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' />
+                                        <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' onChange={noSpaceHashtag} />
 
                                     </div>
                                 </div>

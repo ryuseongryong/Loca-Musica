@@ -2,8 +2,9 @@ import "../css/Search.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { Link, useHistory } from "react-router-dom";
 
-function Search({ setIsRecommend, recommendUserHashtag }) {
+function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList }) {
   // react-slider require object
   const settings = {
     dots: true,
@@ -16,9 +17,18 @@ function Search({ setIsRecommend, recommendUserHashtag }) {
 
   // recommendUserHashtag = [hashtag1 [,hashtag2] [,hashtag3]] / 사용자에게 받은 해시태그
 
+  // 다시 추천 받기
   const replayRecommend = () => {
+    // 사용자가 이전에 지정한 hashtag들 빈 배열로 초기화
+    setRecommendUserHashtag([]);
+    // 추천을 받는 페이지 전환
     setIsRecommend(true);
   };
+
+  // 이미지 클릭시 상세 페이지 이동
+  const gotoDetailMusical = (event) => {
+
+  }
 
   return (
     <div className="search-container">
@@ -34,34 +44,32 @@ function Search({ setIsRecommend, recommendUserHashtag }) {
           </div>
           <div className="search-section2-middle">
             <ul className="search-result-list">
-              <li className="search-result-musical">
+              {/* li wireFrame */}
+              {/* <li className="search-result-musical">
                 <img
                   src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF156128_191015_094221.jpg"
                   alt="musical-image"
                   className="search-result-musical-image"
                 />
-              </li>
-              <li className="search-result-musical">
-                <img
-                  src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF171092_210119_100127.gif"
-                  alt="musical-image"
-                  className="search-result-musical-image"
-                />
-              </li>
-              <li className="search-result-musical">
-                <img
-                  src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF155057_190925_092515.gif"
-                  alt="musical-image"
-                  className="search-result-musical-image"
-                />
-              </li>
+              </li> */}
+              {recommendMusicalList.length !== 0 ?
+                recommendMusicalList.map((el, index) => (
+                  <li className="search-result-musical" key={index}>
+                    <Link to={`/detail?id=${el.id}&title=${el.title}&thumbnail=${el.thumbnail}`} className='goto-detailLink'>
+                      <img
+                        src={el.thumbnail}
+                        alt="musical-image"
+                        className="search-result-musical-image"
+                      />
+                    </Link>
+                  </li>
+                ))
+                :
+                <li className='search-result-musical'>
+                  <p className='no-search-result'>이런! 추천결과가 없습니다.</p>
+                </li>
+              }
             </ul>
-            {/* 추천결과가 없는 경우 */}
-            {/* <ul className='search-result-list'>
-                            <li className='search-result-musical'>
-                                <p className='no-search-result'>이런! 추천결과가 없습니다.</p>
-                            </li>
-                        </ul> */}
           </div>
           <div className="search-section2-bottom">
             <button className="search-replay-btn" onClick={replayRecommend}>
