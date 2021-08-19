@@ -18,11 +18,12 @@ module.exports = {
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
 
     const connection1 = await db.getConnection(async (conn) => conn);
-    connection1.beginTransaction();
+    await connection1.beginTransaction();
 
     try {
       if (!accessTokenData) {
-        res.status(401).send({ message: 'invalid access token' });
+        connection1.release();
+        return res.status(401).send({ message: 'invalid access token' });
       }
       //! 사용자 이름은 중복 가능하게 만든다??
       const { id, email, profile, resign, admin, kakao } = accessTokenData;
@@ -41,7 +42,7 @@ module.exports = {
 
       if (userData.length === 0) {
         connection1.release();
-        res.status(404).send({ message: 'user not found' });
+        return res.status(404).send({ message: 'user not found' });
       }
       // //! username 중복 방지
       // else if (conflictCheck.some((user) => user.username === newUsername)) {
@@ -94,7 +95,7 @@ module.exports = {
         res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
-      connection.release();
+      connection1.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
