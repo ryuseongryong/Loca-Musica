@@ -226,17 +226,17 @@ function Admin() {
                                         </div>
                                     </div>
                                     <div className='admin-manual-category-div-category'>
-                                        <div className='admin-musical-category-info'>동행인</div>
+                                        <div className='admin-musical-category-info'>누구와 함께</div>
                                         {/* <input type="text" className='admin-musical-category' placeholder='뮤지컬 동행인 분류 입력' /> */}
                                         <div className='admin-musical-category'>
                                             <select className='admin-musical-category-select' onChange={writeWithPeople} onClick={disableWithPeopleInfo}>
-                                                <option className='admin-musical-category-value' id='admin-musical-withPeople-info' value=''>동행인 기준 선택</option>
+                                                <option className='admin-musical-category-value' id='admin-musical-withPeople-info' value=''>동행인 선택</option>
                                                 <option className='admin-musical-category-together-value' value='혼자' >혼자</option>
-                                                <option className='admin-musical-category-together-value' value='연인과 함께' >연인과 함께</option>
-                                                <option className='admin-musical-category-together-value' value='가족과 함께' >가족과 함께</option>
-                                                <option className='admin-musical-category-together-value' value='친구와 함께' >친구와 함께</option>
-                                                <option className='admin-musical-category-together-value' value='아이와 함께' >아이와 함께</option>
-                                                <option className='admin-musical-category-together-value' value='동료와 함께' >동료와 함께</option>
+                                                <option className='admin-musical-category-together-value' value='연인과함께' >연인과함께</option>
+                                                <option className='admin-musical-category-together-value' value='가족과함께' >가족과함께</option>
+                                                <option className='admin-musical-category-together-value' value='친구와함께' >친구와함께</option>
+                                                <option className='admin-musical-category-together-value' value='아이와함께' >아이와함께</option>
+                                                <option className='admin-musical-category-together-value' value='동료와함께' >동료와함께</option>
                                             </select>
                                         </div>
                                     </div>

@@ -215,7 +215,8 @@
 }
 
 .admim-auto-musical-title {
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  flex : 1;
 }
 
 .admin-auto-info-musical-state-div {
@@ -259,7 +260,7 @@
 }
 
 .admin-auto-info-actor-input {
-  width: 250px;
+  width: 300px;
   height: 30px;
   color: white;
 }
@@ -301,4 +302,9 @@ select:focus {
 	outline: none;
 }
 
-
+.admin-auto-musical-title-input {
+  flex: 9;
+  padding-right: 15px;
+  display: flex;
+  align-items: center;
+}

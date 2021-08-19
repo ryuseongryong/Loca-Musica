@@ -1,7 +1,7 @@
 import "../css/Search.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import SearchResult from "../components/searchResult";
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -23,9 +23,10 @@ function Search() {
     // 맨처음 화면 렌더링시 모든 해시태르 목록을 받아오기 위해서 useEffect사용
     useEffect(() => {
         // server에서 요청해서 값을 받아온다.
+        // url: `${process.env.REACT_APP_END_POINT}/search`, // 예전 api, 만약 hashtag로 변경이 안된 경우 해당 api로 다시 변경할 것
         axios({
             method: 'get',
-            url: `${process.env.REACT_APP_END_POINT}/search`,
+            url: `${process.env.REACT_APP_END_POINT}/hashtag`,
         }, { withCredentials: true })
             .then(function (response) {
                 /* server에서 response형태
@@ -66,9 +67,10 @@ function Search() {
                 hashtag3: ''
             }
             recommendUserHashtag.map((el, index) => {
-                temp[`hashtag${index + 1}`] = el; // hashtag1,2,3에 넣어짐 값이 없으면 ''
+                return temp[`hashtag${index + 1}`] = el; // hashtag1,2,3에 넣어짐 값이 없으면 ''
             });
 
+            console.log(temp);
             // server에서 filter된 뮤지컬 정보 얻어오기
             axios({
                 method: 'get',
@@ -209,7 +211,7 @@ function Search() {
                                         </div>
                                     </div>
                                     <div className='search-category2'>
-                                        <div className='search-left'>동행인 기준</div>
+                                        <div className='search-left'>누구와 함께</div>
                                         <div className='search-right-category'>
                                             {/* server에서 받아와서 처리 */}
                                             {allWithPeopleCategory.map((el, index) =>
