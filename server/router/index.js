@@ -22,6 +22,7 @@ router.post('/musical/bookmark', musical.bookmark.post);
 router.delete('/musical/bookmark/:title', musical.bookmark.delete);
 
 router.get('/search', search.search.get);
+router.get('/hashtag', search.hashtag.get);
 
 router.post('/admin/post', admin.post.post);
 router.get('/admin/getKopisSearch', admin.getKopisSearch.get); // kopis 공연목록 조회
