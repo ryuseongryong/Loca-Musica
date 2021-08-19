@@ -45,6 +45,7 @@ module.exports = {
       [selectedQuery]
     );
     if (category1Data.length === 0 || category2Data.length === 0) {
+      connection.release();
       return res.status(404).send({ message: 'no match' });
     }
     await connection.commit();
