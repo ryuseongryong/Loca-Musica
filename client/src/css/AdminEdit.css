@@ -197,6 +197,9 @@
 	width: 800px;
 	height: 30px;
 	color: white;
+	display: flex;
+	align-items: center;
+	list-style: none;
 	/* flex : 8; */
   }
   
@@ -241,6 +244,16 @@
 	line-height: 20px;
 	font-size: 13px;
 	font-weight: bolder;
+	cursor: pointer;
+  }
+
+  .adminEdit-auto-info-musical-state-input-ing:active {
+	background-color: #86b499;
+	line-height: 23px;
+  }
+
+  .adminEdit-auto-info-musical-state-input-ing:hover {
+	background-color: #86b499;
   }
   
   .adminEdit-auto-info-musical-state-input-end {
@@ -252,6 +265,16 @@
 	line-height: 20px;
 	font-size: 13px;
 	font-weight: bolder;
+	cursor: pointer;
+  }
+
+  .adminEdit-auto-info-musical-state-input-end:active {
+	background-color: rgb(73, 71, 71);
+	line-height: 23px;
+  }
+
+  .adminEdit-auto-info-musical-state-input-end:hover {
+	background-color: rgb(73, 71, 71);
   }
   
   .adminEdit-auto-info-actor-div {
@@ -264,7 +287,7 @@
   }
   
   .adminEdit-auto-info-actor-input {
-	width: 300px;
+	width: 350px;
 	height: 30px;
 	color: white;
   }
@@ -307,7 +330,7 @@
   }
   
   .adminEdit-auto-musical-title-input {
-	width: 300px;
+	width: 350px;
 	height: 30px;
 	color: white;
   }
@@ -320,4 +343,21 @@
 	  display: flex;
   }
   
+  .adminEdit-manual-hashtag-div {
+	  display: flex;
+	  align-items: center;
+  }
+
+  .adminEdit-manual-hashtag-update-input-div {
+	  flex: 4;
+  }
+
+  .adminEdit-manual-hashtag-newInput {
+	  margin-left: 10px;
+	  height: 30px;
+	  color: white;
+  }
   
+  .before-musical-hashtag {
+	  margin-right: 15px;
+  }
