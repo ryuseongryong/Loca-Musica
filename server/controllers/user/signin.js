@@ -38,7 +38,7 @@ module.exports = {
       if (!match) {
         return res.status(404).send({ message: 'invalid password' });
       } else if (userData[0].resign === 1) {
-        return res.status(404).send({ message: 'resigned user!' });
+        return res.status(403).send({ message: 'resigned user' });
       } else {
         // Access Token 발급
         const { email, username, profile, resign, admin, kakao } = userData[0];
