@@ -1,6 +1,6 @@
 // main 응답을 같이 줄 수 있으면 여기다가 만들고 API 수정하면 됨
 // musical OR musical/main
-const db = require('../../db');
+const db = require("../../db");
 
 module.exports = {
   // musical/:title
@@ -19,17 +19,17 @@ module.exports = {
 
       if (Object.keys(req.params).length === 0 || musicalData.length === 0) {
         connection.release();
-        return res.status(404).send({ message: 'musical not found' });
+        return res.status(404).send({ message: "musical not found" });
       }
       const musicalId = musicalData[0].id;
 
       const [hashtagsData] = await connection.execute(
-        `SELECT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount FROM ((hashtags INNER JOIN musical_hashtag ON hashtags.id = musical_hashtag.hashtag_id) INNER JOIN musicals ON musicals.id = ?)`,
+        `SELECT DISTINCT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount FROM ((hashtags INNER JOIN musical_hashtag ON hashtags.id = musical_hashtag.hashtag_id) INNER JOIN musicals ON musical_hashtag.musical_id = ?)`,
         [musicalId]
       );
 
       const [numbersData] = await connection.execute(
-        `select numbers.id, numbers.title, numbers.videoId from (numbers inner join musicals on musicals.id = ?)`,
+        `select DISTINCT numbers.id, numbers.title, numbers.videoId from (numbers inner join musicals on numbers.musical_id = ?)`,
         [musicalId]
       );
       await connection.commit();
@@ -38,12 +38,12 @@ module.exports = {
       const data = { ...musicalData[0], numbersData, hashtagsData };
       // console.log(data);
       if (Object.keys(data).length !== 0) {
-        res.status(200).json({ data: data, message: 'ok' });
+        res.status(200).json({ data: data, message: "ok" });
       }
     } catch (err) {
       console.log(err);
       connection.release();
-      res.status(500).send({ message: 'internal server error' });
+      res.status(500).send({ message: "internal server error" });
     }
   },
   // musical?title="wikid"
@@ -61,7 +61,7 @@ module.exports = {
       );
       if (Object.keys(req.query).length === 0 || musicalData.length === 0) {
         connection.release();
-        return res.status(404).send({ message: 'not found' });
+        return res.status(404).send({ message: "not found" });
       }
 
       const musicalId = musicalData[0].id;
@@ -74,12 +74,12 @@ module.exports = {
       // console.log(data);
 
       if (Object.keys(data).length !== 0) {
-        res.status(200).json({ data: data, message: 'ok' });
+        res.status(200).json({ data: data, message: "ok" });
       }
     } catch (err) {
       console.log(err);
       connection.release();
-      res.status(500).send({ message: 'internal server error' });
+      res.status(500).send({ message: "internal server error" });
     }
   },
 };

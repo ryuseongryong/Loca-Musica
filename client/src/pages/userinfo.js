@@ -225,9 +225,8 @@ function UserInfo() {
                 value={inputValue.newUsername}
                 onChange={inputHandler}
                 onFocus={clearMessage}
-                onKeyUp={(event) => {
-                  event.key === "Enter" ? resultMessageHandler(event) : null;
-                }}
+                onKeyDown={(event) => event.key === "Enter"? usernameChangeRequestHandler(event): null
+                  }
               />
             </form>
             <div>
@@ -273,11 +272,8 @@ function UserInfo() {
                   value={inputValue.newPasswordCheck}
                   onChange={inputHandler}
                   onFocus={clearMessage}
-                  onKeyUp={(event) => {
-                    event.key === "Enter"
-                      ? passwordChangeRequestHandler(event)
-                      : null;
-                  }}
+                  onKeyUp={(event) => event.key === "Enter"? passwordChangeRequestHandler(event): null
+                  }
                 />
               </form>
               <div>

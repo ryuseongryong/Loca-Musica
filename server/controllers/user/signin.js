@@ -20,6 +20,10 @@ module.exports = {
         `SELECT * FROM users WHERE email = ?`,
         [email]
       );
+
+      if (userData.length === 0) {
+        return res.status(404).send({ message: 'invalid email' });
+      }
       const { id } = userData[0];
 
       const [bookmarksData] = await connection.execute(
@@ -31,9 +35,7 @@ module.exports = {
 
       const match = await bcrypt.compare(password, userData[0].password);
 
-      if (userData.length === 0) {
-        return res.status(404).send({ message: 'invalid email' });
-      } else if (!match) {
+      if (!match) {
         return res.status(404).send({ message: 'invalid password' });
       } else if (userData[0].resign === 1) {
         return res.status(404).send({ message: 'resigned user!' });
