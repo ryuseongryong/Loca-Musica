@@ -115,6 +115,7 @@ module.exports = {
 
       res.status(200).send({ message: 'ok' });
     } catch (err) {
+      console.log(err);
       connection.release();
       res.status(500).send({ message: 'internal server error' });
     }

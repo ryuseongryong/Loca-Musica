@@ -36,9 +36,9 @@ module.exports = {
       const match = await bcrypt.compare(password, userData[0].password);
 
       if (!match) {
-        res.status(404).send({ message: 'invalid password' });
+        return res.status(404).send({ message: 'invalid password' });
       } else if (userData[0].resign === 1) {
-        res.status(404).send({ message: 'resigned user!' });
+        return res.status(404).send({ message: 'resigned user!' });
       } else {
         // Access Token 발급
         const { email, username, profile, resign, admin, kakao } = userData[0];

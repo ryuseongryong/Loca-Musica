@@ -67,9 +67,13 @@ module.exports = {
       const userData = _userData[0];
       // console.log('existing user data: ', userData);
 
-      // Email 이 이미 존재할 경우: login 진행
+      // Email 이 이미 존재할 경우
       if (userData) {
-        connection.release();
+        // 탈퇴한 회원이면 종료
+        if (userData.resign){
+          connection.release();
+          return res.status(403).send({message:"resigned user"});
+        }
 
         const { id, username, email, profile, resign, admin, kakao } = userData;
 
@@ -99,6 +103,7 @@ module.exports = {
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
         //console.log(res);
+        connection.release();
         return res.status(200).json({ data: userData, message: 'ok' });
       }
 
@@ -161,7 +166,7 @@ module.exports = {
         res.status(201).json({ data: data, message: 'ok' });
       }
     } catch (err) {
-      // console.log('Error!');
+      console.log('error: ', err);
       connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
