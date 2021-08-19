@@ -1,19 +1,21 @@
 import "../css/Search.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { Link, useHistory } from "react-router-dom";
+// import Slider from "react-slick";
+import { Link } from "react-router-dom";
+import MusicalBaseImage from '../images/musical_baseimage.jpg'
+
 
 function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList }) {
   // react-slider require object
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-  };
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   arrows: true,
+  // };
 
   // recommendUserHashtag = [hashtag1 [,hashtag2] [,hashtag3]] / 사용자에게 받은 해시태그
 
@@ -24,11 +26,6 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
     // 추천을 받는 페이지 전환
     setIsRecommend(true);
   };
-
-  // 이미지 클릭시 상세 페이지 이동
-  const gotoDetailMusical = (event) => {
-
-  }
 
   return (
     <div className="search-container">
@@ -58,7 +55,7 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
                     <Link to={`/detail?id=${el.id}&title=${el.title}&thumbnail=${el.thumbnail}`} className='goto-detailLink'>
                       <img
                         src={el.thumbnail}
-                        alt="musical-image"
+                        alt={MusicalBaseImage}
                         className="search-result-musical-image"
                       />
                     </Link>

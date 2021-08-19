@@ -93,10 +93,10 @@
   height: 39px;
 }
 
-#startdate {
+/* #startdate {
 }
 #endddate {
-}
+} */
 #currentpage::-webkit-outer-spin-button,
 #currentpage::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -109,8 +109,8 @@
   margin: 0;
 }
 
-#musicaltitle {
-}
+/* #musicaltitle {
+} */
 
 .searchModal-search-btn {
   width: 104px;
@@ -207,10 +207,11 @@
   font: 30px/100% arial, sans-serif;
   text-decoration: none;
   text-shadow: 0 1px 0 #fff;
+  cursor: pointer;
 }
 
 .close-thik:after {
-  content: "X";
+  content: "✕";
 }
 
 .anythingNo {

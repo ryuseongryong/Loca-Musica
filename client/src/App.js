@@ -13,6 +13,8 @@ import Admin from "./pages/admin";
 import UserInfo from "./pages/userinfo";
 import Detail from "./pages/detail";
 import NofiticationCenter from "./components/notificationCenter";
+import AdminEdit from "./pages/adminEdit";
+
 
 function App() {
   // 상태관리
@@ -61,6 +63,9 @@ function App() {
 
         <Route path="/admin">
           <Admin />
+        </Route>
+        <Route path="/adminEdit">
+          <AdminEdit />
         </Route>
       </Switch>
       <NofiticationCenter />

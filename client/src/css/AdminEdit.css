@@ -1,0 +1,323 @@
+.adminEdit-container {
+	display: table;
+	margin-top: 80px;
+	width: 100%;
+	/* footer조절 */
+	height: calc(100vh - 5rem);
+  }
+  
+  .adminEdit-main {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	background: black;
+	color: white;
+	overflow: auto;
+  }
+  
+  .adminEdit-section1 {
+	/* border : 1px solid red; */
+	flex: 1;
+  }
+  
+  .adminEdit-section2 {
+	display: flex;
+	flex-direction: column;
+	/* border : 1px solid red; */
+	flex: 3;
+  }
+  
+  .adminEdit-section3 {
+	/* border : 1px solid red; */
+	flex: 1;
+  }
+  
+  .adminEdit-section2-top {
+	/* border : 1px solid aquamarine; */
+	flex: 1;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+  }
+  
+  .adminEdit-section2-middle {
+	display: flex;
+	flex-direction: column;
+	/* border : 1px solid aquamarine; */
+	flex: 8;
+  }
+  
+  .adminEdit-section2-bottom {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* border : 1px solid aquamarine; */
+	flex: 1;
+  }
+  
+  .adminEdit-auto-info {
+	display: flex;
+	/* border : 1px solid orange; */
+	flex: 1;
+  }
+  
+  .adminEdit-manual-info {
+	display: flex;
+	flex-direction: column;
+	/* border : 1px solid orange; */
+	flex: 1;
+  }
+  
+  .adminEdit-auto-info-image {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	/* border : 1px solid fuchsia; */
+	flex: 1;
+  }
+  
+  .adminEdit-auto-info-input {
+	display: flex;
+	flex-direction: column;
+	/* border : 1px solid fuchsia; */
+	justify-content: space-around;
+	flex: 3;
+  }
+  
+  .adminEdit-manual-info-url {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	/* border : 1px solid springgreen; */
+	flex: 2;
+	margin-top: 5px;
+	margin-bottom: 10px;
+  }
+  
+  .adminEdit-manual-info-url-div {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+  }
+  
+  
+  .adminEdit-manual-title {
+	  margin-right: 10px;
+  }
+  
+  .adminEdit-manual-videoId {
+	  margin-left: 30px;
+	  margin-right: 10px;
+  }
+  
+  /* .adminEdit-musical-url-input {
+	  height: 25px;
+	  width: 300px;
+	  color: white;
+  } */
+  
+  .adminEdit-musical-title-input {
+	  height: 25px;
+	  width: 300px;
+	  color: white;
+  }
+  
+  .adminEdit-musical-videoId-input {
+	  height: 25px;
+	  width: 300px;
+	  color: white;
+  }
+  
+  .adminEdit-manual-info-category {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	/* border : 1px solid springgreen; */
+	flex: 1;
+	margin-bottom: 10px;
+  }
+  
+  .adminEdit-manual-category-div {
+	display: flex;
+	align-items: center;
+	/* border: 1px solid rebeccapurple; */
+  }
+  
+  .adminEdit-manual-category-div-category {
+	display: flex;
+	align-items: center;
+	/* border: 1px solid red; */
+	flex: 3;
+	padding-right: 5px;
+	margin-right: 10px;
+  }
+  
+  .adminEdit-manual-category-div-hashtag {
+	display: flex;
+	align-items: center;
+	/* border: 1px solid greenyellow; */
+	/* flex: 5; */
+  }
+  
+  .adminEdit-musical-category {
+	/* flex: 3; */
+	width: 200px;
+	height: 30px;
+	background: #484848;
+	padding: 0 15px;
+	border: 0;
+	border-radius: 50px;
+	caret-color: rgb(255, 255, 255);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-right: 30px;
+  }
+  
+  .adminEdit-musical-category-select {
+	  color: white;
+	  width: 100%;
+	  height: 100%;
+	  border: 0;
+	  background: transparent;
+  }
+  
+  .adminEdit-musical-category-info {
+	  /* flex: 1; */
+	  margin-right: 10px;
+  }
+  
+  .adminEdit-musical-hashtag-info {
+	margin-right: 10px;
+	/* flex: 1; */
+  }
+  
+  .adminEdit-musical-hashtag {
+	width: 800px;
+	height: 30px;
+	color: white;
+	/* flex : 8; */
+  }
+  
+  .adminEdit-musical-search-btn {
+	width: 104px;
+	height: 39px;
+	font-size: 14px;
+  }
+  
+  .adminEdit-musical-post {
+	width: 190px;
+	height: 260px;
+	cursor: pointer;
+	/* width: 95%;
+	  height: 95%; */
+  }
+  
+  .adminEdit-auto-musical-title-div {
+	display: flex;
+	align-items: center;
+  }
+  
+  .adminEdit-auto-musical-title {
+	margin-right: 10px;
+  }
+  
+  .adminEdit-auto-info-musical-state-div {
+	display: flex;
+	align-items: center;
+  }
+  
+  .adminEdit-auto-info-musical-state {
+	margin-right: 10px;
+  }
+  
+  .adminEdit-auto-info-musical-state-input-ing {
+	height: 20px;
+	width: 60px;
+	border-radius: 10px;
+	background-color: #1bb55c;
+	text-align: center;
+	line-height: 20px;
+	font-size: 13px;
+	font-weight: bolder;
+  }
+  
+  .adminEdit-auto-info-musical-state-input-end {
+	height: 20px;
+	width: 60px;
+	border-radius: 10px;
+	background-color: gray;
+	text-align: center;
+	line-height: 20px;
+	font-size: 13px;
+	font-weight: bolder;
+  }
+  
+  .adminEdit-auto-info-actor-div {
+	display: flex;
+	align-items: center;
+  }
+  
+  .adminEdit-auto-info-actor {
+	margin-right: 10px;
+  }
+  
+  .adminEdit-auto-info-actor-input {
+	width: 300px;
+	height: 30px;
+	color: white;
+  }
+  
+  .adminEdit-auto-info-story-div {
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .adminEdit-auto-info-story-input {
+	margin-right: 5px;
+	margin-top: 5px;
+	resize: none;
+	background: #484848;
+	border-radius: 10px;
+	padding-left: 10px;
+	padding-top: 5px;
+	color: white;
+  }
+  
+  .adminEdit-auto-info-story-input:focus {
+	outline: none;
+  }
+  
+  .adminEdit-musical-post-btn {
+  
+	  width: 124px;
+	  height: 45px;
+	  font-size: 16px;
+	  font-style: normal;
+	  font-weight: 400;
+	}
+  
+  option:focus {
+	  outline: none;
+  }
+  
+  select:focus {
+	  outline: none;
+  }
+  
+  .adminEdit-auto-musical-title-input {
+	width: 300px;
+	height: 30px;
+	color: white;
+  }
+
+  #adminEdit-update-musicalImage-input {
+	  display: none;
+  }
+
+  .adminEdit-manual-update-hashtag-div {
+	  display: flex;
+  }
+  
+  

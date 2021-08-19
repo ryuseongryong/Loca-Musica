@@ -1,8 +1,7 @@
 import { useState } from "react";
 import "../css/SearchModal.css";
 import axios from "axios";
-import MusicalBaseImage from "../images/musical_baseimage.jpg";
-const convert = require("xml-js");
+import MusicalBaseImage from '../images/musical_baseimage.jpg'
 
 function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
   const [searchInput, setSearchInput] = useState({
@@ -239,7 +238,7 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
                   </div>
                 </div>
                 <div className="searchModal-right">
-                  <a href="#" className="close-thik" onClick={closeModal} />
+                  <p className="close-thik" onClick={closeModal} />
                 </div>
               </div>
               <div className="searchModal-seperate-area">
@@ -261,7 +260,7 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
                         <div className="searchModal-result-image">
                           <img
                             src={el.poster._text}
-                            alt="searchModal-result-image"
+                            alt={MusicalBaseImage}
                             className="searchModal-result-post"
                             onClick={getKopisMusical}
                           />
