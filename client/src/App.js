@@ -15,7 +15,6 @@ import Detail from "./pages/detail";
 import NofiticationCenter from "./components/notificationCenter";
 import AdminEdit from "./pages/adminEdit";
 
-
 function App() {
   // 상태관리
   const history = useHistory();
@@ -44,10 +43,9 @@ function App() {
           {/* 추천페이지 */}
           <Search />
         </Route>
-        <Route path="/search/:title">{/* 작품 상세페이지 */}</Route>
+        <Route path="/search/:title">{/* <Detail /> */}</Route>
 
         <Route path="/detail">
-          {/* 임시 작품 상세페이지 */}
           <Detail />
         </Route>
 

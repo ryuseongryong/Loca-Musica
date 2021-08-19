@@ -98,10 +98,17 @@
   display: flex;
   justify-content: space-between;
   margin: 30px 0 0 0;
+  position: relative;
 }
 .numberVideo {
   width: 100%;
   padding: 0 5px;
+}
+.numberVideoClick {
+  width: 560px;
+  height: 315px;
+  position: absolute;
+  left: calc(50% - 280px);
 }
 .numberVideo > p {
   font-size: 1.25rem;
