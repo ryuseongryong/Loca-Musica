@@ -97,7 +97,7 @@ function Admin() {
         let categoryList = [genre, withPeople];
 
         let hashtag = document.querySelector('.admin-musical-hashtag').value;
-        // hashtag작성시 전달, optional이기 때문(빈칸이 없어야 전달됨)
+        // hashtag작성시 전달(빈칸이 없어야 전달됨)
         if (hashtag && !hashtag.includes(' ')) {
             categoryList.push(`#${hashtag}`);
         }
@@ -116,21 +116,56 @@ function Admin() {
         setAdminPostInfo(Object.assign(adminPostInfo, { code: nowClickMusical.code }));
 
         console.log(adminPostInfo);
-        axios({
-            method: 'post',
-            url: `${process.env.REACT_APP_END_POINT}/admin/post`,
-            data: {
-                ...adminPostInfo
-            },
-            withCredentials: true,
-        })
-            .then(function (response) {
-                alert("새 글이 작성완료 되었습니다.");
-                window.location.reload();
+
+        // number check, 3개 
+        let tempNumber1 = adminPostInfo.numbers[0];
+        let result1 = tempNumber1.title === '' || tempNumber1.videoId === ''
+        let tempNumber2 = adminPostInfo.numbers[1];
+        let result2 = tempNumber2.title === '' || tempNumber2.videoId === ''
+        let tempNumber3 = adminPostInfo.numbers[2];
+        let result3 = tempNumber3.title === '' || tempNumber3.videoId === ''
+
+        // trim() : 문자열 앞,뒤 공백 제거(실제 문자열만 남게 된다, 빈칸만 있는 문자열은 ''로 변환) -> ex) ' ' / filter됨,공백제거
+        // 1. code 입력여부(code, title, img, state 한번에 입력 여부 체크)
+        if (adminPostInfo.code === '') {
+            alert('작품 검색을 통해 등록할 뮤지컬을 선택해 주세요');
+        }
+        // 2. actors 입력여부
+        else if (adminPostInfo.actors === '' || adminPostInfo.actors.trim() === '') {
+            alert('출연진을 입력해 주세요');
+            document.querySelector('.admin-auto-info-actor-input').value = '';
+        }
+        // 3. contents 입력여부
+        else if (adminPostInfo.contents === '' || adminPostInfo.contents.trim() === '') {
+            alert('줄거리를 입력해 주세요');
+            document.querySelector('.admin-auto-info-story-input').value = '';
+        }
+        // 4. numbers 입력여부
+        else if (adminPostInfo.numbers.length === 0 || result1 || result2 || result3) {
+            alert('뮤지컬 대표 넘버를 입력해 주세요');
+        }
+        // 5. hashtags 입력여부 -> 빈칸있으면 입력이 안된것
+        else if (adminPostInfo.hashtags.includes('')) {
+            alert('카테고리 선택 & 해시태그 작성해 주세요');
+        }
+        // 모든 조건 만족(정상 등록)
+        else {
+            axios({
+                method: 'post',
+                url: `${process.env.REACT_APP_END_POINT}/admin/post`,
+                data: {
+                    ...adminPostInfo
+                },
+                withCredentials: true,
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then(function (response) {
+                    alert("새 글이 작성완료 되었습니다.");
+                    window.location.reload();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
 
     }
     // 해시태그 입력시 빈칸이 들어갈 수 없도록 설정
