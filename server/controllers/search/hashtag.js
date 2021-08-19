@@ -62,14 +62,6 @@ module.exports = {
         res
           .status(200)
           .json({ data: { category1Data, category2Data, hashtagsData } });
-      } else if (hashtag1 || hashtag2 || hashtag3) {
-        const [musicalsData] = await connection.query(
-          `SELECT DISTINCT musicals.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN musical_hashtag ON musicals.id = musical_hashtag.musical_id) WHERE musical_hashtag.hashtag_id IN (?)`,
-          [hashtagsId]
-        );
-        await connection.commit();
-        connection.release();
-        res.status(200).json({ data: musicalsData });
       } else res.status(404).send({ message: 'no match somethings wrong!' });
     } catch (err) {
       connection.release();
