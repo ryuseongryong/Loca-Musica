@@ -20,7 +20,8 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^1.0.1",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "youtube-api-search": "^0.0.5"
   },
   "scripts": {
     "https": "HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem react-scripts start",

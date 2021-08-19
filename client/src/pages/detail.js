@@ -15,7 +15,7 @@ function Detail() {
     return {
       isSignin: state.userReducer.isSignin,
       userInfo: state.userReducer.userInfo,
-      bookmarkList: state.bookmarkReducer.bookmarkList,
+      bookmarkList: state.bookmarkReducer,
     };
   });
   // console.log("사용자정보를 보여줘", userInfo);
@@ -37,16 +37,14 @@ function Detail() {
     // 페이지 이동하면 쿼리에서 title만 가져오면..
     const url = new URL(window.location.href);
     const title = url.searchParams.get("title");
-    console.log(title);
 
     axios
-      .get(`${process.env.REACT_APP_END_POINT}/musical/:${title}`, {
+      .get(`${process.env.REACT_APP_END_POINT}/musical/${title}`, {
         withCredentials: true,
       })
       .then((res) => {
         // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
-        console.log(res);
-        // setPerformanceInfo(res.data.data);
+        setPerformanceInfo(res.data.data);
       })
       .catch((err) => {
         console.log("작품정보를 불러오지 못한 이유는?", err);
@@ -64,8 +62,14 @@ function Detail() {
           </div>
         ) : null}
         <div className="pfInfoContainer">
-          <PerformanceInfo performanceInfo={performanceInfo} />
-          <PerformanceTag />
+          <PerformanceInfo
+            performanceInfo={performanceInfo}
+            isSignin={isSignin}
+          />
+          <PerformanceTag
+            isSignin={isSignin}
+            performanceInfo={performanceInfo}
+          />
         </div>
       </div>
       <Footer />
