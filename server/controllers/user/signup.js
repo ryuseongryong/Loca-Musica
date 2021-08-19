@@ -16,33 +16,33 @@ module.exports = {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     if (!username || !email || !hashedPassword) {
-      res.status(422).send({ message: 'input empty' });
+      return res.status(422).send({ message: 'input empty' });
     }
     const connection1 = await db.getConnection(async (conn) => conn);
-    connection1.beginTransaction();
+    await connection1.beginTransaction();
 
     try {
       // 이메일과 비밀번호를
       let [userData] = await connection1.execute(
         `SELECT * FROM users WHERE email = ?`,
         [email]
-      );
-      connection1.commit();
-
+      );  
+      await connection1.commit();
       if (userData[0]) {
-        res.status(409).send({ message: 'email conflict' });
+        connection1.release();
+        return res.status(409).send({ message: 'email conflict' });
       } else {
         const [create] = await connection1.execute(
           `INSERT INTO users (email, password, username) VALUES (?, ?, ?)`,
           [email, hashedPassword, username]
         );
-        connection1.commit();
+        await connection1.commit();
 
         const [newUserData] = await connection1.execute(
           `SELECT * FROM users WHERE email = ?`,
           [email]
         );
-        connection1.commit();
+        await connection1.commit();
         connection1.release();
 
         const { id, profile, resign, admin, kakao } = newUserData[0];
