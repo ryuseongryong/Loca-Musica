@@ -15,7 +15,7 @@ function Footer() {
                   (window.location.href = "https://github.com/ryuseongryong")
                 }
               >
-                <img className="github" src={github} />
+                <img className="github" alt="github logo" src={github} />
                 유성룡,
               </span>
               <span
@@ -23,7 +23,7 @@ function Footer() {
                   (window.location.href = "https://github.com/ezyeon07")
                 }
               >
-                <img className="github" src={github} />
+                <img className="github" alt="github logo" src={github} />
                 이지연,
               </span>
               <span
@@ -31,7 +31,7 @@ function Footer() {
                   (window.location.href = "https://github.com/200911184")
                 }
               >
-                <img className="github" src={github} />
+                <img className="github" alt="github logo" src={github} />
                 정승환,
               </span>
               <span
@@ -39,7 +39,7 @@ function Footer() {
                   (window.location.href = "https://github.com/jhoryong")
                 }
               >
-                <img className="github" src={github} />
+                <img className="github" alt="github logo" src={github} />
                 정호룡
               </span>
             </p>

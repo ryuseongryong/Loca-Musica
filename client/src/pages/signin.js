@@ -12,14 +12,17 @@ import { signin, notify } from "../actions";
 function Signin() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSignin, userInfo, notify } = useSelector((state) => {
-    // console.log(state)
-    return {
-      isSignin: state.userReducer.isSignin,
-      userInfo: state.userReducer.userInfo,
-      notification: state.notificationReducer.notifications,
-    };
-  });
+  // const { isSignin, userInfo, notify, bookmarksData } = useSelector((state) => {
+  //   return {
+  //     isSignin: state.userReducer.isSignin,
+  //     userInfo: state.userReducer.userInfo,
+  //     bookmarksData: state.userReducer.bookmarksData,
+  //     notification: state.notificationReducer.notifications,
+  //   };
+  // });
+  // console.log("로컬에 저장된 userInfo를 보여줘!", userInfo);
+  // console.log("로컬에 저장된 isSignin을 보여줘!", isSignin);
+  // console.log("로컬에 저장된 bookmarksData를 보여줘!", bookmarksData);
 
   // 현재 페이지에서만 관리가 필요한 state
   //* input에 입력되는 value(로그인에 필요한 사용자정보)

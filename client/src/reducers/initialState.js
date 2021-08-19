@@ -9,9 +9,8 @@ export const initialState = {
     admin: "",
     kakao: "",
   },
-
   // bookmark list와 관련된 초기상태
-  bookmarkList: [],
+  bookmarksData: [],
 
   // 사용자에게 전달되는 알림메세지의 초기상태
   notification: "",

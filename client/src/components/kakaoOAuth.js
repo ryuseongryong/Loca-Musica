@@ -14,14 +14,13 @@ function KakaoLogin() {
 
   // Kakao 로그인 구현
   useEffect(() => {
-    const getAccessToken = (authorizationCode) => {
+    const OAuthKakao = (authorizationCode) => {
       axios
         .post(`${process.env.REACT_APP_END_POINT}/oauth/kakao`, {
           code: authorizationCode,
         })
         .then((res) => {
           console.log("카카오에 대한 응답", res);
-          // dispatch로 로그인상태 state 관리
           dispatch(signin(res.data.data));
         })
         .then((res) => {
@@ -33,9 +32,8 @@ function KakaoLogin() {
     };
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get("code");
-    // console.log('인증 코드', authorizationCode);
     if (authorizationCode) {
-      getAccessToken(authorizationCode);
+      OAuthKakao(authorizationCode);
     }
   }, []);
 

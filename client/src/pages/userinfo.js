@@ -112,11 +112,11 @@ function UserInfo() {
   };
 
   //* 사용자이름 변경 요청 함수
-  const usernameChangeRequestHandler = () => {
+  const usernameChangeRequestHandler = (event) => {
+    event.preventDefault();
     const { newUsername } = inputValue;
     //# 부분수정 필요 enter을 하면 조건에 맞지 않는데도 불구하고 실행이 되는 버그
-    const regex = /^[가-힣ㄱ-ㅎa-zA-Z0-9._-]{2,}$/;
-    if (regex.test(newUsername)) {
+    if (usernameChecker(newUsername) === "validUsername") {
       axios
         .patch(
           `${process.env.REACT_APP_END_POINT}/user/editusername`,
@@ -141,6 +141,11 @@ function UserInfo() {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      setMessage({
+        ...message,
+        usernameMessage: "새 사용자이름을 확인해주세요",
+      });
     }
   };
 
@@ -187,63 +192,53 @@ function UserInfo() {
     }
   };
 
-  //* 회원탈퇴 요청 함수
+  //* 회원탈퇴 모달 오픈 실행 함수
   const withdrawalModalHandler = () => {
-    // 탈퇴버튼을 누르면 모달이 하나 생기고, 그 모달 안에서 동의버튼에 체크하고 비밀번호 치고 submit버튼 누르면 실행되게
+    // 회원탈퇴 과정은 withdrawalModal 컴포넌트에서 실행
     setIsModalOpen(!isModalOpen);
   };
 
   return (
-    <div className="userInfoWrap">
+    <div className="allPageWrap">
       <div id="userInfo">
-        <div className="userInfoWrap">
-          <div className="txtWelcome">
-            <p className="fs28px">반가워요, {userInfo.username} 님!</p>
-            <p className="fs20px">{userInfo.email}</p>
+        <div className="textWelcome">
+          <p>반가워요, {userInfo.username} 님!</p>
+          <p className="fs20px">{userInfo.email}</p>
+        </div>
+        <div className="userInfoChangeWrap">
+          <div className="imgChangeWrap">
+            <img
+              alt="사용자 프로필"
+              src={userInfo.profile !== null ? userInfo.profile : dummyProfile}
+            />
+            <span>이미지 변경</span>
+            <span>이미지 삭제</span>
           </div>
-          <div className="userInfoChangeWrap">
-            <div className="imgChangeWrap">
-              <img
-                className="dummyProfile"
-                alt="사용자 프로필"
-                // 사용자프로필 유무에 따라서 따르게 적용
-                src={
-                  userInfo.profile !== null ? userInfo.profile : dummyProfile
-                }
+          <div className="infoChangeWrap">
+            <p>사용자 이름 변경</p>
+            <form>
+              <input
+                name="newUsername"
+                type="text"
+                placeholder="새 사용자 이름"
+                required
+                value={inputValue.newUsername}
+                onChange={inputHandler}
+                onFocus={clearMessage}
+                onKeyUp={(event) => {
+                  event.key === "Enter" ? resultMessageHandler(event) : null;
+                }}
               />
-              <span>이미지 변경</span>
-              <span>이미지 삭제</span>
+            </form>
+            <div>
+              {message.usernameMessage && (
+                <p className="mypageMsg">{message.usernameMessage}</p>
+              )}
             </div>
-            <div className="infoChangeWrap">
-              <p>사용자 이름 변경</p>
-              <form>
-                <input
-                  name="newUsername"
-                  type="text"
-                  placeholder="새 사용자 이름"
-                  required
-                  value={inputValue.newUsername}
-                  onChange={inputHandler}
-                  onFocus={clearMessage}
-                  onKeyUp={() => {
-                    resultMessageHandler(
-                      usernameChecker(inputValue.newUsername)
-                    );
-                  }}
-                />
-              </form>
-              <div>
-                {message.usernameMessage && (
-                  <p className="mypageMsg">{message.usernameMessage}</p>
-                )}
-              </div>
-              <button
-                className="btnChangeInfo"
-                onClick={usernameChangeRequestHandler}
-              >
-                변경
-              </button>
-            </div>
+            <button onClick={usernameChangeRequestHandler}>변경</button>
+          </div>
+          {/* 카카오로 로그인한 유저는 비밀번호 변경이 안보이게 */}
+          {userInfo.kakao === 0 ? (
             <div className="infoChangeWrap">
               <p>비밀번호 변경</p>
               <form>
@@ -290,24 +285,19 @@ function UserInfo() {
                   <p className="mypageMsg">{message.passwordMessage}</p>
                 )}
               </div>
-              <button
-                className="btnChangeInfo"
-                onClick={passwordChangeRequestHandler}
-              >
-                변경
-              </button>
+              <button onClick={passwordChangeRequestHandler}>변경</button>
             </div>
-          </div>
+          ) : null}
         </div>
 
         <div className="bookmarkWrap">
-          <p className="fs28px">북마크한 뮤지컬</p>
-          {/* <div className="testWrap">
-            <span className="testimg"></span>
-            <span className="testimg"></span>
-            <span className="testimg"></span>
-            <span className="testimg"></span>
-            <span className="testimg"></span>
+          <p>북마크한 뮤지컬</p>
+          {/* <div className="bookmarksDataWrap">
+            <span className="bookmarkimg"></span>
+            <span className="bookmarkimg"></span>
+            <span className="bookmarkimg"></span>
+            <span className="bookmarkimg"></span>
+            <span className="bookmarkimg"></span>
           </div> */}
           <BookmarkList />
         </div>
@@ -318,7 +308,7 @@ function UserInfo() {
         {isModalOpen ? (
           <WithdrawalModal
             withdrawalModalHandler={withdrawalModalHandler}
-            setIsModalOpen={setIsModalOpen}
+            userInfo={userInfo}
           />
         ) : null}
       </div>

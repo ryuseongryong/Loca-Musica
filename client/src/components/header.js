@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/Header.css";
 import { GoSearch } from "react-icons/go";
-import { signout, notify } from "../actions/index";
+import { signout } from "../actions/index";
 
 function Header() {
   let history = useHistory();

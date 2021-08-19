@@ -32,21 +32,26 @@ function Detail() {
     hashtagsData: [],
   });
 
-  // useEffect(() => {
-  //   // const title = ''
-  //   // 쿼리에서 title만 뽑아와야하는데!
-  //   axios
-  //     .get(`${process.env.REACT_APP_END_POINT}/musical/:title`, {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
-  //       setPerformanceInfo(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("작품정보를 불러오지 못한 이유는?", err);
-  //     });
-  // }, []);
+  // 작품정보 가져오기
+  useEffect(() => {
+    // 페이지 이동하면 쿼리에서 title만 가져오면..
+    const url = new URL(window.location.href);
+    const title = url.searchParams.get("title");
+    console.log(title);
+
+    axios
+      .get(`${process.env.REACT_APP_END_POINT}/musical/:${title}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
+        console.log(res);
+        // setPerformanceInfo(res.data.data);
+      })
+      .catch((err) => {
+        console.log("작품정보를 불러오지 못한 이유는?", err);
+      });
+  }, []);
 
   // 핸들러함수
   return (
