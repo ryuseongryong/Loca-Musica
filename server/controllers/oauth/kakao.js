@@ -1,6 +1,6 @@
+require('dotenv').config();
 const axios = require('axios');
 const db = require('../../db');
-require('dotenv').config();
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -64,7 +64,7 @@ module.exports = {
         `SELECT * FROM users WHERE email = ?`,
         [email]
       );
-      let userData = _userData[0];
+      const userData = _userData[0];
       // console.log('existing user data: ', userData);
 
       // Email 이 이미 존재할 경우: login 진행
@@ -93,14 +93,13 @@ module.exports = {
           kakao,
         });
 
-        console.log('a', accessToken, 'r', refreshToken);
+        //console.log('accesstoken: ', accessToken, 'refreshtoken: ', refreshToken);
 
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
-
-        res.status(200).json({ data: userData, message: 'ok' });
-        return;
+        //console.log(res);
+        return res.status(200).json({ data: userData, message: 'ok' });
       }
 
       // Email 이 존재하지 않았을 경우: 회원가입 진행

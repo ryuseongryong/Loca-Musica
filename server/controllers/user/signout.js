@@ -9,13 +9,13 @@ module.exports = {
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       } else {
-        res.cookie('accessToken', 'accessToken', {
+        res.cookie('accessToken', null, {
           httpOnly: true,
           maxAge: 1000,
           secure: true,
           sameSite: 'None',
         });
-        res.cookie('refreshToken', 'refreshToken', {
+        res.cookie('refreshToken', null, {
           httpOnly: true,
           maxAge: 1000,
           secure: true,

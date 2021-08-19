@@ -18,6 +18,7 @@ function KakaoLogin() {
       axios
         .post(`${process.env.REACT_APP_END_POINT}/oauth/kakao`, {
           code: authorizationCode,
+        }, {withCredentials: true
         })
         .then((res) => {
           console.log("카카오에 대한 응답", res);
