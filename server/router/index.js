@@ -18,6 +18,7 @@ router.post('/oauth/kakao', oauth.kakao.post);
 router.get('/musical/main', musical.main.get);
 router.get('/musical/:title', musical.musical.clickMusical);
 router.get('/musical', musical.musical.searchByTitle);
+router.post('/musical/hashtag', musical.hashtag.post);
 router.post('/musical/bookmark', musical.bookmark.post);
 router.delete('/musical/bookmark/:title', musical.bookmark.delete);
 
