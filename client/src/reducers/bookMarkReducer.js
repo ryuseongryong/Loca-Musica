@@ -2,17 +2,17 @@
 import { initialState } from "./initialState";
 import { ADD_BOOKMARK, REMOVE_BOOKMARK } from "../actions/index";
 
-const bookmarkReducer = (state = initialState, action) => {
+const bookmarkReducer = (state = initialState.bookmarksData, action) => {
   switch (action.type) {
     case ADD_BOOKMARK:
       return Object.assign({}, state, {
-        // bookmarkList에 payload로 전달된 작품을 배열에 추가
-        bookmarkList: [...state.bookmarkList, action.payload],
+        // bookmarksData에 payload로 전달된 작품을 배열에 추가
+        bookmarksData: [...state.bookmarksData, action.payload],
       });
     case REMOVE_BOOKMARK:
       return Object.assign({}, state, {
-        // bookmarkList에서 payload로 전달된 작품의 제목과 같은 것을 배열에서 제외
-        bookmarkList: state.bookmarkList.filter(
+        // bookmarksData에서 payload로 전달된 작품의 제목과 같은 것을 배열에서 제외
+        bookmarksData: state.bookmarksData.filter(
           (el) => el.title !== action.payload.title
         ),
       });

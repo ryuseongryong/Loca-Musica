@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../css/Header.css";
 import { FiChevronRight } from "react-icons/fi";
 import { GoSearch } from "react-icons/go";
-import { signout, notify } from "../actions/index";
+import { signout } from "../actions/index";
 
 function Header() {
   let history = useHistory();

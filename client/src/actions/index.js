@@ -13,8 +13,9 @@ export const DEQUEUE_NOTIFICATION = "DEQUEUE_NOTIFICATION";
 
 // 로그인 액션
 export const signin = (data) => {
-  console.log("data를 보여줘", data);
-  const { email, username, profile, resign, admin, kakao } = data;
+  // console.log("data를 보여줘", data);
+  const { email, username, profile, resign, admin, kakao, bookmarksData } =
+    data;
   return {
     type: SIGN_IN,
     payload: {
@@ -27,6 +28,7 @@ export const signin = (data) => {
         admin,
         kakao,
       },
+      bookmarksData: bookmarksData,
     },
   };
 };
@@ -37,12 +39,10 @@ export const signout = () => {
     payload: {
       isSignin: false,
       userInfo: "",
+      bookmarksData: [],
     },
   };
 };
-
-// bookmark(유저정보에 따로 보낼지, 함께 보낼지에 따라 달라짐)
-export const bookmark = () => {};
 
 // bookmark 더하기
 export const addBookmark = (title) => {
