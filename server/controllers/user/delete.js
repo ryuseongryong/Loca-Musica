@@ -32,13 +32,7 @@ module.exports = {
         [id]
       );
       connection1.commit();
-      const match = await bcrypt.compare(password, userData[0].password);
-      // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
-
-      if (userData.length === 0) {
-        connection1.release();
-        res.status(404).send({ message: 'user not found' });
-      } else if (userData[0].kakao === 1) {
+      if (userData[0].kakao === 1) {
         console.log(userData[0].kakao);
         await connection1.execute(
           `UPDATE users SET resign = ? WHERE users.id = ?`,
@@ -75,6 +69,14 @@ module.exports = {
         const data = { id, email, username, profile, resign, admin, kakao };
 
         return res.status(200).json({ data: data, message: 'ok' });
+      }
+
+      const match = await bcrypt.compare(password, userData[0].password);
+      // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
+
+      if (userData.length === 0) {
+        connection1.release();
+        res.status(404).send({ message: 'user not found' });
       } else if (!match) {
         connection1.release();
         res.status(401).send({ message: 'invalid password' });
