@@ -141,7 +141,10 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
         //   console.log(result2.dbs.db);
         //   setkopisSearchList([result2.dbs.db]);
         // }
-      });
+      })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     // 필수요소중 1개라도 입력이 안된 경우 + 1~999범위내 작성안한 경우
     else {
