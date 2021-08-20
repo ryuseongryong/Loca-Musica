@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -17,23 +17,24 @@ module.exports = {
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
 
-    const connection1 = await db.getConnection(async (conn) => conn);
-    await connection1.beginTransaction();
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
 
     try {
       if (!accessTokenData) {
-        connection1.release();
+        connection.release();
         return res.status(401).send({ message: 'invalid access token' });
       }
       //! 사용자 이름은 중복 가능하게 만든다??
       const { id, email, profile, resign, admin, kakao } = accessTokenData;
       const { newUsername } = req.body;
 
-      const [userData] = await connection1.execute(
+      const [userData] = await connection.execute(
         `SELECT * from users WHERE id = ?`,
         [id]
       );
-      connection1.commit();
+      connection.commit();
 
       // const [conflictCheck] = await connection2.execute(
       //   `SELECT username from users`
@@ -41,27 +42,27 @@ module.exports = {
       // connection2.commit();
 
       if (userData.length === 0) {
-        connection1.release();
+        connection.release();
         return res.status(404).send({ message: 'user not found' });
       }
       // //! username 중복 방지
       // else if (conflictCheck.some((user) => user.username === newUsername)) {
       //   // username이 이미 있는 경우 새로운 비밀번호 적용
-      //   connection1.release();
+      //   connection.release();
       //   res.status(409).send({ message: 'username conflict' });
       // }
       else {
         // username을 수정
-        await connection1.execute(
+        await connection.execute(
           `UPDATE users SET username = ? WHERE users.id = ?`,
           [newUsername, id]
         );
-        const [newUsernameUserData] = await connection1.execute(
+        const [newUsernameUserData] = await connection.execute(
           `SELECT * from users WHERE id = ?`,
           [id]
         );
-        connection1.commit();
-        connection1.release();
+        connection.commit();
+        connection.release();
 
         const { username } = newUsernameUserData[0];
 
@@ -95,7 +96,7 @@ module.exports = {
         res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
-      connection1.release();
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

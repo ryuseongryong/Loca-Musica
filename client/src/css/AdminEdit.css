@@ -12,7 +12,7 @@
 	display: flex;
 	background: black;
 	color: white;
-	overflow: auto;
+	/* overflow: auto; */
   }
   
   .adminEdit-section1 {
@@ -120,12 +120,16 @@
 	  height: 25px;
 	  width: 300px;
 	  color: white;
+	  margin-bottom: 5px;
+	  margin-top: 5px;
   }
   
   .adminEdit-musical-videoId-input {
 	  height: 25px;
 	  width: 300px;
 	  color: white;
+	  margin-bottom: 5px;
+	  margin-top: 5px;
   }
   
   .adminEdit-manual-info-category {
@@ -195,19 +199,40 @@
   
   .adminEdit-musical-hashtag {
 	width: 800px;
-	height: 30px;
+	height: 70px;
 	color: white;
 	display: flex;
+	justify-content: flex-start;
 	align-items: center;
 	list-style: none;
-	/* flex : 8; */
+	/* flex : 14; */
+	overflow: auto;
+	/* border: 1px solid red; */
+	flex-wrap: wrap;
   }
+
+  /* 스크롤바 css 1.해시태그 목록 스크롤 -> 2개 이상 지정시 ','사용 */
+  .adminEdit-musical-hashtag::-webkit-scrollbar{
+	width: 6px;
+  }
+  .adminEdit-musical-hashtag::-webkit-scrollbar-track {
+	background-color: transparent;
+  }
+  .adminEdit-musical-hashtag::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	background-color: white;
+  }
+  .adminEdit-musical-hashtag::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+  }
+  /* 스크롤바 css end */
   
-  .adminEdit-musical-search-btn {
+  /* .adminEdit-musical-search-btn {
 	width: 104px;
 	height: 39px;
 	font-size: 14px;
-  }
+  } */
   
   .adminEdit-musical-post {
 	width: 190px;
@@ -359,5 +384,16 @@
   }
   
   .before-musical-hashtag {
-	  margin-right: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	background-color: white;
+	border-radius: 100rem;
+	color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	height: 25px;
+	flex : 0 1 15%
   }

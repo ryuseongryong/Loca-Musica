@@ -1,33 +1,12 @@
 import { useEffect, useState } from 'react'; // 임시로 state지정, redux로 변경 
 import '../css/AdminEdit.css';
-import SearchModal from '../components/searchModal';
+import EditHashtagModal from '../components/editHashtagModal';
 import axios from 'axios';
-
+import AWS from "aws-sdk";
+import { useHistory } from "react-router-dom";
 
 function AdminEdit() {
-	const [isOpen, setIsOpen] = useState(false); // 임시로 state지정, redux로 변경
-	// kopis 검색이후 클릭된 뮤지컬 기본 정보
-	const [nowClickMusical, setNowClickMusical] = useState({
-		image: '',
-		title: '',
-		state: '',
-		code: ''
-	});
-	// 관리자가 작성한 게시글 정보(server에 보낼것)
-	const [adminPostInfo, setAdminPostInfo] = useState({
-		code: nowClickMusical.code,
-		title: nowClickMusical.title,
-		thumbnail: nowClickMusical.image,
-		contents: '',
-		state: nowClickMusical.state,
-		actors: '',
-		numbers: [],
-		hashtags: ''
-	});
-	// 장르 지정 state변수
-	const [genre, setGenre] = useState('');
-	// 동행인 지정 state변수
-	const [withPeople, setWithPeople] = useState('');
+	let history = useHistory();
 	// 전달받은 해사태그 중 유저가 작성한 해시태그 목록
 	const [beforeUserHashtag, setBeforeUserHashtag] = useState([]);
 	// 기존에 있던 정보 저장 객체
@@ -43,22 +22,58 @@ function AdminEdit() {
 			{
 				"id": 45,
 				"title": "19 뮤지컬 헤드윅 리허설 인터뷰",
-				"videoId": "\"https://www.youtube.com/embed/-HGLZOULBSU\""
+				"videoId": "https://www.youtube.com/embed/-HGLZOULBSU"
 			},
 			{
 				"id": 44,
 				"title": "21 뮤지컬 헤드윅 메이킹 필름",
-				"videoId": "\"https://www.youtube.com/embed/TEBmIoKXVpo\""
+				"videoId": "https://www.youtube.com/embed/TEBmIoKXVpo"
 			},
 			{
 				"id": 43,
 				"title": "'The Origin of Love' - 조승우",
-				"videoId": "\"https://www.youtube.com/embed/bcDlAitQSC0\""
+				"videoId": "https://www.youtube.com/embed/bcDlAitQSC0"
 			}
 		],
 		hashtagsData: [
 			{
-				"name": "#조드윅",
+				"name": "#컴온컴온",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#창문은네모",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#리액트",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#오늘은금요일",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#내일은토요일",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#항상긍정적으로",
+				"likeCount": 1,
+				"totalLikeCount": 1,
+				"musicalCount": 1
+			},
+			{
+				"name": "#일이삼사오육칠",
 				"likeCount": 1,
 				"totalLikeCount": 1,
 				"musicalCount": 1
@@ -77,6 +92,21 @@ function AdminEdit() {
 			}
 		]
 	})
+	// 관리자가 작성한 게시글 정보(server에 보낼것)
+	const [adminPostInfo, setAdminPostInfo] = useState({
+		code: beforeAdminPostInfo.code,
+		title: beforeAdminPostInfo.title,
+		thumbnail: beforeAdminPostInfo.thumbnail,
+		contents: beforeAdminPostInfo.contents,
+		state: beforeAdminPostInfo.state,
+		actors: beforeAdminPostInfo.actors,
+		numbers: beforeAdminPostInfo.numbersData,
+		hashtags: beforeAdminPostInfo.hashtagsData
+	});
+	// 장르 지정 state변수
+	const [genre, setGenre] = useState('');
+	// 동행인 지정 state변수
+	const [withPeople, setWithPeople] = useState('');
 
 	// 만약에 작품검색을 통해 값을 가져오면 가져온 값으로 변경하기 위한 useEffect -> 1.code 2.title 3.image 4.state 변경
 	useEffect(() => {
@@ -116,38 +146,10 @@ function AdminEdit() {
 		setBeforeUserHashtag(userHashtagArr); // 전달받은 해시태그 중 유저가 직접 작성한 해시태그
 		console.log(userHashtagArr);
 
-		// 검색으로 가져온 값으로 변경하기 -> 검색으로 값을 가져오면 실제 string값을 가짐
-		if (nowClickMusical.code !== '') {
-			// code 변경
-			// title 변경
-			setTitleValue(nowClickMusical.title); // 검색으로 가져온 title값으로 변경
-			// image 변경
-			setThumbnailSrcValue(nowClickMusical.image);
-			// state 변경
-			setStateValue(nowClickMusical.state);
-
-			// actors 초기화
-			setActorsValue('');
-			// contents 초기화
-			setContentsValue('');
-			// numbers 초기화
-			// 넘버1
-			setNumberTitleValue1('');
-			setNumberVideoIdValue1('');
-			// 넘버2
-			setNumberTitleValue2('');
-			setNumberVideoIdValue2('');
-			// 넘버3
-			setNumberTitleValue3('');
-			setNumberVideoIdValue3('');
-			// 작성하던 hashtag초기화
-			document.querySelector('.adminEdit-manual-hashtag-newInput').value = '';
-
-		}
-	}, [nowClickMusical])
+	}, [beforeAdminPostInfo])
 
 	// thumbnail변경을 위한 state
-	const [thumbnailSrcValue, setThumbnailSrcValue] = useState(beforeAdminPostInfo.thumbnail);
+	// const [thumbnailSrcValue, setThumbnailSrcValue] = useState(beforeAdminPostInfo.thumbnail);
 	// title변경을 위한 state
 	const [titleValue, setTitleValue] = useState(beforeAdminPostInfo.title);
 	// state변경을 위한 state
@@ -168,12 +170,50 @@ function AdminEdit() {
 	const [numberVideoIdValue3, setNumberVideoIdValue3] = useState(beforeAdminPostInfo.numbersData[2].videoId);
 	// category 변경을 위한 state
 
-	const searchModalOpen = () => {
-		setIsOpen(true);
-	}
-	const searchModalClose = () => {
-		setIsOpen(false);
-	}
+	//! S3를 이용한 파일 업로드
+	// s3에 업로드할 이미지 파일 저장 state(업로드 여부 체크)
+	const [uploadImage, setUploadImage] = useState('');
+	// s3에 업로드된 후 해당 이미지에 접근하기 위한 경로를 저장하는 state
+	const [uploadImageSrc, setUploadImageSrc] = useState('');
+
+	// s3 연결 설정
+	const awsConfig = {
+		bucketName: "locauploadimagetest",
+		region: "ap-northeast-2",
+		accessKeyId: 'AKIA5ADD5NVPAT4KBT5Y',
+		secretAccessKey: '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',
+	};
+	const s3 = new AWS.S3(awsConfig);
+
+	// uploads to s3(file을 받아서 s3에 업로드, 비동기 함수 형식)
+	const handleUpload = async (file) => {
+		const fileKey = `${Date.now()}-${file.name}`; // '시간 + 파일명'으로 파일명 변경 형삭 ex)1629430434288-lesMiserables.jpeg
+
+		const params = {
+			ACL: "public-read",
+			Body: file,
+			Bucket: "locauploadimagetest",
+			Key: fileKey,
+		};
+
+		try {
+			await s3.putObject(params).promise();
+			return fileKey;
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	// s3에 업로드된 이미지를 접근할 수 있도록 src경로를 설정하여 반환(img태그에서 src 속성값으로 할당할 수 있는 value값)
+	const handleImageSrc = async (file) => {
+		const fileKey = await handleUpload(file); // 실제 업로드된 파일명
+		// img태그에서 실제 s3에 업로드된 이미지파일에 접근하기 위해서 s3주소를 추가하여 src경로 지정
+		let uploadMusicalImageSrc = `https://locauploadimagetest.s3.ap-northeast-2.amazonaws.com/${fileKey}`
+		// return uploadMusicalImageSrc; // promise 객체를 반환한다 -> 여기서 state변수에 저장후 해당 state변수로 경로값을 얻는다.
+		setUploadImageSrc(uploadMusicalImageSrc);
+	};
+	//!
+
 	// 배우 입력
 	const writeActors = (event) => {
 		setActorsValue(event.target.value);
@@ -203,6 +243,16 @@ function AdminEdit() {
 
 	// 게시글 등록 버튼 클릭
 	const adminPostDB = () => {
+		// thumbnail부분
+		// 1. 만약 이미지변경을 하지 않았다면 그대로 이미지는 유지
+		let uploadSrc = beforeAdminPostInfo.thumbnail;
+		// 2. 만약 이미지변경을 하였다면 이미지는 s3에 업로드 이후 s3에 접근할 수 있는 src경로로 변환 
+		if (uploadImage !== '') {
+			//! s3 접근 src 반환
+			uploadSrc = uploadImageSrc // s3에 업로드된 이미지 경로 가져오기
+		}
+		console.log(uploadSrc);
+
 		// actors 전달을 위한 전달 객체 할당
 		setAdminPostInfo(Object.assign(adminPostInfo, { actors: actorsValue }));
 		// contents 전달을 위한 전달 객체 할당
@@ -225,10 +275,14 @@ function AdminEdit() {
 			numberVideoIdList.push(tempNumberVideoIdList[j].value);
 		}
 
+		let numberIdList = [beforeAdminPostInfo.numbersData[0].id, beforeAdminPostInfo.numbersData[1].id, beforeAdminPostInfo.numbersData[2].id];
+		console.log(numberIdList);
+
 		// {title: title, videoId: youtube video ID} -> number List 각 요소
 		let numberList = [];
 		for (let k = 0; k < numberTilteList.length; k++) {
 			numberList.push({
+				id: numberIdList[k],
 				title: numberTilteList[k],
 				videoId: numberVideoIdList[k]
 			})
@@ -236,29 +290,30 @@ function AdminEdit() {
 
 		// category list
 		let categoryList = [genre, withPeople];
-
-		let hashtag = document.querySelector('.adminEdit-musical-hashtag').value;
-		// hashtag작성시 전달, optional이기 때문(빈칸이 없어야 전달됨)
-		if (hashtag && !hashtag.includes(' ')) {
-			categoryList.push(`#${hashtag}`);
+		// userHashtag list
+		let tempHashtagList = document.querySelectorAll('.before-musical-hashtag');
+		for (let r = 0; r < tempHashtagList.length; r++) {
+			categoryList.push(tempHashtagList[r].textContent);
 		}
+
 		// number목록(url)
 		setAdminPostInfo(Object.assign(adminPostInfo, { numbers: numberList }));
 		// category + hashtag 목록
 		setAdminPostInfo(Object.assign(adminPostInfo, { hashtags: categoryList }));
 
 		// thumbnail
-		setAdminPostInfo(Object.assign(adminPostInfo, { thumbnail: nowClickMusical.image }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { thumbnail: uploadSrc }));
 		// title
-		setAdminPostInfo(Object.assign(adminPostInfo, { title: nowClickMusical.title }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { title: titleValue }));
 		// state
-		setAdminPostInfo(Object.assign(adminPostInfo, { state: nowClickMusical.state }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { state: stateValue }));
 		// code
-		setAdminPostInfo(Object.assign(adminPostInfo, { code: nowClickMusical.code }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { code: beforeAdminPostInfo.code }));
 
 		console.log(adminPostInfo);
+
 		axios({
-			method: 'post',
+			method: 'put',
 			url: `${process.env.REACT_APP_END_POINT}/admin/edit`,
 			data: {
 				...adminPostInfo
@@ -266,24 +321,22 @@ function AdminEdit() {
 			withCredentials: true,
 		})
 			.then(function (response) {
-				alert("새 글이 작성완료 되었습니다.");
+				alert("게시글 성공적으로 변경되었습니다.");
 				window.location.reload();
+				// history.push({
+				// 	pathname: '/adminEdit',
+				// 	key: adminPostInfo
+				// });
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
 
 	}
-	// 해시태그 입력시 빈칸이 들어갈 수 없도록 설정
-	const noSpaceHashtag = (event) => {
-		if (event.target.value.includes(' ')) {
-			alert('해시태그에 빈칸을 입력할 수 없습니다!');
-			event.target.value = ''
-		}
-	}
+
 	// 업로드된 이미지를 지정한 img태그에 미리 보여주는 함수
 	const readURL = (input) => {
-		console.log(input.files[0]); // 업로드한 파일정보를 담고있는 객체
+		// console.log(input.files[0]); // 업로드한 파일정보를 담고있는 객체
 		if (input.files && input.files[0]) {
 			let reader = new FileReader();
 			reader.onload = function (e) {
@@ -298,10 +351,14 @@ function AdminEdit() {
 		const uploadImageInput = document.querySelector('#adminEdit-update-musicalImage-input');
 		uploadImageInput.click(); // 이미지 클릭시 file업로드 input태그 실행
 	}
-	// input파일에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기
+	// input파일에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기(input[type='file']에서 이미지 변경시 바로 s3에 업로드 되고 state변수에 경로 저장)
 	const previewUploadImage = (event) => {
+		// event.target.files[0] -> 현재 업로드된 이미지 파일
 		// console.log('work!');
 		readURL(event.target); // 이미지 업로드시 미리보기
+		setUploadImage(event.target.files[0]); // 업로드할 이미지를 state변수에 할당
+		//! s3에 이미지 업로드 및 state변수에 접근 경로 저장
+		handleImageSrc(event.target.files[0]); // s3에 이미지 업로드
 	}
 	// 공연상태 클릭시 공연상태가 변경
 	const editMusicalState = (event) => {
@@ -311,14 +368,14 @@ function AdminEdit() {
 			event.target.classList.remove('adminEdit-auto-info-musical-state-input-end'); // 공연완료 상태 제거
 			event.target.classList.add('adminEdit-auto-info-musical-state-input-ing'); // 공연중 상태 추가
 			event.target.textContent = '공연중';
-			setAdminPostInfo(Object.assign(adminPostInfo, { state: '공연중' })); // server보낼 데이터에 변경된 공연상태 정보 할당
+			setStateValue('공연중')
 		}
 		// 현재 공연중 -> 공연완료 으로 변경
 		else if (event.target.classList.contains('adminEdit-auto-info-musical-state-input-ing')) {
 			event.target.classList.remove('adminEdit-auto-info-musical-state-input-ing'); // 공연중 상태 추가
 			event.target.classList.add('adminEdit-auto-info-musical-state-input-end'); // 공연완료 상태 제거
 			event.target.textContent = '공연완료';
-			setAdminPostInfo(Object.assign(adminPostInfo, { state: '공연완료' })); // server보낼 데이터에 변경된 공연상태 정보 할당
+			setStateValue('공연완료')
 		}
 	}
 
@@ -350,22 +407,28 @@ function AdminEdit() {
 		setNumberVideoIdValue3(event.target.value);
 	}
 
+	// 해시태그 클릭시 해당 해시태그 내용 수정
+	// window.confirm('any text'); // 확인창
+	const EditHashtag = (event) => {
+		// 'editModaldisplayno'라는 클래스명 제거시 모달창이 보임
+		document.querySelector('.editHashtagModal-back').classList.remove('editModaldisplayno');
+		// 모달창에 현재 선택한 해시태그의 값을 표시
+		document.querySelector('#thisClickHashtagValue').textContent = event.target.textContent;
+	}
 
 	return (
 		<div className='adminEdit-container'>
 			<div className='adminEdit-main'>
 				<div className='adminEdit-section1'></div>
 				<div className='adminEdit-section2'>
-					<div className='adminEdit-section2-top'>
+					{/* <div className='adminEdit-section2-top'>
 						<button className='adminEdit-musical-search-btn' onClick={searchModalOpen}>작품검색</button>
-					</div>
+					</div> */}
 					<div className='adminEdit-section2-middle'>
 						<div className='adminEdit-auto-info'>
 							<div className='adminEdit-auto-info-image'>
-								{/* 1. 기존값이 있는 경우 -> 기존값 이미지 */}
-								{/* 2. 검색값이 있는 경우 -> 검색값 이미지 */}
-								{/* 3. 둘다 없는 경우 기본 이미지 */}
-								<img src={thumbnailSrcValue}
+								{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
+								<img src={beforeAdminPostInfo.thumbnail}
 									alt="musical-postimage" className='adminEdit-musical-post' onClick={updateMusicalImage} />
 								{/* accept : 업로드 되는 파일 형식 지정, 여기서는 이미지파일만 지정 */}
 								<input type='file' id='adminEdit-update-musicalImage-input' accept="image/jpeg, image/jpg, image/png"
@@ -374,15 +437,12 @@ function AdminEdit() {
 							<div className='adminEdit-auto-info-input'>
 								<div className='adminEdit-auto-musical-title-div'>
 									<div className='adminEdit-auto-musical-title'>공연명 :</div>
-									{/* 1. 기존값이 있는 경우 -> 기존값 title */}
-									{/* 2. 검색값이 있는 경우 -> 검색값 title */}
-									{/* 3. 둘다 없는 경우 '' */}
+									{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
 									<input type='text' className='adminEdit-auto-musical-title-input' onChange={EditTitleValue} value={titleValue} />
 								</div>
 								<div className='adminEdit-auto-info-musical-state-div'>
 									<div className='adminEdit-auto-info-musical-state'>공연상태 : </div>
-									{/* 1. 기존값이 있는 경우 -> 기존값 state */}
-									{/* 2. 검색값이 있는 경우 -> 검색값 state */}
+									{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
 									{stateValue === '공연완료' ?
 										<div className='adminEdit-auto-info-musical-state-input-end' onClick={editMusicalState}>공연완료</div>
 										:
@@ -391,14 +451,12 @@ function AdminEdit() {
 								</div>
 								<div className='adminEdit-auto-info-actor-div'>
 									<div className='adminEdit-auto-info-actor'>출연진 :</div>
-									{/* 1. 기존값이 있는 경우 -> 기존값 actors */}
-									{/* 2. 검색값이 있는 경우 -> 검색값 acrors */}
+									{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
 									<input type="text" className='adminEdit-auto-info-actor-input' placeholder='뮤지컬 배우 입력' value={actorsValue} onChange={writeActors} />
 								</div>
 								<div className='adminEdit-auto-info-story-div'>
 									<div className='adminEdit-auto-info-story'>줄거리</div>
-									{/* 1. 기존값이 있는 경우 -> 기존값 contents */}
-									{/* 2. 검색값이 있는 경우 -> 검색값 contents */}
+									{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
 									<textarea className='adminEdit-auto-info-story-input' rows='8' placeholder='줄거리 입력' value={contentsValue} onChange={writeStory} />
 								</div>
 							</div>
@@ -455,26 +513,28 @@ function AdminEdit() {
 											</select>
 										</div>
 									</div>
-									<div className='adminEdit-manual-hashtag-update-input-div'>
+									{/* <div className='adminEdit-manual-hashtag-update-input-div'>
 										<div className='adminEdit-manual-hashtag-div'>
 											<div>해시태그 추가</div>
-											<input type="text" className='adminEdit-manual-hashtag-newInput' placeholder='새로 추가할 해시태그' onChange={noSpaceHashtag} />
+											<input type="text" className='adminEdit-manual-hashtag-newInput' placeholder='새로 추가할 해시태그' onChange={noSpaceHashtag} maxLength='7' />
 										</div>
-									</div>
+									</div> */}
 								</div>
 							</div>
 							<div className='adminEdit-manual-update-hashtag-div'>
 								<div className='adminEdit-manual-category-div-hashtag'>
-									<div className='adminEdit-musical-hashtag-info'>기존 해시태그</div>
+									<div className='adminEdit-musical-hashtag-info'>사용자 해시태그</div>
 									<ul className='adminEdit-musical-hashtag'>
-										{/* {beforeUserHashtag.length === 0 ?
-											<li className='before-musical-hashtag'>사용자가 작성한 해시태그가 없습니다.</li>
+										{beforeUserHashtag.length === 0 ?
+											<li>사용자가 작성한 해시태그가 없습니다.</li>
 											:
-											beforeUserHashtag.map((el, index) => <li className='before-musical-hashtag' key={index}>{el}</li>)
-										} */}
-										<li className='before-musical-hashtag'>#테스트1</li>
-										<li className='before-musical-hashtag'>#테스트2</li>
-										<li className='before-musical-hashtag'>#테스트3</li>
+											beforeUserHashtag.map((el, index) =>
+												<li className='before-musical-hashtag' onClick={EditHashtag} key={index}>
+													{el.name}
+													<input type='hidden' value={`${el.likeCount}-${el.totalLikeCount}-${el.musicalCount}`} />
+												</li>
+											)
+										}
 									</ul>
 								</div>
 							</div>
@@ -485,7 +545,7 @@ function AdminEdit() {
 					</div>
 				</div>
 				<div className='adminEdit-section3'></div>
-				<SearchModal isOpen={isOpen} searchModalClose={searchModalClose} setNowClickMusical={setNowClickMusical} />
+				<EditHashtagModal />
 			</div>
 		</div>
 	)

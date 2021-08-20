@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -18,32 +18,33 @@ module.exports = {
     if (!username || !email || !hashedPassword) {
       return res.status(422).send({ message: 'input empty' });
     }
-    const connection1 = await db.getConnection(async (conn) => conn);
-    await connection1.beginTransaction();
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
 
     try {
       // 이메일과 비밀번호를
-      let [userData] = await connection1.execute(
+      let [userData] = await connection.execute(
         `SELECT * FROM users WHERE email = ?`,
         [email]
-      );  
-      await connection1.commit();
+      );
+      await connection.commit();
       if (userData[0]) {
-        connection1.release();
+        connection.release();
         return res.status(409).send({ message: 'email conflict' });
       } else {
-        const [create] = await connection1.execute(
+        const [create] = await connection.execute(
           `INSERT INTO users (email, password, username) VALUES (?, ?, ?)`,
           [email, hashedPassword, username]
         );
-        await connection1.commit();
+        await connection.commit();
 
-        const [newUserData] = await connection1.execute(
+        const [newUserData] = await connection.execute(
           `SELECT * FROM users WHERE email = ?`,
           [email]
         );
-        await connection1.commit();
-        connection1.release();
+        await connection.commit();
+        connection.release();
 
         const { id, profile, resign, admin, kakao } = newUserData[0];
 
@@ -76,7 +77,7 @@ module.exports = {
         res.status(201).json({ data: data, message: 'signup success' });
       }
     } catch (err) {
-      connection1.release();
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

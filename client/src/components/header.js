@@ -75,6 +75,11 @@ function Header() {
       });
 
   }
+  // 추천받기 버튼 클릭시 사용자 추천 시스템 화면 이동
+  const goRecommend = (event) => {
+    history.push('/search');
+    window.location.reload();
+  }
 
   return (
     <div className="header-main">
@@ -84,12 +89,12 @@ function Header() {
         </a>
       </div>
       <div className="header-section1">
-        <Link to="/search" className="header-link-router">
-          <div className="recommend-musical-button">
-            뮤지컬 추천 &nbsp;{">"}
-            {/* <FiChevronRight className='header-search-btn-icon' /> */}
-          </div>
-        </Link>
+        {/* <Link to="/search" className="header-link-router"> */}
+        <div className="recommend-musical-button" onClick={goRecommend}>
+          뮤지컬 추천 &nbsp;{">"}
+          {/* <FiChevronRight className='header-search-btn-icon' /> */}
+        </div>
+        {/* </Link> */}
       </div>
       <div className="header-section2">
         {/* admin일 경우에만 작품등록 버튼이 보이도록 설정 */}

@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const { checkAccessToken } = require('../tokenFunctions');
 
 module.exports = {

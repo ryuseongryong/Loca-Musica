@@ -48,6 +48,8 @@ function Search() {
                 // 1. 총 카운트가 많은 순서대로 정렬(내림차순)
                 let sortHashtags = response.data.data.hashtagsData.sort((a, b) => a.totalLikeCount - b.totalLikeCount);
                 setAllHashtag(sortHashtags);
+            }).catch((err) => {
+                console.log(err);
             });
 
     }, []);
@@ -82,7 +84,11 @@ function Search() {
                     setRecommendMusicalList(res.data.data);
                     // 2. 추천 결과 컴포넌트로 전환
                     setIsRecommend(false); // searchResult component전환
+
                 })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
 

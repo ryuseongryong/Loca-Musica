@@ -15,6 +15,7 @@ import UserInfo from "./pages/userinfo";
 import Detail from "./pages/detail";
 import NofiticationCenter from "./components/notificationCenter";
 import AdminEdit from "./pages/adminEdit";
+import { useState } from 'react';
 
 function App() {
   // 상태관리

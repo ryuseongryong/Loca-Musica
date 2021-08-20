@@ -25,6 +25,7 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
     setRecommendUserHashtag([]);
     // 추천을 받는 페이지 전환
     setIsRecommend(true);
+
   };
 
   return (
