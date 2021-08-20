@@ -15,16 +15,16 @@
   
   .editHashtagModal-wrapper {
 	width: 80%;
-	height: 90%;
+	height: 70%;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
   }
   
   .editHashtagModal-main {
 	background-color: black;
 	width: 35%;
-	height: 50%;
+	height: 65%;
 	display: flex;
 	flex-direction: column;
 	margin-top: 100px;

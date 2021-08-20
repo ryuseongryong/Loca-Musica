@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'; // 임시로 state지정, redux로 
 import '../css/AdminEdit.css';
 import EditHashtagModal from '../components/editHashtagModal';
 import axios from 'axios';
-
+import AWS from "aws-sdk";
+import { useHistory } from "react-router-dom";
 
 function AdminEdit() {
+	let history = useHistory();
 	// 전달받은 해사태그 중 유저가 작성한 해시태그 목록
 	const [beforeUserHashtag, setBeforeUserHashtag] = useState([]);
 	// 기존에 있던 정보 저장 객체
@@ -144,12 +146,10 @@ function AdminEdit() {
 		setBeforeUserHashtag(userHashtagArr); // 전달받은 해시태그 중 유저가 직접 작성한 해시태그
 		console.log(userHashtagArr);
 
-	}, [])
+	}, [beforeAdminPostInfo])
 
-	// code변경을 위한 state
-	const [codeValue, setCodeValue] = useState(beforeAdminPostInfo.code);
 	// thumbnail변경을 위한 state
-	const [thumbnailSrcValue, setThumbnailSrcValue] = useState(beforeAdminPostInfo.thumbnail);
+	// const [thumbnailSrcValue, setThumbnailSrcValue] = useState(beforeAdminPostInfo.thumbnail);
 	// title변경을 위한 state
 	const [titleValue, setTitleValue] = useState(beforeAdminPostInfo.title);
 	// state변경을 위한 state
@@ -162,16 +162,57 @@ function AdminEdit() {
 	// 넘버1 작성(title,videoId 순서)
 	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData[0].title);
 	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData[0].videoId);
-	const [numberId1, setNumberId1] = useState(beforeAdminPostInfo.numbersData[0].id);
 	// 넘버2 작성
 	const [numberTitleValue2, setNumberTitleValue2] = useState(beforeAdminPostInfo.numbersData[1].title);
 	const [numberVideoIdValue2, setNumberVideoIdValue2] = useState(beforeAdminPostInfo.numbersData[1].videoId);
-	const [numberId2, setNumberId2] = useState(beforeAdminPostInfo.numbersData[1].id);
 	// 넘버3 작성
 	const [numberTitleValue3, setNumberTitleValue3] = useState(beforeAdminPostInfo.numbersData[2].title);
 	const [numberVideoIdValue3, setNumberVideoIdValue3] = useState(beforeAdminPostInfo.numbersData[2].videoId);
-	const [numberId3, setNumberId3] = useState(beforeAdminPostInfo.numbersData[2].id);
 	// category 변경을 위한 state
+
+	//! S3를 이용한 파일 업로드
+	// s3에 업로드할 이미지 파일 저장 state(업로드 여부 체크)
+	const [uploadImage, setUploadImage] = useState('');
+	// s3에 업로드된 후 해당 이미지에 접근하기 위한 경로를 저장하는 state
+	const [uploadImageSrc, setUploadImageSrc] = useState('');
+
+	// s3 연결 설정
+	const awsConfig = {
+		bucketName: "locauploadimagetest",
+		region: "ap-northeast-2",
+		accessKeyId: 'AKIA5ADD5NVPAT4KBT5Y',
+		secretAccessKey: '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',
+	};
+	const s3 = new AWS.S3(awsConfig);
+
+	// uploads to s3(file을 받아서 s3에 업로드, 비동기 함수 형식)
+	const handleUpload = async (file) => {
+		const fileKey = `${Date.now()}-${file.name}`; // '시간 + 파일명'으로 파일명 변경 형삭 ex)1629430434288-lesMiserables.jpeg
+
+		const params = {
+			ACL: "public-read",
+			Body: file,
+			Bucket: "locauploadimagetest",
+			Key: fileKey,
+		};
+
+		try {
+			await s3.putObject(params).promise();
+			return fileKey;
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	// s3에 업로드된 이미지를 접근할 수 있도록 src경로를 설정하여 반환(img태그에서 src 속성값으로 할당할 수 있는 value값)
+	const handleImageSrc = async (file) => {
+		const fileKey = await handleUpload(file); // 실제 업로드된 파일명
+		// img태그에서 실제 s3에 업로드된 이미지파일에 접근하기 위해서 s3주소를 추가하여 src경로 지정
+		let uploadMusicalImageSrc = `https://locauploadimagetest.s3.ap-northeast-2.amazonaws.com/${fileKey}`
+		// return uploadMusicalImageSrc; // promise 객체를 반환한다 -> 여기서 state변수에 저장후 해당 state변수로 경로값을 얻는다.
+		setUploadImageSrc(uploadMusicalImageSrc);
+	};
+	//!
 
 	// 배우 입력
 	const writeActors = (event) => {
@@ -202,6 +243,16 @@ function AdminEdit() {
 
 	// 게시글 등록 버튼 클릭
 	const adminPostDB = () => {
+		// thumbnail부분
+		// 1. 만약 이미지변경을 하지 않았다면 그대로 이미지는 유지
+		let uploadSrc = beforeAdminPostInfo.thumbnail;
+		// 2. 만약 이미지변경을 하였다면 이미지는 s3에 업로드 이후 s3에 접근할 수 있는 src경로로 변환 
+		if (uploadImage !== '') {
+			//! s3 접근 src 반환
+			uploadSrc = uploadImageSrc // s3에 업로드된 이미지 경로 가져오기
+		}
+		console.log(uploadSrc);
+
 		// actors 전달을 위한 전달 객체 할당
 		setAdminPostInfo(Object.assign(adminPostInfo, { actors: actorsValue }));
 		// contents 전달을 위한 전달 객체 할당
@@ -224,7 +275,7 @@ function AdminEdit() {
 			numberVideoIdList.push(tempNumberVideoIdList[j].value);
 		}
 
-		let numberIdList = [numberId1, numberId2, numberId3];
+		let numberIdList = [beforeAdminPostInfo.numbersData[0].id, beforeAdminPostInfo.numbersData[1].id, beforeAdminPostInfo.numbersData[2].id];
 		console.log(numberIdList);
 
 		// {title: title, videoId: youtube video ID} -> number List 각 요소
@@ -251,15 +302,16 @@ function AdminEdit() {
 		setAdminPostInfo(Object.assign(adminPostInfo, { hashtags: categoryList }));
 
 		// thumbnail
-		setAdminPostInfo(Object.assign(adminPostInfo, { thumbnail: thumbnailSrcValue }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { thumbnail: uploadSrc }));
 		// title
 		setAdminPostInfo(Object.assign(adminPostInfo, { title: titleValue }));
 		// state
 		setAdminPostInfo(Object.assign(adminPostInfo, { state: stateValue }));
 		// code
-		setAdminPostInfo(Object.assign(adminPostInfo, { code: codeValue }));
+		setAdminPostInfo(Object.assign(adminPostInfo, { code: beforeAdminPostInfo.code }));
 
 		console.log(adminPostInfo);
+
 		axios({
 			method: 'put',
 			url: `${process.env.REACT_APP_END_POINT}/admin/edit`,
@@ -271,6 +323,10 @@ function AdminEdit() {
 			.then(function (response) {
 				alert("게시글 성공적으로 변경되었습니다.");
 				window.location.reload();
+				// history.push({
+				// 	pathname: '/adminEdit',
+				// 	key: adminPostInfo
+				// });
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -280,7 +336,7 @@ function AdminEdit() {
 
 	// 업로드된 이미지를 지정한 img태그에 미리 보여주는 함수
 	const readURL = (input) => {
-		console.log(input.files[0]); // 업로드한 파일정보를 담고있는 객체
+		// console.log(input.files[0]); // 업로드한 파일정보를 담고있는 객체
 		if (input.files && input.files[0]) {
 			let reader = new FileReader();
 			reader.onload = function (e) {
@@ -295,10 +351,14 @@ function AdminEdit() {
 		const uploadImageInput = document.querySelector('#adminEdit-update-musicalImage-input');
 		uploadImageInput.click(); // 이미지 클릭시 file업로드 input태그 실행
 	}
-	// input파일에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기
+	// input파일에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기(input[type='file']에서 이미지 변경시 바로 s3에 업로드 되고 state변수에 경로 저장)
 	const previewUploadImage = (event) => {
+		// event.target.files[0] -> 현재 업로드된 이미지 파일
 		// console.log('work!');
 		readURL(event.target); // 이미지 업로드시 미리보기
+		setUploadImage(event.target.files[0]); // 업로드할 이미지를 state변수에 할당
+		//! s3에 이미지 업로드 및 state변수에 접근 경로 저장
+		handleImageSrc(event.target.files[0]); // s3에 이미지 업로드
 	}
 	// 공연상태 클릭시 공연상태가 변경
 	const editMusicalState = (event) => {
@@ -368,7 +428,7 @@ function AdminEdit() {
 						<div className='adminEdit-auto-info'>
 							<div className='adminEdit-auto-info-image'>
 								{/* 전달받은 기본값으로 초기화 이 후 변경 가능 */}
-								<img src={thumbnailSrcValue}
+								<img src={beforeAdminPostInfo.thumbnail}
 									alt="musical-postimage" className='adminEdit-musical-post' onClick={updateMusicalImage} />
 								{/* accept : 업로드 되는 파일 형식 지정, 여기서는 이미지파일만 지정 */}
 								<input type='file' id='adminEdit-update-musicalImage-input' accept="image/jpeg, image/jpg, image/png"
