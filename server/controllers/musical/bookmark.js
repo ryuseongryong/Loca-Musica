@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const { checkAccessToken } = require('../tokenFunctions');
 
 module.exports = {
@@ -7,6 +7,7 @@ module.exports = {
     const { id } = accessTokenData;
     const { title } = req.body;
 
+    const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
 
