@@ -4,20 +4,25 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ImHeart } from "react-icons/im";
 import { useState } from "react";
+import { addBookmark } from "../actions";
 
 import ChoiceModal from "./choiceModal";
 
 function PerformanceInfo({ performanceInfo, isSignin }) {
+  //? 변수
+  const title = performanceInfo.title;
   // 상태관리
   const dispatch = useDispatch();
-  const { bookmarkList } = useSelector((state) => {
-    return {
-      bookmarkList: state.bookmarkReducer,
-    };
-  });
+  const bookmarksData = useSelector((state) => state.bookmarkReducer);
+  console.log(bookmarksData);
+
   const [isModal, setIsModal] = useState(false);
   // const checkBookmark
   const [isAddBookmark, setIsAddBookmark] = useState("");
+
+  const checkBookmarksData = (title) => {
+    return bookmarksData.filter((el) => el.title === title);
+  };
 
   // 핸들러 함수
   //* Modal 상태변경 함수
@@ -28,6 +33,20 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
   const addBookmark = () => {
     if (!isSignin) {
       setIsModal(true);
+    } else if (isSignin && !checkBookmarksData(title)) {
+      axios
+        .post(
+          `${process.env.REACT_APP_END_POINT}/musical/bookmark`,
+          { title },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log("북마크추가의 결과는?", res);
+          // dispatch(addBookmark(res.data.date));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   const removeBookmark = () => {};
