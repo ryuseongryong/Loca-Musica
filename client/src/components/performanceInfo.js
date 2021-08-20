@@ -2,26 +2,53 @@
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
 import { ImHeart } from "react-icons/im";
 import { useState } from "react";
+import { addBookmark } from "../actions";
 
-function PerformanceInfo({ performanceInfo }) {
+import ChoiceModal from "./choiceModal";
+
+function PerformanceInfo({ performanceInfo, isSignin }) {
+  //? 변수
+  const title = performanceInfo.title;
+  // 상태관리
   const dispatch = useDispatch();
-  const bookmarkList = useSelector(
-    (state) => state.bookmarkReducer.bookmarkList
-  );
-  // console.log(performanceInfo.hashtagsData);
+  const bookmarksData = useSelector((state) => state.bookmarkReducer);
+  console.log(bookmarksData);
 
-  // const [isOn, setIsOn] = useState(false);
-  // const addClassName = (event) => {
-  //   console.log(event.target.videoId);
-  //   setIsOn(!isOn);
-  // };
+  const [isModal, setIsModal] = useState(false);
+  // const checkBookmark
+  const [isAddBookmark, setIsAddBookmark] = useState("");
+
+  const checkBookmarksData = (title) => {
+    return bookmarksData.filter((el) => el.title === title);
+  };
 
   // 핸들러 함수
+  //* Modal 상태변경 함수
+  // const modalOpenHandler = () => {
+  //   setIsModal(!isModal);
+  // };
   //# 북마크추가 및 제거 핸들러 함수 구현 필요
-  const addBookmark = () => {};
+  const addBookmark = () => {
+    if (!isSignin) {
+      setIsModal(true);
+    } else if (isSignin && !checkBookmarksData(title)) {
+      axios
+        .post(
+          `${process.env.REACT_APP_END_POINT}/musical/bookmark`,
+          { title },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log("북마크추가의 결과는?", res);
+          // dispatch(addBookmark(res.data.date));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   const removeBookmark = () => {};
 
   return (
@@ -51,10 +78,11 @@ function PerformanceInfo({ performanceInfo }) {
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
-          <button id="btnBookmark">
+          <button id="btnBookmark" onClick={addBookmark}>
             <ImHeart className="iconBtn" />
             북마크 추가
           </button>
+          {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>
       </div>
       <div className="pfNumberWrap">

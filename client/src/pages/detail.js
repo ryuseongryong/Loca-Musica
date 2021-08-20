@@ -11,11 +11,10 @@ import Footer from "../components/footer";
 function Detail() {
   // 상태관리
   const dispatch = useDispatch();
-  const { isSignin, userInfo, bookmarkList } = useSelector((state) => {
+  const { isSignin, userInfo } = useSelector((state) => {
     return {
       isSignin: state.userReducer.isSignin,
       userInfo: state.userReducer.userInfo,
-      bookmarkList: state.bookmarkReducer,
     };
   });
   // console.log("사용자정보를 보여줘", userInfo);
@@ -44,6 +43,7 @@ function Detail() {
       })
       .then((res) => {
         // 응답으로 받은 데이터로 현재 페이지에서의 작품정보를 state로 관리
+        // console.log(res.data.data);
         setPerformanceInfo(res.data.data);
       })
       .catch((err) => {
@@ -67,8 +67,8 @@ function Detail() {
             isSignin={isSignin}
           />
           <PerformanceTag
-            isSignin={isSignin}
             performanceInfo={performanceInfo}
+            isSignin={isSignin}
           />
         </div>
       </div>

@@ -74,7 +74,7 @@
   height: 368px;
   border-radius: 10px;
   margin: 0 auto;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 #btnBookmark {
   width: 138px;
@@ -119,7 +119,29 @@
 }
 
 /* 뮤지컬 해시태그 관련 css */
-.pfTagWrap {
+.pfHashtagWrap {
   height: 580px;
   border: 1px solid blue;
+}
+.pfHashtagWrap > form {
+  text-align: center;
+  display: block;
+}
+#hashtagItemList {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 50px auto;
+}
+.hashtagItem {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#inputHashtag {
+  width: 500px;
+  height: 50px;
+  margin: 0 auto 10px;
 }

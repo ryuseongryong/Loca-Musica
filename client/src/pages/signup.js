@@ -160,18 +160,23 @@ function Signup() {
               dispatch(signin(res.data.data));
             })
             .then(() => {
-              history.push("/musical/main");
+              history.goBack();
             })
             .catch((err) => {
               console.log(err);
             });
         })
         .catch((err) => {
-          console.log("회원가입에러", err);
-          if (err.response.status === 409) {
+          console.log("회원가입에러", err.response.data.message);
+          if (err.response.data.message === "email conflict") {
             setErrMessage({
               ...errMessage,
               errOverall: "이미 사용하고 있는 이메일입니다",
+            });
+          } else if (err.response.data.message === "resigned user") {
+            setErrMessage({
+              ...errMessage,
+              errOverall: "사용할 수 없는 이메일입니다",
             });
           }
         });

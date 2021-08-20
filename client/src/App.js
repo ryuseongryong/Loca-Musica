@@ -1,5 +1,5 @@
 /*eslint-disable*/
-
+import { useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,6 +7,7 @@ import "./App.css";
 import Signup from "./pages/signup";
 import Signin from "./pages/signin";
 import Landing from "./pages/landing";
+import Main from "./pages/main";
 import Header from "./components/header";
 import Search from "./pages/search";
 import Admin from "./pages/admin";
@@ -26,10 +27,11 @@ function App() {
       userInfo: state.userReducer.userInfo,
     };
   });
-  // useEffect(() => {
-  //   if (isSignin) history.push("/musical/main");
-  //   else history.push("/");
-  // }, [isSignin]);
+  useEffect(() => {
+    if (isSignin) {
+      history.push("/musical/main");
+    }
+  }, [isSignin]);
 
   return (
     <>
@@ -39,7 +41,10 @@ function App() {
           <Landing />
         </Route>
 
-        <Route path="/musical/main">{/* Main page */}</Route>
+        <Route path="/musical/main">
+          {/* Main page */}
+          <Main />
+        </Route>
         <Route exact path="/search">
           {/* 추천페이지 */}
           <Search />

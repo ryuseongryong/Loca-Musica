@@ -12,14 +12,14 @@ import { signin, notify } from "../actions";
 function Signin() {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const { isSignin, userInfo, notify, bookmarksData } = useSelector((state) => {
-  //   return {
-  //     isSignin: state.userReducer.isSignin,
-  //     userInfo: state.userReducer.userInfo,
-  //     bookmarksData: state.userReducer.bookmarksData,
-  //     notification: state.notificationReducer.notifications,
-  //   };
-  // });
+  const { isSignin, userInfo, notify, bookmarksData } = useSelector((state) => {
+    return {
+      isSignin: state.userReducer.isSignin,
+      userInfo: state.userReducer.userInfo,
+      bookmarksData: state.userReducer.bookmarksData,
+      notification: state.notificationReducer.notifications,
+    };
+  });
   // console.log("로컬에 저장된 userInfo를 보여줘!", userInfo);
   // console.log("로컬에 저장된 isSignin을 보여줘!", isSignin);
   // console.log("로컬에 저장된 bookmarksData를 보여줘!", bookmarksData);
@@ -62,11 +62,16 @@ function Signin() {
           dispatch(signin(res.data.data));
         })
         .then((res) => {
-          history.push("/musical/main");
+          history.goBack();
           // dispatch(notify("반갑습니다"));
         })
         .catch((err) => {
-          setErrMessage("이메일과 비밀번호를 다시 확인해주세요");
+          console.log("로그인에러", err.response);
+          if (err.response.data.message === "invalid password") {
+            setErrMessage("비밀번호를 다시 확인해주세요");
+          } else if (err.response.data.message === "resigned user") {
+            setErrMessage("사용할 수 없는 이메일입니다");
+          }
         });
     }
   };
@@ -79,6 +84,9 @@ function Signin() {
 
   return (
     <div id="signin">
+      {/* 로그인한 상태면 이전 페이지로 이동 */}
+      {/* {isSignin ? history.goBack() : null} */}
+
       <div className="signinContainer">
         <p className="signinText">로그인</p>
         <form>
