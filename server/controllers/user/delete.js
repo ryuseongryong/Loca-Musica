@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -17,8 +17,9 @@ module.exports = {
     // 새로운 access Token 발급
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
-    const connection1 = await db.getConnection(async (conn) => conn);
-    connection1.beginTransaction();
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
+    connection.beginTransaction();
 
     try {
       if (!accessTokenData) {
@@ -27,30 +28,30 @@ module.exports = {
       const { id, email, username, profile, admin, kakao } = accessTokenData;
       const { password } = req.body;
 
-      const [userData] = await connection1.execute(
+      const [userData] = await connection.execute(
         `SELECT * from users WHERE id = ?`,
         [id]
       );
-      connection1.commit();
+      connection.commit();
       if (userData[0].kakao === 1) {
         console.log(userData[0].kakao);
-        await connection1.execute(
+        await connection.execute(
           `UPDATE users SET resign = ? WHERE users.id = ?`,
           [1, id]
         );
-        const [resignedUserData] = await connection1.execute(
+        const [resignedUserData] = await connection.execute(
           `SELECT * from users WHERE id = ?`,
           [id]
         );
-        connection1.commit();
-        connection1.release();
+        connection.commit();
+        connection.release();
 
         // //! 30일이 지난 계정은 삭제 위치를 어디할지 고민
-        // await connection1.execute(
+        // await connection.execute(
         //   `DELETE FROM users WHERE updated_at < NOW() - INTERVAL 30 DAY AND resign = 1;`
         // );
-        // connection1.commit();
-        // connection1.release();
+        // connection.commit();
+        // connection.release();
 
         // Token 수정 = 바로 로그아웃 처리
         res.cookie('accessToken', 'please come back', {
@@ -75,30 +76,30 @@ module.exports = {
       // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
 
       if (userData.length === 0) {
-        connection1.release();
+        connection.release();
         res.status(404).send({ message: 'user not found' });
       } else if (!match) {
-        connection1.release();
+        connection.release();
         res.status(401).send({ message: 'invalid password' });
       } else {
         // 탈퇴 시 resign의 값을 true로 변경
-        await connection1.execute(
+        await connection.execute(
           `UPDATE users SET resign = ? WHERE users.id = ?`,
           [1, id]
         );
-        const [resignedUserData] = await connection1.execute(
+        const [resignedUserData] = await connection.execute(
           `SELECT * from users WHERE id = ?`,
           [id]
         );
-        connection1.commit();
-        connection1.release();
+        connection.commit();
+        connection.release();
 
         // //! 30일이 지난 계정은 삭제 위치를 어디할지 고민
-        // await connection1.execute(
+        // await connection.execute(
         //   `DELETE FROM users WHERE updated_at < NOW() - INTERVAL 30 DAY AND resign = 1;`
         // );
-        // connection1.commit();
-        // connection1.release();
+        // connection.commit();
+        // connection.release();
 
         // Token 수정 = 바로 로그아웃 처리
         res.cookie('accessToken', 'please come back', {
@@ -120,7 +121,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      connection1.release();
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

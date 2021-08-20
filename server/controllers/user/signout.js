@@ -1,5 +1,6 @@
 const { checkAccessToken } = require('../tokenFunctions');
 
+
 module.exports = {
   post: async (req, res) => {
     const accessTokenData = checkAccessToken(req);

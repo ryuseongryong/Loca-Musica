@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -31,8 +31,9 @@ module.exports = {
     // 새로운 access Token 발급
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
-    const connection1 = await db.getConnection(async (conn) => conn);
-    connection1.beginTransaction();
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
+    await connection.beginTransaction();
 
     try {
       if (!accessTokenData) {
@@ -42,15 +43,15 @@ module.exports = {
       const { id, email, username, resign, admin, kakao } = accessTokenData;
       const { url, file } = req.body;
 
-      const [userData] = await connection1.execute(
+      const [userData] = await connection.execute(
         `SELECT * from users WHERE id = ?`,
         [id]
       );
-      connection1.commit();
+      connection.commit();
       // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
 
       if (userData.length === 0) {
-        connection1.release();
+        connection.release();
         res.status(404).send({ message: 'user not found' });
       } else {
         // 유저 정보가 있는 경우 새로운 profile url 적용
@@ -81,16 +82,16 @@ module.exports = {
           redaStream;
         }
 
-        await connection1.execute(
+        await connection.execute(
           `UPDATE users SET profile = ? WHERE users.id = ?`,
           [url, id]
         );
-        const [newProfileUserData] = await connection1.execute(
+        const [newProfileUserData] = await connection.execute(
           `SELECT * from users WHERE id = ?`,
           [id]
         );
-        connection1.commit();
-        connection1.release();
+        connection.commit();
+        connection.release();
 
         const { profile } = newProfileUserData[0];
 
@@ -124,7 +125,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      connection1.release();
+      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },

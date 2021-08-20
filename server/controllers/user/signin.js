@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -11,9 +11,10 @@ const bcrypt = require('bcrypt');
 module.exports = {
   post: async (req, res) => {
     const { email, password } = req.body;
+    const db = await getPool();
+    console.log('sign.js pool: ', db);
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
-
     try {
       // 이메일과 비밀번호를
       const [userData] = await connection.execute(
