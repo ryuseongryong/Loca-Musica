@@ -1,12 +1,12 @@
 /*eslint-disable*/
 
-import "../css/detail.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PerformanceInfo from "../components/performanceInfo";
-import PerformanceTag from "../components/performanceTag";
-import Footer from "../components/footer";
+import '../css/detail.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PerformanceInfo from '../components/performanceInfo';
+import PerformanceTag from '../components/performanceTag';
+import Footer from '../components/footer';
 
 function Detail() {
   // 상태관리
@@ -20,13 +20,13 @@ function Detail() {
   // console.log("사용자정보를 보여줘", userInfo);
   // console.log("뷱마크리스트를 보여줘", bookmarkList);
   const [performanceInfo, setPerformanceInfo] = useState({
-    id: "",
-    code: "",
-    title: "",
-    thumbnail: "",
-    contents: "",
-    state: "",
-    actors: "",
+    id: '',
+    code: '',
+    title: '',
+    thumbnail: '',
+    contents: '',
+    state: '',
+    actors: '',
     numbersData: [],
     hashtagsData: [],
   });
@@ -35,7 +35,7 @@ function Detail() {
   useEffect(() => {
     // 페이지 이동하면 쿼리에서 title만 가져오면..
     const url = new URL(window.location.href);
-    const title = url.searchParams.get("title");
+    const title = decodeURI(url.pathname.slice(9));
 
     axios
       .get(`${process.env.REACT_APP_END_POINT}/musical/${title}`, {
@@ -47,7 +47,7 @@ function Detail() {
         setPerformanceInfo(res.data.data);
       })
       .catch((err) => {
-        console.log("작품정보를 불러오지 못한 이유는?", err);
+        console.log('작품정보를 불러오지 못한 이유는?', err);
       });
   }, []);
 

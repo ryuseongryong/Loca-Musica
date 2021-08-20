@@ -1,20 +1,20 @@
 /*eslint-disable*/
-import { useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import "./App.css";
-import Signup from "./pages/signup";
-import Signin from "./pages/signin";
-import Landing from "./pages/landing";
-import Main from "./pages/main";
-import Header from "./components/header";
-import Search from "./pages/search";
-import Admin from "./pages/admin";
-import UserInfo from "./pages/userinfo";
-import Detail from "./pages/detail";
-import NofiticationCenter from "./components/notificationCenter";
-import AdminEdit from "./pages/adminEdit";
+import './App.css';
+import Signup from './pages/signup';
+import Signin from './pages/signin';
+import Landing from './pages/landing';
+import Main from './pages/main';
+import Header from './components/header';
+import Search from './pages/search';
+import Admin from './pages/admin';
+import UserInfo from './pages/userinfo';
+import Detail from './pages/detail';
+import NofiticationCenter from './components/notificationCenter';
+import AdminEdit from './pages/adminEdit';
 import { useState } from 'react';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   });
   useEffect(() => {
     if (isSignin) {
-      history.push("/musical/main");
+      history.push('/musical/main');
     }
   }, [isSignin]);
 
@@ -49,9 +49,8 @@ function App() {
           {/* 추천페이지 */}
           <Search />
         </Route>
-        <Route path="/search/:title">{/* <Detail /> */}</Route>
 
-        <Route path="/detail">
+        <Route path="/musical/:title">
           <Detail />
         </Route>
 

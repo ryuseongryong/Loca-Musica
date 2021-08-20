@@ -1,12 +1,15 @@
-import "../css/Search.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import '../css/Search.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 // import Slider from "react-slick";
-import { Link } from "react-router-dom";
-import MusicalBaseImage from '../images/musical_baseimage.jpg'
+import { Link } from 'react-router-dom';
+import MusicalBaseImage from '../images/musical_baseimage.jpg';
 
-
-function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList }) {
+function Search({
+  setIsRecommend,
+  setRecommendUserHashtag,
+  recommendMusicalList,
+}) {
   // react-slider require object
   // const settings = {
   //   dots: true,
@@ -25,7 +28,6 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
     setRecommendUserHashtag([]);
     // 추천을 받는 페이지 전환
     setIsRecommend(true);
-
   };
 
   return (
@@ -50,10 +52,13 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
                   className="search-result-musical-image"
                 />
               </li> */}
-              {recommendMusicalList.length !== 0 ?
+              {recommendMusicalList.length !== 0 ? (
                 recommendMusicalList.map((el, index) => (
                   <li className="search-result-musical" key={index}>
-                    <Link to={`/detail?id=${el.id}&title=${el.title}&thumbnail=${el.thumbnail}`} className='goto-detailLink'>
+                    <Link
+                      to={`/musical/${el.title}`}
+                      className="goto-detailLink"
+                    >
                       <img
                         src={el.thumbnail}
                         alt={MusicalBaseImage}
@@ -62,16 +67,16 @@ function Search({ setIsRecommend, setRecommendUserHashtag, recommendMusicalList 
                     </Link>
                   </li>
                 ))
-                :
-                <li className='search-result-musical'>
-                  <p className='no-search-result'>이런! 추천결과가 없습니다.</p>
+              ) : (
+                <li className="search-result-musical">
+                  <p className="no-search-result">이런! 추천결과가 없습니다.</p>
                 </li>
-              }
+              )}
             </ul>
           </div>
           <div className="search-section2-bottom">
             <button className="search-replay-btn" onClick={replayRecommend}>
-              다시 추천받기 &nbsp;{">"}
+              다시 추천받기 &nbsp;{'>'}
             </button>
           </div>
         </div>

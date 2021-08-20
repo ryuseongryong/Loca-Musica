@@ -15,7 +15,7 @@ module.exports = {
       );
       res
         .status(200)
-        .json({ data: allMusicalsData, allHashtagsData, message: 'ok' });
+        .json({ data: { allMusicalsData, allHashtagsData }, message: 'ok' });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: 'internal server error' });
