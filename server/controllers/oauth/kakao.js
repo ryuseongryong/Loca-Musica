@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-const db = require('../../db');
+const { getPool } = require('../../db');
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -20,6 +20,7 @@ module.exports = {
     }
 
     // DB connection open
+    const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
 
@@ -70,9 +71,9 @@ module.exports = {
       // Email 이 이미 존재할 경우
       if (userData) {
         // 탈퇴한 회원이면 종료
-        if (userData.resign){
+        if (userData.resign) {
           connection.release();
-          return res.status(403).send({message:"resigned user"});
+          return res.status(403).send({ message: 'resigned user' });
         }
 
         const { id, username, email, profile, resign, admin, kakao } = userData;

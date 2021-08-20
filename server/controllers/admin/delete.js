@@ -1,4 +1,4 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 
 module.exports = {
   delete: async (req, res) => {
@@ -8,6 +8,7 @@ module.exports = {
     // if (!accessTokenData){
     //   return res.status(401).send({ message: 'invalid access token' });
     // }
+    const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
 

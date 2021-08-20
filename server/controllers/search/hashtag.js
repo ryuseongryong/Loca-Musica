@@ -1,8 +1,10 @@
-const db = require('../../db');
+const { getPool } = require('../../db');
 // search?hashtag1=abc&hashtag2=def&hashtag3=ghi
 
 module.exports = {
   get: async (req, res) => {
+    const db = await getPool();
+    console.log('hashtag.js pool: ', db);
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
 
