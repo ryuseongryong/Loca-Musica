@@ -4,7 +4,7 @@ const { getPool } = require('../../db');
 module.exports = {
   get: async (req, res) => {
     const db = await getPool();
-    console.log('hashtag.js pool: ', db);
+    console.log('hashtag.js pool');
     const connection = await db.getConnection(async (conn) => conn);
     await connection.beginTransaction();
 
