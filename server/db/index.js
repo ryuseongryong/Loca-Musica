@@ -17,19 +17,10 @@ let pool = mysql.createPool({
 });
 //let testpool = mysql.createPool({});
 console.log('just created pool');
-class test {
-  constructor() {
-    this.a = 1;
-    console.log('just created');
-  }
-}
-const test1 = new test();
 
 module.exports = {
   getPool: async function () {
     try {
-      console.log('test object');
-      //const test1 = await testpool.getConnection();
       // 기존의 pool 에 connect 성공 시 기존 pool 을 반환
       const connection = await pool.getConnection();
       await connection.beginTransaction();
