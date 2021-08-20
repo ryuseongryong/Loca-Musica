@@ -69,7 +69,7 @@ function PerformanceTag({ isSignin }) {
         .then((res) => {
           // console.log(res.data.data.HashtagsData);
           console.log("해시태그가 잘 등록되었어요");
-          setHashtagsData(res.data.data.HashtagsData);
+          setHashtagsData(res.data.data.hashtagsData);
           setInputValue("");
 
           //& 해시태그 등록을 마치면 유저에게 등록이 잘 되었다는 메시지(개발 중 이후 notification으로 변경 예정)
@@ -106,7 +106,7 @@ function PerformanceTag({ isSignin }) {
         .then((res) => {
           console.log("공감을 표시했습니다");
           // console.log(res.data.data.HashtagsData);
-          setHashtagsData(res.data.data.HashtagsData);
+          setHashtagsData(res.data.data.hashtagsData);
 
           //& 공감을 하면 유저에게 공감이 반영되었다는 메시지(개발 중 이후 notification으로 변경 예정)
           setMessage("공감을 표시했습니다");
