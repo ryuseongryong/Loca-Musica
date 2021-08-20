@@ -1,5 +1,16 @@
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 function Landing() {
-  return <div>배포상태를 확인중입니다. 210816</div>;
+  let history = useHistory();
+  const isSignin = useSelector((state) => state.userReducer.isSignin);
+
+  return (
+    <>
+      {isSignin ? history.push("/musical/main") : null}
+      <div>Loca Musica!</div>
+    </>
+  );
 }
 
 export default Landing;

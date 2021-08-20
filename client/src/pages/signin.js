@@ -62,10 +62,11 @@ function Signin() {
           dispatch(signin(res.data.data));
         })
         .then((res) => {
-          history.push("/musical/main");
+          history.goBack();
           // dispatch(notify("반갑습니다"));
         })
         .catch((err) => {
+          console.log("로그인에러", err.response);
           setErrMessage("이메일과 비밀번호를 다시 확인해주세요");
         });
     }

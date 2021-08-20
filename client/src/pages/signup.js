@@ -160,14 +160,14 @@ function Signup() {
               dispatch(signin(res.data.data));
             })
             .then(() => {
-              history.push("/musical/main");
+              history.goBack();
             })
             .catch((err) => {
               console.log(err);
             });
         })
         .catch((err) => {
-          console.log("회원가입에러", err);
+          console.log("회원가입에러", err.response.data.message);
           if (err.response.status === 409) {
             setErrMessage({
               ...errMessage,

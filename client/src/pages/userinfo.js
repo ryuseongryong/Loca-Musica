@@ -35,7 +35,7 @@ function UserInfo() {
     profileMessage: "",
   });
   //* modal창을 관리
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   // 핸들러 함수
   //* 이미지 변경 요청 함수(구현 중)
@@ -128,7 +128,7 @@ function UserInfo() {
           console.log("사용자이름 잘 변경되었어요");
         })
         .then(() => {
-          //! 임시, test용
+          //& 임시, test용 notification으로 변경예정
           setMessage({
             ...message,
             usernameMessage: "사용자이름이 변경되었습니다",
@@ -174,7 +174,7 @@ function UserInfo() {
           console.log("비밀번호 잘 변경되었어요");
         })
         .then(() => {
-          //! 임시, test용
+          //& 임시, test용 notification으로 변경예정
           setMessage({
             ...message,
             passwordMessage: "비밀번호가 변경되었습니다",
@@ -195,7 +195,7 @@ function UserInfo() {
   //* 회원탈퇴 모달 오픈 실행 함수
   const withdrawalModalHandler = () => {
     // 회원탈퇴 과정은 withdrawalModal 컴포넌트에서 실행
-    setIsModalOpen(!isModalOpen);
+    setIsModal(!isModal);
   };
 
   return (
@@ -225,8 +225,11 @@ function UserInfo() {
                 value={inputValue.newUsername}
                 onChange={inputHandler}
                 onFocus={clearMessage}
-                onKeyDown={(event) => event.key === "Enter"? usernameChangeRequestHandler(event): null
-                  }
+                onKeyDown={(event) =>
+                  event.key === "Enter"
+                    ? usernameChangeRequestHandler(event)
+                    : null
+                }
               />
             </form>
             <div>
@@ -272,7 +275,10 @@ function UserInfo() {
                   value={inputValue.newPasswordCheck}
                   onChange={inputHandler}
                   onFocus={clearMessage}
-                  onKeyUp={(event) => event.key === "Enter"? passwordChangeRequestHandler(event): null
+                  onKeyUp={(event) =>
+                    event.key === "Enter"
+                      ? passwordChangeRequestHandler(event)
+                      : null
                   }
                 />
               </form>
@@ -301,7 +307,7 @@ function UserInfo() {
         <button className="btnWithdrawal" onClick={withdrawalModalHandler}>
           회원탈퇴
         </button>
-        {isModalOpen ? (
+        {isModal ? (
           <WithdrawalModal
             withdrawalModalHandler={withdrawalModalHandler}
             userInfo={userInfo}

@@ -2,26 +2,34 @@
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
 import { ImHeart } from "react-icons/im";
 import { useState } from "react";
 
-function PerformanceInfo({ performanceInfo }) {
-  const dispatch = useDispatch();
-  const bookmarkList = useSelector(
-    (state) => state.bookmarkReducer.bookmarkList
-  );
-  // console.log(performanceInfo.hashtagsData);
+import ChoiceModal from "./choiceModal";
 
-  // const [isOn, setIsOn] = useState(false);
-  // const addClassName = (event) => {
-  //   console.log(event.target.videoId);
-  //   setIsOn(!isOn);
-  // };
+function PerformanceInfo({ performanceInfo, isSignin }) {
+  // 상태관리
+  const dispatch = useDispatch();
+  const { bookmarkList } = useSelector((state) => {
+    return {
+      bookmarkList: state.bookmarkReducer,
+    };
+  });
+  const [isModal, setIsModal] = useState(false);
+  // const checkBookmark
+  const [isAddBookmark, setIsAddBookmark] = useState("");
 
   // 핸들러 함수
+  //* Modal 상태변경 함수
+  // const modalOpenHandler = () => {
+  //   setIsModal(!isModal);
+  // };
   //# 북마크추가 및 제거 핸들러 함수 구현 필요
-  const addBookmark = () => {};
+  const addBookmark = () => {
+    if (!isSignin) {
+      setIsModal(true);
+    }
+  };
   const removeBookmark = () => {};
 
   return (
@@ -51,10 +59,11 @@ function PerformanceInfo({ performanceInfo }) {
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
-          <button id="btnBookmark">
+          <button id="btnBookmark" onClick={addBookmark}>
             <ImHeart className="iconBtn" />
             북마크 추가
           </button>
+          {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>
       </div>
       <div className="pfNumberWrap">
