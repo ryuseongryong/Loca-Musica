@@ -1,9 +1,18 @@
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function BookmarkList() {
+  let history = useHistory();
   // bookmarksData 정보 가져오기
-  const bookmarksData = useSelector((state) => state.bookmarkReducer);
+  const bookmarksData = useSelector((state) => state.userReducer.bookmarksData);
   // console.log("마이페이지: 북마크리스트를 보여줘", bookmarksData);
+  // 핸들러 함수
+  //# 클릭하면 상세페이지로 이동
+  const moveToDetailRequestHandler = (event) => {
+    const title = event.target.alt;
+    // console.log("보여줘", title);
+    history.push(`/musical/${title}`);
+  };
 
   return (
     <>
@@ -14,7 +23,12 @@ function BookmarkList() {
         ) : (
           bookmarksData.map((el, index) => (
             <li className="" key={index}>
-              <img className="bookmarkimg" src={el.thumbnail} alt={el.title} />
+              <img
+                className="bookmarkimg"
+                src={el.thumbnail}
+                alt={el.title}
+                onClick={moveToDetailRequestHandler}
+              />
             </li>
           ))
         )}

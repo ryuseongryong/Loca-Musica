@@ -3,10 +3,12 @@ import Toast from "./toast";
 
 function NofiticationCenter() {
   const state = useSelector((state) => state.notificationReducer);
-  // console.log('state를 보여줘', state)
+
   return (
     <div className="notification-container top-right">
-      <Toast text={state.message} dismissTime={state.dismissTime} />
+      {state.notifications.map((n) => (
+        <Toast key={n.uuid} text={n.message} dismissTime={n.dismissTime} />
+      ))}
     </div>
   );
 }

@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "aws-sdk": "^2.969.0",
     "@aws-sdk/client-s3": "^3.27.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "aws-sdk": "^2.969.0",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "react": "^17.0.2",
@@ -22,8 +22,7 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^1.0.1",
-    "xml-js": "^1.6.11",
-    "youtube-api-search": "^0.0.5"
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "https": "HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem react-scripts start",

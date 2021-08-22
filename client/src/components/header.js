@@ -3,17 +3,19 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/Header.css";
 import { GoSearch } from "react-icons/go";
-import { signout } from "../actions/index";
+import { signout, notify, rememberPathname } from "../actions/index";
 
 function Header() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const { isSignin, userInfo } = useSelector((state) => {
+  const { isSignin, userInfo, pathname } = useSelector((state) => {
     return {
       isSignin: state.userReducer.isSignin,
       userInfo: state.userReducer.userInfo,
+      pathname: state.pathnameReducer.pathname,
     };
   });
+  // console.log(pathname);
 
   // 로그아웃 핸들러
   const signoutRequestHandler = () => {
@@ -25,8 +27,11 @@ function Header() {
         dispatch(signout());
       })
       .then((res) => {
-        // dispatch(notify('bye'))
-        console.log("bye");
+        dispatch(notify("로그아웃 되었습니다"));
+        console.log("로그아웃 되었습니다");
+        dispatch(rememberPathname("/musical/main"));
+      })
+      .then((res) => {
         history.push("/musical/main");
       })
       .catch((err) => {
@@ -34,18 +39,19 @@ function Header() {
       });
   };
 
-  // 제목 검색 
+  // 제목 검색
   const filterTitleMusical = (event) => {
-    let filterTitle = document.querySelector('#headerSearchTitleInput').value;
-    console.log('입력 title', filterTitle);
+    let filterTitle = document.querySelector("#headerSearchTitleInput").value;
+    console.log("입력 title", filterTitle);
     axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_END_POINT}/musical`,
       params: {
         title: filterTitle,
-      }
-    }).then((res) => {
-      /* res.data.data = {검색된 뮤지컬 객체} -> 객체 1개만 return
+      },
+    })
+      .then((res) => {
+        /* res.data.data = {검색된 뮤지컬 객체} -> 객체 1개만 return
       data : {
       actors: "타잔"
       code: "PF177939"
@@ -56,30 +62,29 @@ function Header() {
       title: "정글북"
       }
       */
-      // res.data.data 값을 전달해야 한다 -> 1.redux이용 2.app.js에서 state만들어서 전달
-      console.log(res.data.data);
-      history.push('/musical/main'); // 메인페이지 이동
-    })
+        // res.data.data 값을 전달해야 한다 -> 1.redux이용 2.app.js에서 state만들어서 전달
+        console.log(res.data.data);
+        history.push("/musical/main"); // 메인페이지 이동
+      })
       .catch(function (error) {
         // 서버가 연결되어 있는 경우 에러처리
         if (error.response) {
           // 찾는 결과가 없는 경우(404)
           if (error.response.status === 404) {
-            alert('조건에 해당하는 뮤지컬이 없습니다')
+            alert("조건에 해당하는 뮤지컬이 없습니다");
           }
           // 서버 에러(500)
           else {
-            alert('서버에러가 발생하였습니다.')
+            alert("서버에러가 발생하였습니다.");
           }
         }
       });
-
-  }
+  };
   // 추천받기 버튼 클릭시 사용자 추천 시스템 화면 이동
   const goRecommend = (event) => {
-    history.push('/search');
+    history.push("/search");
     // window.location.reload();
-  }
+  };
 
   return (
     <div className="header-main">
@@ -110,7 +115,11 @@ function Header() {
             <GoSearch className="search-icon" onClick={filterTitleMusical} />
           </div>
           <div className="search-input-div">
-            <input className="search-input" placeholder="뮤지컬 검색" id='headerSearchTitleInput'></input>
+            <input
+              className="search-input"
+              placeholder="뮤지컬 검색"
+              id="headerSearchTitleInput"
+            ></input>
           </div>
         </div>
       </div>

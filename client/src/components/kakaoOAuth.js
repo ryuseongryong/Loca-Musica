@@ -11,6 +11,7 @@ function KakaoLogin() {
   let history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userReducer);
+  const pathname = useSelector((state) => state.pathnameReducer.pathname);
 
   // Kakao 로그인 구현
   useEffect(() => {
@@ -28,7 +29,10 @@ function KakaoLogin() {
           dispatch(signin(res.data.data));
         })
         .then((res) => {
-          history.push("/musical/main");
+          if (pathname !== "/musical/main") {
+            history.push(`${pathname.slice(9)}`);
+          }
+          history.push(`${pathname}`);
         })
         .catch((err) => {
           console.log("카카오로그인에러", err);

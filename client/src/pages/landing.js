@@ -7,7 +7,6 @@ function Landing() {
 
   return (
     <>
-      {isSignin ? history.push("/musical/main") : null}
       <div>Loca Musica!</div>
     </>
   );

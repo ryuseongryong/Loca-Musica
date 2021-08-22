@@ -2,54 +2,71 @@
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { ImHeart } from "react-icons/im";
-import { useState } from "react";
-import { addBookmark } from "../actions";
+import { ImHeart, ImCheckmark } from "react-icons/im";
+import { useState, useEffect } from "react";
+import { addBookmark, notify } from "../actions/index";
 
 import ChoiceModal from "./choiceModal";
 
 function PerformanceInfo({ performanceInfo, isSignin }) {
   //? 변수
   const title = performanceInfo.title;
-  // 상태관리
+  const bookmarksData = useSelector((state) => state.userReducer.bookmarksData);
   const dispatch = useDispatch();
-  const bookmarksData = useSelector((state) => state.bookmarkReducer);
-  console.log(bookmarksData);
-
-  const [isModal, setIsModal] = useState(false);
-  // const checkBookmark
-  const [isAddBookmark, setIsAddBookmark] = useState("");
-
   const checkBookmarksData = (title) => {
-    return bookmarksData.filter((el) => el.title === title);
+    return bookmarksData.map((el) => el.title).includes(title);
   };
+  // console.log("북마크한 리스트", bookmarksData);
+
+  // 상태관리
+  const [isModal, setIsModal] = useState(false);
+  const [isBookmark, setIsBookmark] = useState(checkBookmarksData(title));
+  // const [isAddBookmark, setIsAddBookmark] = useState('');
 
   // 핸들러 함수
-  //* Modal 상태변경 함수
-  // const modalOpenHandler = () => {
-  //   setIsModal(!isModal);
-  // };
-  //# 북마크추가 및 제거 핸들러 함수 구현 필요
-  const addBookmark = () => {
+  //* 북마크추가 및 제거 핸들러 함수
+  const controlBookmark = (event) => {
     if (!isSignin) {
       setIsModal(true);
-    } else if (isSignin && !checkBookmarksData(title)) {
-      axios
-        .post(
-          `${process.env.REACT_APP_END_POINT}/musical/bookmark`,
-          { title },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          console.log("북마크추가의 결과는?", res);
-          // dispatch(addBookmark(res.data.date));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    } else if (isSignin) {
+      if (!checkBookmarksData(title)) {
+        axios
+          .post(
+            `${process.env.REACT_APP_END_POINT}/musical/bookmark`,
+            { title },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            console.log("북마크추가의 결과는?", res);
+            //! 응답으로 온 데이터로 북마크리스트를 새로고침하고
+            // dispatch(addBookmark(res.data));
+            // 응답결과를 바탕으로 북마크추가 or 북마크추가됨 상태를 업데이트 해야함
+            dispatch(notify(`북마크리스트에 ${title}이 추가되었습니다.`));
+            setIsBookmark(!isBookmark);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      // else if (checkBookmarksData(title)) {
+      //   axios
+      //     .delete(
+      //       `${process.env.REACT_APP_END_POINT}/musical/bookmark/${title}`,
+      //       { withCredentials: true }
+      //     )
+      //     .then((res) => {
+      //       console.log("북마크제거의 결과는?", res);
+      //       //! 응답으로 온 데이터로 북마크리스트를 새로고침하고
+      //       // dispatch(addBookmark(res.config.data));
+      //       //! 응답결과를 바탕으로 북마크추가 or 북마크추가됨 상태를 업데이트 해야함
+      //       // setIsBookmark(!isBookmark);
+      //     })
+      //     .catch((err) => {
+      //       console.log("북마크제거 에러나면 보여줘", err);
+      //     });
+      // }
     }
   };
-  const removeBookmark = () => {};
 
   return (
     <div>
@@ -78,9 +95,13 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
-          <button id="btnBookmark" onClick={addBookmark}>
-            <ImHeart className="iconBtn" />
-            북마크 추가
+          <button id="btnBookmark" onClick={controlBookmark}>
+            {checkBookmarksData(title) ? (
+              <ImCheckmark className="iconBtn" />
+            ) : (
+              <ImHeart className="iconBtn" />
+            )}
+            {checkBookmarksData(title) ? "북마크 추가됨" : "북마크 추가"}
           </button>
           {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>

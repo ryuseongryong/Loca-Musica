@@ -100,7 +100,7 @@
   height: 300px;
   margin: 12px;
   border-radius: 10px;
-  border: 1px solid red;
+  cursor: pointer;
 }
 
 /* 회원탈퇴 css */
