@@ -21,6 +21,7 @@ router.get('/musical', musical.musical.searchByTitle);
 router.post('/musical/hashtag', musical.hashtag.post);
 router.post('/musical/bookmark', musical.bookmark.post);
 router.delete('/musical/bookmark/:title', musical.bookmark.delete);
+router.delete('/musical/hashtag/:title/:hashtag', musical.hashtag.delete);
 
 router.get('/search', search.search.get);
 router.get('/hashtag', search.hashtag.get);

@@ -9,17 +9,17 @@ module.exports = {
 
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
+    if (!title) {
+      return res.status(404).send({ message: 'musical not found' });
+    }
 
     try {
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
         [title]
       );
-      await connection.commit();
 
       if (Object.keys(req.params).length === 0 || musicalData.length === 0) {
-        connection.release();
         return res.status(404).send({ message: 'musical not found' });
       }
       const musicalId = musicalData[0].id;
@@ -33,8 +33,6 @@ module.exports = {
         `SELECT DISTINCT numbers.id, numbers.title, numbers.videoId FROM (numbers INNER JOIN musicals ON numbers.musical_id = ?)`,
         [musicalId]
       );
-      await connection.commit();
-      connection.release();
 
       // musicalId를 바탕으로 해당 뮤지컬의 해시태그에 등록한 유저를 찾아내야함
       const [musicalHashtagData] = await connection.execute(
@@ -73,14 +71,15 @@ module.exports = {
         hashtagsData,
         userHashtag,
       };
-      // console.log(data);
+
       if (Object.keys(data).length !== 0) {
         res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
       console.log(err);
-      connection.release();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
   // musical?title="wikid"
@@ -89,36 +88,26 @@ module.exports = {
 
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     try {
-      console.log(Object.keys(req.query).length);
-
       const [musicalData] = await connection.execute(
         `SELECT * FROM musicals WHERE title = ?`,
         [title]
       );
       if (Object.keys(req.query).length === 0 || musicalData.length === 0) {
-        connection.release();
         return res.status(404).send({ message: 'not found' });
       }
 
-      const musicalId = musicalData[0].id;
-      console.log(musicalData, musicalId);
-
-      await connection.commit();
-      connection.release();
-
       const data = { ...musicalData[0] };
-      // console.log(data);
 
       if (Object.keys(data).length !== 0) {
         res.status(200).json({ data: data, message: 'ok' });
       }
     } catch (err) {
       console.log(err);
-      connection.release();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

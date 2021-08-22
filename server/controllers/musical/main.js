@@ -4,9 +4,9 @@ module.exports = {
   get: async (req, res) => {
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     try {
+      await connection.beginTransaction();
       const [allMusicalsData] = await connection.execute(
         `SELECT * FROM musicals`
       );
@@ -19,6 +19,8 @@ module.exports = {
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

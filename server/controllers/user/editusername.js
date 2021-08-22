@@ -19,85 +19,69 @@ module.exports = {
 
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     try {
+      await connection.beginTransaction();
       if (!accessTokenData) {
-        connection.release();
         return res.status(401).send({ message: 'invalid access token' });
       }
       //! 사용자 이름은 중복 가능하게 만든다??
       const { id, email, profile, resign, admin, kakao } = accessTokenData;
       const { newUsername } = req.body;
 
-      const [userData] = await connection.execute(
+      if (!newUsername) {
+        return res
+          .status(422)
+          .send({ message: 'insufficient data information!' });
+      }
+      // username을 수정
+      await connection.execute(
+        `UPDATE users SET username = ? WHERE users.id = ?`,
+        [newUsername, id]
+      );
+      const [newUsernameUserData] = await connection.execute(
         `SELECT * from users WHERE id = ?`,
         [id]
       );
-      connection.commit();
-
-      // const [conflictCheck] = await connection2.execute(
-      //   `SELECT username from users`
-      // );
-      // connection2.commit();
-
-      if (userData.length === 0) {
-        connection.release();
+      if (newUsernameUserData.length === 0) {
         return res.status(404).send({ message: 'user not found' });
       }
-      // //! username 중복 방지
-      // else if (conflictCheck.some((user) => user.username === newUsername)) {
-      //   // username이 이미 있는 경우 새로운 비밀번호 적용
-      //   connection.release();
-      //   res.status(409).send({ message: 'username conflict' });
-      // }
-      else {
-        // username을 수정
-        await connection.execute(
-          `UPDATE users SET username = ? WHERE users.id = ?`,
-          [newUsername, id]
-        );
-        const [newUsernameUserData] = await connection.execute(
-          `SELECT * from users WHERE id = ?`,
-          [id]
-        );
-        connection.commit();
-        connection.release();
 
-        const { username } = newUsernameUserData[0];
+      const { username } = newUsernameUserData[0];
 
-        const accessToken = generateAccessToken({
-          id,
-          username,
-          email,
-          profile,
-          resign,
-          admin,
-          kakao,
-        });
+      const accessToken = generateAccessToken({
+        id,
+        username,
+        email,
+        profile,
+        resign,
+        admin,
+        kakao,
+      });
 
-        const refreshToken = generateRefreshToken({
-          id,
-          username,
-          email,
-          profile,
-          resign,
-          admin,
-          kakao,
-        });
+      const refreshToken = generateRefreshToken({
+        id,
+        username,
+        email,
+        profile,
+        resign,
+        admin,
+        kakao,
+      });
 
-        // send Token
-        sendAccessToken(res, accessToken);
-        sendRefreshToken(res, refreshToken);
+      // send Token
+      sendAccessToken(res, accessToken);
+      sendRefreshToken(res, refreshToken);
 
-        const data = { id, email, username, profile, resign, admin, kakao };
+      const data = { id, email, username, profile, resign, admin, kakao };
 
-        // username 수정 완료
-        res.status(200).json({ data: data, message: 'ok' });
-      }
+      await connection.commit();
+      res.status(200).json({ data: data, message: 'ok' });
     } catch (err) {
-      connection.release();
+      await connection.rollback();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

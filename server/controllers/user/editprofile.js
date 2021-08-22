@@ -33,100 +33,97 @@ module.exports = {
     // ! Token을 클라이언트에서 검증하는 방법도 토큰의 만료 시간을 정보로 보내주고 이용하는 방법도 있는듯 : accessTokenData.exp
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     try {
+      await connection.beginTransaction();
       if (!accessTokenData) {
         res.status(401).send({ message: 'invalid access token' });
       }
 
       const { id, email, username, resign, admin, kakao } = accessTokenData;
       const { url, file } = req.body;
+      if (!url) {
+        return res
+          .status(422)
+          .send({ message: 'insufficient data information!' });
+      }
 
-      const [userData] = await connection.execute(
+      // 유저 정보가 있는 경우 새로운 profile url 적용
+      //! url의 기준(??)이 충족되지 않는 경우는 클라에서 막음
+
+      // //! uploads to s3
+      // if (file) {
+      //   const fileStream = fs.createReadStream(file.path);
+
+      //   const uploadParams = {
+      //     Bucket: bucketName,
+      //     Body: fileStream,
+      //     Key: file.filename,
+      //   };
+
+      //   const uploadFile = s3.upload(uploadParams).promise();
+      //   console.log(uploadFile);
+      //   return;
+      // }
+      // //! downloads from s3
+      // if (fileKey) {
+      //   const downloadParams = {
+      //     Key: fileKey,
+      //     Bucket: bucketName,
+      //   };
+      //   const downldadFile = s3.getObject(downloadParams).createReadStream();
+
+      //   redaStream;
+      // }
+
+      await connection.execute(
+        `UPDATE users SET profile = ? WHERE users.id = ?`,
+        [url, id]
+      );
+      const [newProfileUserData] = await connection.execute(
         `SELECT * from users WHERE id = ?`,
         [id]
       );
-      connection.commit();
-      // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
-
-      if (userData.length === 0) {
-        connection.release();
-        res.status(404).send({ message: 'user not found' });
-      } else {
-        // 유저 정보가 있는 경우 새로운 profile url 적용
-        //! url의 기준(??)이 충족되지 않는 경우는 클라에서 막음
-
-        //! uploads to s3
-        if (file) {
-          const fileStream = fs.createReadStream(file.path);
-
-          const uploadParams = {
-            Bucket: bucketName,
-            Body: fileStream,
-            Key: file.filename,
-          };
-
-          const uploadFile = s3.upload(uploadParams).promise();
-          console.log(uploadFile);
-          return;
-        }
-        //! downloads from s3
-        if (fileKey) {
-          const downloadParams = {
-            Key: fileKey,
-            Bucket: bucketName,
-          };
-          const downldadFile = s3.getObject(downloadParams).createReadStream();
-
-          redaStream;
-        }
-
-        await connection.execute(
-          `UPDATE users SET profile = ? WHERE users.id = ?`,
-          [url, id]
-        );
-        const [newProfileUserData] = await connection.execute(
-          `SELECT * from users WHERE id = ?`,
-          [id]
-        );
-        connection.commit();
-        connection.release();
-
-        const { profile } = newProfileUserData[0];
-
-        const accessToken = generateAccessToken({
-          id,
-          username,
-          email,
-          profile,
-          resign,
-          admin,
-          kakao,
-        });
-
-        const refreshToken = generateRefreshToken({
-          id,
-          username,
-          email,
-          profile,
-          resign,
-          admin,
-          kakao,
-        });
-
-        // send Token
-        sendAccessToken(res, accessToken);
-        sendRefreshToken(res, refreshToken);
-
-        const data = { id, email, username, profile, resign, admin, kakao };
-
-        res.status(200).json({ data: data, message: 'ok' });
+      if (newProfileUserData.length === 0) {
+        return res.status(404).send({ message: 'user not found' });
       }
+
+      const { profile } = newProfileUserData[0];
+
+      const accessToken = generateAccessToken({
+        id,
+        username,
+        email,
+        profile,
+        resign,
+        admin,
+        kakao,
+      });
+
+      const refreshToken = generateRefreshToken({
+        id,
+        username,
+        email,
+        profile,
+        resign,
+        admin,
+        kakao,
+      });
+
+      // send Token
+      sendAccessToken(res, accessToken);
+      sendRefreshToken(res, refreshToken);
+
+      const data = { id, email, username, profile, resign, admin, kakao };
+
+      await connection.commit();
+      res.status(200).json({ data: data, message: 'ok' });
     } catch (err) {
       console.log(err);
-      connection.release();
+      await connection.rollback();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };
