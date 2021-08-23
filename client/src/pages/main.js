@@ -1,4 +1,5 @@
 import axios from "axios";
+import Loader from '../components/loader'
 import { useEffect, useState } from "react";
 import '../css/Main.css';
 import { useHistory } from "react-router-dom";
@@ -62,6 +63,7 @@ function Main() {
 
   return (
     <div className="allPageWrap">
+      <Loader/>
       {/* main 대신 musical로 변경 */}
       <div className='main-section1'>
         <div className='main-sidebar-genre-div'>

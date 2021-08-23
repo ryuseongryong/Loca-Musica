@@ -1,12 +1,12 @@
 /*eslint-disable*/
 
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { ImHeart } from "react-icons/im";
-import { useState } from "react";
-import { addBookmark } from "../actions";
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { ImHeart } from 'react-icons/im';
+import { useState } from 'react';
+import { addBookmark } from '../actions';
 
-import ChoiceModal from "./choiceModal";
+import ChoiceModal from './choiceModal';
 
 function PerformanceInfo({ performanceInfo, isSignin }) {
   //? 변수
@@ -18,7 +18,7 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
 
   const [isModal, setIsModal] = useState(false);
   // const checkBookmark
-  const [isAddBookmark, setIsAddBookmark] = useState("");
+  const [isAddBookmark, setIsAddBookmark] = useState('');
 
   const checkBookmarksData = (title) => {
     return bookmarksData.filter((el) => el.title === title);
@@ -41,7 +41,7 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log("북마크추가의 결과는?", res);
+          console.log('북마크추가의 결과는?', res);
           // dispatch(addBookmark(res.data.date));
         })
         .catch((err) => {
@@ -53,51 +53,58 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
 
   return (
     <div>
-      <div className="pfInfo">
-        <ul className="pfInfoTextWrap">
-          <li className="pfTitleWrap">
-            <h4 className="pfTitle">{performanceInfo.title}</h4>
-            {performanceInfo.state === "공연중" ? (
-              <span className="cGreen">{performanceInfo.state}</span>
+      <div className='pfInfo'>
+        <ul className='pfInfoTextWrap'>
+          <li className='pfTitleWrap'>
+            <h4 className='pfTitle'>{performanceInfo.title}</h4>
+            {performanceInfo.state === '공연중' ? (
+              <span className='cGreen'>{performanceInfo.state}</span>
             ) : (
               <span>{performanceInfo.state}</span>
             )}
           </li>
           <li>
-            <p className="pfItem">줄거리</p>
-            <div className="pfStory">{performanceInfo.contents}</div>
+            <p className='pfItem'>줄거리</p>
+            <div className='pfStory'>{performanceInfo.contents}</div>
           </li>
           <li>
-            <p className="pfItem">출연진</p>
+            <p className='pfItem'>출연진</p>
             <div>{performanceInfo.actors}</div>
           </li>
         </ul>
-        <div className="pfInfoImgWrap">
+        <div className='pfInfoImgWrap'>
           <img
-            className="pfPoster"
+            className='pfPoster'
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
-          <button id="btnBookmark" onClick={addBookmark}>
-            <ImHeart className="iconBtn" />
+          <button id='btnBookmark' onClick={addBookmark}>
+            <ImHeart className='iconBtn' />
             북마크 추가
           </button>
           {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>
       </div>
-      <div className="pfNumberWrap">
-        <p className="pfItem">대표넘버</p>
-        <div className="pfNumberList">
+      <div className='pfNumberWrap'>
+        <p className='pfItem'>대표넘버</p>
+        <div className='pfNumberList'>
           {performanceInfo.numbersData.map((el, index) => {
             return (
-              <div className="numberVideo" key={index}>
-                <iframe
-                  className="video"
-                  src={el.videoId}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+              <div className='numberVideo' key={index}>
+                {el.videoId ? (
+                  <iframe
+                    className='video'
+                    src={el.videoId}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className='video video-error'>
+                    영상을 불러오는데 실패했습니다.
+                  </div>
+                )}
+                {/* <div className="video">영상을 불러오는데 실패했습니다.</div> */}
                 <p>{el.title}</p>
               </div>
             );
