@@ -78,6 +78,11 @@ module.exports = {
 
         const { id, username, email, profile, resign, admin, kakao } = userData;
 
+        const [bookmarksData] = await connection.execute(
+          `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ?`,
+          [id]
+        );
+
         const accessToken = generateAccessToken({
           id,
           username,
@@ -103,8 +108,19 @@ module.exports = {
         // send Token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
+
+        const data = {
+          id,
+          email,
+          username,
+          profile,
+          resign,
+          admin,
+          kakao,
+          bookmarksData,
+        };
         //console.log(res);
-        return res.status(200).json({ data: userData, message: 'ok' });
+        return res.status(200).json({ data: data, message: 'ok' });
       }
 
       // Email 이 존재하지 않았을 경우: 회원가입 진행
@@ -142,7 +158,7 @@ module.exports = {
           `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ?`,
           [id]
         );
-
+        console.log(bookmarksData);
         const accessToken = generateAccessToken({
           id,
           username,
@@ -175,7 +191,7 @@ module.exports = {
           kakao,
           bookmarksData,
         };
-        // console.log(data);
+        console.log(data, bookmarksData);
         res.status(201).json({ data: data, message: 'ok' });
       }
     } catch (err) {
