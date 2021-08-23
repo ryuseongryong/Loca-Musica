@@ -7,7 +7,6 @@ const userReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isSignin: action.payload.isSignin,
         userInfo: action.payload.userInfo,
-        bookmarksData: action.payload.bookmarksData,
       });
     case SIGN_OUT:
       return Object.assign({}, state, {
