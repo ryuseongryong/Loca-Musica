@@ -118,6 +118,15 @@
   width: 100%;
 }
 
+.video-error {
+  color: rgb(114, 114, 114);
+  background-color: rgb(167, 167, 167);
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* 뮤지컬 해시태그 관련 css */
 .pfHashtagWrap {
   height: 580px;

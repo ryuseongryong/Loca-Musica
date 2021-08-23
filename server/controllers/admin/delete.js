@@ -10,8 +10,7 @@ module.exports = {
     // }
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
-
+    
     try {
       // const {admin} = accessTokenData;
 
@@ -19,6 +18,9 @@ module.exports = {
       // if (!admin){
       //   return res.status(403).send({message: "not admin"})
       //}
+
+
+      await connection.beginTransaction();
 
       const title = req.params.title;
       console.log('title: ', title);
@@ -30,7 +32,6 @@ module.exports = {
       console.log('existingMusical: ', existingMusical);
 
       if (!existingMusical[0]) {
-        connection.release();
         return res.status(404).send({ message: 'musical not found' });
       }
 
@@ -112,13 +113,14 @@ module.exports = {
       console.log('Musical deleted: ', musicalDeleted);
 
       await connection.commit();
-      connection.release();
 
       res.status(200).send({ message: 'ok' });
     } catch (err) {
       console.log(err);
-      connection.release();
+      await connection.rollback();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

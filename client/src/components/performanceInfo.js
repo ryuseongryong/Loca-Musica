@@ -6,13 +6,18 @@ import { ImHeart, ImCheckmark } from "react-icons/im";
 import { useState, useEffect } from "react";
 import { addBookmark, notify } from "../actions/index";
 
-import ChoiceModal from "./choiceModal";
+
+import ChoiceModal from './choiceModal';
 
 function PerformanceInfo({ performanceInfo, isSignin }) {
   //? 변수
   const title = performanceInfo.title;
-  const bookmarksData = useSelector((state) => state.userReducer.bookmarksData);
   const dispatch = useDispatch();
+
+  const bookmarksData = useSelector((state) => state.bookmarkReducer);
+  console.log(bookmarksData);
+
+  // const checkBookmark
   const checkBookmarksData = (title) => {
     return bookmarksData.map((el) => el.title).includes(title);
   };
@@ -70,28 +75,28 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
 
   return (
     <div>
-      <div className="pfInfo">
-        <ul className="pfInfoTextWrap">
-          <li className="pfTitleWrap">
-            <h4 className="pfTitle">{performanceInfo.title}</h4>
-            {performanceInfo.state === "공연중" ? (
-              <span className="cGreen">{performanceInfo.state}</span>
+      <div className='pfInfo'>
+        <ul className='pfInfoTextWrap'>
+          <li className='pfTitleWrap'>
+            <h4 className='pfTitle'>{performanceInfo.title}</h4>
+            {performanceInfo.state === '공연중' ? (
+              <span className='cGreen'>{performanceInfo.state}</span>
             ) : (
               <span>{performanceInfo.state}</span>
             )}
           </li>
           <li>
-            <p className="pfItem">줄거리</p>
-            <div className="pfStory">{performanceInfo.contents}</div>
+            <p className='pfItem'>줄거리</p>
+            <div className='pfStory'>{performanceInfo.contents}</div>
           </li>
           <li>
-            <p className="pfItem">출연진</p>
+            <p className='pfItem'>출연진</p>
             <div>{performanceInfo.actors}</div>
           </li>
         </ul>
-        <div className="pfInfoImgWrap">
+        <div className='pfInfoImgWrap'>
           <img
-            className="pfPoster"
+            className='pfPoster'
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
@@ -106,19 +111,26 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
           {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>
       </div>
-      <div className="pfNumberWrap">
-        <p className="pfItem">대표넘버</p>
-        <div className="pfNumberList">
+      <div className='pfNumberWrap'>
+        <p className='pfItem'>대표넘버</p>
+        <div className='pfNumberList'>
           {performanceInfo.numbersData.map((el, index) => {
             return (
-              <div className="numberVideo" key={index}>
-                <iframe
-                  className="video"
-                  src={el.videoId}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+              <div className='numberVideo' key={index}>
+                {el.videoId ? (
+                  <iframe
+                    className='video'
+                    src={el.videoId}
+                    frameBorder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className='video video-error'>
+                    영상을 불러오는데 실패했습니다.
+                  </div>
+                )}
+                {/* <div className="video">영상을 불러오는데 실패했습니다.</div> */}
                 <p>{el.title}</p>
               </div>
             );

@@ -1,5 +1,6 @@
 /*eslint-disable*/
 
+
 import "../css/detail.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,6 +9,9 @@ import { remaveBookmark, rememberPathname } from "../actions/index";
 import PerformanceInfo from "../components/performanceInfo";
 import PerformanceTag from "../components/performanceTag";
 import Footer from "../components/footer";
+
+import { useHistory } from "react-router-dom"; // 페이지 이동
+
 
 function Detail() {
   // 상태관리
@@ -54,14 +58,62 @@ function Detail() {
     dispatch(rememberPathname(decodeURI(url.pathname)));
   }, []);
 
+  //! Edit Musical [code start]
+  const history = useHistory();
+  const adminEditMusical = (event) => {
+    let sendData = {
+      id: performanceInfo.id,
+      code: performanceInfo.code,
+      title: performanceInfo.title,
+      thumbnail: performanceInfo.thumbnail,
+      contents: performanceInfo.contents,
+      state: performanceInfo.state,
+      actors: performanceInfo.actors,
+      numbersData: [],
+      hashtagsData: [],
+    }
+
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_END_POINT}/musical/${performanceInfo.title}`,
+      withCredentials: true,
+    })
+      .then((res) => {
+        sendData.numbersData = res.data.data.numbersData;
+        sendData.hashtagsData = res.data.data.hashtagsData; // 해시태그 변동성 때문에 최신 해시태그 값을 가져옴(추가,삭제)
+        history.push({
+          pathname: '/adminEdit', // 게시글 변경 페이지 이동
+          props: sendData // 게시글 상세 정보 전달
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+  //! Edit Musical [code end]
+  //! Delete Musical [code start]
+  const adminDeleteMusical = (event) => {
+    axios({
+      method: 'delete',
+      url: `${process.env.REACT_APP_END_POINT}/admin/delete/${performanceInfo.title}`,
+      withCredentials: true,
+    })
+      .then((res) => {
+        alert('게시글이 삭제되었습니다!');
+        history.push('/musical/main'); // 삭제후 메인 이동
+      })
+  }
+  //! Delete Musical [code end]
+
   // 핸들러함수
   return (
     <div className="detailPageWrap">
       <div id="detailPage">
         {userInfo.admin === 1 ? (
           <div className="adminBtnWrap">
-            <button>수정</button>
-            <button>삭제</button>
+            <button onClick={adminEditMusical}>수정</button>
+            <button onClick={adminDeleteMusical}>삭제</button>
           </div>
         ) : null}
         <div className="pfInfoContainer">
