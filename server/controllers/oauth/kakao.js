@@ -19,6 +19,10 @@ module.exports = {
       return;
     }
 
+    // DB connection open
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
+
     try {
       // Bring access token for kakao
       const kakaoToken = await axios({
@@ -55,9 +59,6 @@ module.exports = {
       const { profile_image_url, thumbnail_image_url } =
         kakaoUser.data.kakao_account.profile;
 
-      // DB connection open
-      const db = await getPool();
-      const connection = await db.getConnection(async (conn) => conn);
       await connection.beginTransaction();
 
       // Check email
@@ -168,7 +169,7 @@ module.exports = {
       connection.rollback();
       res.status(500).send({ message: 'internal server error' });
     } finally {
-      await connection.release()
+      connection.release()
     }
   },
 };

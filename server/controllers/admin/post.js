@@ -9,6 +9,8 @@ module.exports = {
     // if (!accessTokenData){
     //   return res.status(401).send({ message: 'invalid access token' });
     // }
+    const db = await getPool();
+    const connection = await db.getConnection(async (conn) => conn);
 
     try {
       // const {admin} = accessTokenData;
@@ -17,9 +19,6 @@ module.exports = {
       // if (!admin){
       //   return res.status(403).send({message: "not admin"})
       //}
-
-      const db = await getPool();
-      const connection = await db.getConnection(async (conn) => conn);
       await connection.beginTransaction();
 
       console.log('request body: ', req.body);
