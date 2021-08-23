@@ -1,17 +1,17 @@
 import { combineReducers } from "redux";
 import userReducer from "./userReducer";
-import bookmarkReducer from "./bookMarkReducer";
+import bookmarksReducer from "./bookMarksReducer";
 import notificationReducer from "./notificationReducer";
+import pathnameReducer from "./pathnameReducer";
 
 // 필요한 reducer를 import해온다.
 
 const rootReducer = combineReducers({
   // reducer를 만들고 불러온다
   userReducer,
-  bookmarkReducer,
-
-  //? 이건 쓸지말지... 아직은 작동불가
+  bookmarksReducer,
   notificationReducer,
+  pathnameReducer,
 });
 
 export default rootReducer;

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import "../css/userinfo.css";
-import { notify, signin } from "../actions";
+import { notify, signin, updateUserInfo } from "../actions/index";
 import { usernameChecker, passwordChecker } from "../utils/validateCheck";
 import BookmarkList from "../components/bookmarkList";
 import Footer from "../components/footer";
@@ -115,7 +115,6 @@ function UserInfo() {
   const usernameChangeRequestHandler = (event) => {
     event.preventDefault();
     const { newUsername } = inputValue;
-    //# 부분수정 필요 enter을 하면 조건에 맞지 않는데도 불구하고 실행이 되는 버그
     if (usernameChecker(newUsername) === "validUsername") {
       axios
         .patch(
@@ -124,15 +123,13 @@ function UserInfo() {
           { withCredentials: true }
         )
         .then((res) => {
-          dispatch(signin(res.data.data));
+          console.log(res);
+          dispatch(updateUserInfo(res.data.data));
           console.log("사용자이름 잘 변경되었어요");
         })
         .then(() => {
-          //& 임시, test용 notification으로 변경예정
-          setMessage({
-            ...message,
-            usernameMessage: "사용자이름이 변경되었습니다",
-          });
+          //& 임시, 왜 notification이 두개가 나오는거지??????
+          dispatch(notify("사용자이름이 변경되었습니다"));
           setInputValue({
             ...inputValue,
             newUsername: "",
@@ -170,15 +167,14 @@ function UserInfo() {
           { withCredentials: true }
         )
         .then((res) => {
-          // dispatch(signin(res.data.data));
-          console.log("비밀번호 잘 변경되었어요");
+          console.log("비번변경 결과", res);
+          dispatch(updateUserInfo(res.data.data));
+          //!비밀번호 변경하면 토큰을 다시 받아와야하는가?????
+          console.log("비밀번호가 변경되었습니다.");
         })
         .then(() => {
-          //& 임시, test용 notification으로 변경예정
-          setMessage({
-            ...message,
-            passwordMessage: "비밀번호가 변경되었습니다",
-          });
+          // notification으로 결과를 사용자에게 보여줌
+          dispatch(notify("비밀번호가 변경되었습니다"));
           setInputValue({
             ...inputValue,
             password: "",

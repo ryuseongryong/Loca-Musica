@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Toast({ text, dismissTime }) {
+export default function Toast({ text, dismissTime }) {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
@@ -21,5 +21,3 @@ function Toast({ text, dismissTime }) {
     <div className={`notification ${isFading ? "fade-out" : ""}`}>{text}</div>
   );
 }
-
-export default Toast;

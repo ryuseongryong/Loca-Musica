@@ -62,21 +62,24 @@ input:focus {
 .notification {
   transition: transform 0.6s ease-in-out;
   animation: toast-in-right 0.6s;
-  background: #232323;
+  background: rgba(72, 72, 72, 0.95);
   transition: 0.3s ease;
-  border-radius: 20px;
+  border-radius: 10px;
   color: rgb(255, 255, 255);
-  font-weight: 600;
+  font-weight: 400;
+  line-height: 50px;
 
   height: 50px;
-  width: 360px;
+  width: 400px;
   color: #fff;
-  padding: 15px;
+  padding: 0 20px;
   margin: 10px;
 }
 .fade-out {
-  opacity: 0;
-  transform: opacity 2s;
+  /* opacity: 0; */
+  /* transform: opacity 2s; */
+  animation: toast-out-left 1s;
+  transition: 0.3s ease;
 }
 @keyframes toast-in-right {
   from {
@@ -84,6 +87,14 @@ input:focus {
   }
   to {
     transform: translateX(0);
+  }
+}
+@keyframes toast-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
   }
 }
 

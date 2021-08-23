@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../css/signin.css";
-import { signin } from "../actions";
+import { signin, notify } from "../actions/index";
 import {
   emailChecker,
   usernameChecker,
@@ -19,6 +19,7 @@ function Signup() {
   let history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userReducer);
+  const pathname = useSelector((state) => state.pathnameReducer.pathname);
 
   // 현재 페이지에서만 관리가 필요한 state
   //* input에 입력되는 value(회원가입에 필요한 사용자정보)
@@ -156,11 +157,16 @@ function Signup() {
               { withCredentials: true }
             )
             .then((res) => {
-              // 로그인이 완료되면 state를 변경해줘야함
+              // 로그인이 완료되면 state를 변경하고 사용자에게 메세지를 전달
               dispatch(signin(res.data.data));
+              dispatch(notify("회원가입이 되었습니다"));
             })
             .then(() => {
-              history.goBack();
+              //! 상세페이지에서 로그인했으면 다시 상세페이지로 다시 이동, 아니면 main페이지로 이동
+              if (pathname !== "/musical/main") {
+                history.push(`${pathname.slice(9)}`);
+              }
+              history.push(`${pathname}`);
             })
             .catch((err) => {
               console.log(err);

@@ -2,19 +2,22 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/Header.css";
+import { signout, notify, rememberPathname } from "../actions/index";
 
-import { signout } from "../actions/index";
 import Searchbar from "./searchbar";
+
 
 function Header() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const { isSignin, userInfo } = useSelector((state) => {
+  const { isSignin, userInfo, pathname } = useSelector((state) => {
     return {
       isSignin: state.userReducer.isSignin,
       userInfo: state.userReducer.userInfo,
+      pathname: state.pathnameReducer.pathname,
     };
   });
+  // console.log(pathname);
 
   // 로그아웃 핸들러
   const signoutRequestHandler = () => {
@@ -26,8 +29,11 @@ function Header() {
         dispatch(signout());
       })
       .then((res) => {
-        // dispatch(notify('bye'))
-        console.log("bye");
+        dispatch(notify("로그아웃 되었습니다"));
+        console.log("로그아웃 되었습니다");
+        dispatch(rememberPathname("/musical/main"));
+      })
+      .then((res) => {
         history.push("/musical/main");
       })
       .catch((err) => {
@@ -37,9 +43,9 @@ function Header() {
 
   // 추천받기 버튼 클릭시 사용자 추천 시스템 화면 이동
   const goRecommend = (event) => {
-    history.push('/search');
+    history.push("/search");
     // window.location.reload();
-  }
+  };
 
   return (
     <div className="header-main">
