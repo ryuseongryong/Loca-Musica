@@ -56,8 +56,13 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
             { withCredentials: true }
           )
           .then((res) => {
-            console.log("북마크제거의 결과는?", res);
-            dispatch(res.data.data.updatedBookmarkData[0].title);
+            console.log(
+              "북마크제거의 결과는?",
+              res.data.data.updatedBookmarkData[0]
+            );
+            dispatch(
+              removeBookmark(res.data.data.updatedBookmarkData[0].title)
+            );
             dispatch(notify(`북마크리스트에서 ${title}이(가) 제거되었습니다.`));
           })
           .catch((err) => {
