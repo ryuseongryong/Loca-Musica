@@ -51,10 +51,10 @@ module.exports = {
           [musicalHashtagData[i].id]
         );
         if (userHashtagData.length !== 0) {
-          userHashtag.push(userHashtagData);
           for (let j = 0; j < hashtagsData.length; j++) {
             for (let k = 0; k < userHashtagData.length; k++) {
               if (hashtagsData[j].id === userHashtagData[k].id) {
+                userHashtag.push(userHashtagData);
                 hashtagsData[j].userInfo.push({
                   username: userHashtagData[k].username,
                   profile: userHashtagData[k].profile,
