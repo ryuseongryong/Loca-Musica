@@ -14,4 +14,7 @@ export const initialState = {
 
   // 사용자에게 전달되는 알림메세지의 초기상태
   notifications: [],
+  
+  // 웹사이트에 최초 접속시 모든 뮤지컬 정보(해시태그 정보는 제외)
+  arrAllMusicalData: [],
 };

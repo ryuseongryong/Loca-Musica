@@ -6,9 +6,9 @@ function NofiticationCenter() {
 
   return (
     <div className="notification-container top-right">
-      {state.notifications.map((n) => (
+      {/* {state.notifications.map((n) => (
         <Toast key={n.uuid} text={n.message} dismissTime={n.dismissTime} />
-      ))}
+      ))} */}
     </div>
   );
 }

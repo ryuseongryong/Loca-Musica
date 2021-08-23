@@ -3,8 +3,9 @@
   flex-wrap: wrap;
   width: 90%;
   background-color: #484848;
-  border-radius: 25px;
+  border-radius: 20px;
 }
+
 
 .searchbar-div {
   height: 39px;
@@ -49,7 +50,6 @@
   width: 100%;
   /* border: 1px solid #fff; */
   border-top: 1px solid rgb(91, 91, 91);
-  padding-top: 10px;
   margin-bottom: 20px;
 }
 
@@ -58,6 +58,7 @@
   display: flex;
   align-items: center;
   padding: 10px 0 10px 15px;
+  border-bottom: 1px solid rgb(91, 91, 91);
 }
 
 .searchbar-result-li:hover{

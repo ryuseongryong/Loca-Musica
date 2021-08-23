@@ -27,6 +27,7 @@ function Header() {
       .then((res) => {
         dispatch(signout());
       })
+
       .then((res) => {
         // dispatch(notify("로그아웃 되었습니다"));
         console.log("로그아웃 되었습니다");

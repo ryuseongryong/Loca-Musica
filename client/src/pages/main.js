@@ -3,6 +3,8 @@ import Loader from "../components/loader";
 import { useEffect, useState } from "react";
 import "../css/Main.css";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { storeAllMusicalInfo } from '../actions/index';
 import { AiOutlineVerticalAlignTop } from "react-icons/ai";
 
 function Main() {
@@ -12,6 +14,8 @@ function Main() {
   const [clickHashtag, setClickHashtag] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {
     axios({
@@ -29,6 +33,7 @@ function Main() {
       }
       */
       // all musical
+      dispatch(storeAllMusicalInfo(res.data.data.allMusicalsData));
       setAllMusical(res.data.data.allMusicalsData);
       // hasgtag
       let userHashtag = res.data.data.allHashtagsData.filter((el) => {

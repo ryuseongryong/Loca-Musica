@@ -16,6 +16,9 @@ export const NOTIFY = "NOTIFY";
 export const ENQUEUE_NOTIFICATION = "ENQUEUE_NOTIFICATION";
 export const DEQUEUE_NOTIFICATION = "DEQUEUE_NOTIFICATION";
 
+// 모든 뮤지컬 정보 저장 action
+export const STORE_ALL_MUISCAL_DATA = "STORE_ALL_MUISCAL_DATA";
+
 // 로그인 액션
 export const signin = (data) => {
   // console.log("data를 보여줘", data);
@@ -128,3 +131,11 @@ export const dequeueNotification = () => {
     type: DEQUEUE_NOTIFICATION,
   };
 };
+
+// 웹사이트에 최초 접속시 모든 뮤지컬 정보 저장(해시태그 정보는 제외)
+export const storeAllMusicalInfo = (arrAllMusicalsData) => {
+  return {
+    type: STORE_ALL_MUISCAL_DATA,
+    payload: arrAllMusicalsData
+  }
+}
