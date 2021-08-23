@@ -1,5 +1,4 @@
 // sign in &  out 및 userInfo에 관련된 action
-export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
 export const UPDATE_USERINFO = "UPDATE_USERINFO";
@@ -136,6 +135,6 @@ export const dequeueNotification = () => {
 export const storeAllMusicalInfo = (arrAllMusicalsData) => {
   return {
     type: STORE_ALL_MUISCAL_DATA,
-    payload: arrAllMusicalsData
-  }
-}
+    payload: arrAllMusicalsData,
+  };
+};

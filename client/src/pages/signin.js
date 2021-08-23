@@ -13,10 +13,6 @@ function Signin() {
   const history = useHistory();
   const dispatch = useDispatch();
   const pathname = useSelector((state) => state.pathnameReducer.pathname);
-  // console.log("저장된 pathname을 보여줘", pathname);
-  // console.log("로컬에 저장된 userInfo를 보여줘!", userInfo);
-  // console.log("로컬에 저장된 isSignin을 보여줘!", isSignin);
-  // console.log("로컬에 저장된 bookmarksData를 보여줘!", bookmarksData);
 
   // 현재 페이지에서만 관리가 필요한 state
   //* input에 입력되는 value(로그인에 필요한 사용자정보)
@@ -52,7 +48,6 @@ function Signin() {
           { withCredentials: true }
         )
         .then((res) => {
-          // dispatch로 로그인상태 state 관리
           // console.log("로그인에대한응답", res);
           dispatch(signin(res.data.data));
           dispatch(notify("반갑습니다"));

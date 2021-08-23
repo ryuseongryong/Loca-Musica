@@ -4,12 +4,13 @@ import "../css/detail.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { remaveBookmark, rememberPathname } from "../actions/index";
+import { rememberPathname } from "../actions/index";
 import PerformanceInfo from "../components/performanceInfo";
 import PerformanceTag from "../components/performanceTag";
 import Footer from "../components/footer";
-
+import Loader from "../components/loader";
 import { useHistory } from "react-router-dom"; // 페이지 이동
+import seat from "../images/seat.png";
 
 function Detail() {
   // 상태관리
@@ -21,9 +22,8 @@ function Detail() {
       pathname: state.pathnameReducer.pathname,
     };
   });
-  // console.log("저장된 패스네임은??", pathname);
 
-  // console.log("사용자정보를 보여줘", userInfo);
+  // 현재페이지에서만 관리되는 state
   const [performanceInfo, setPerformanceInfo] = useState({
     id: "",
     code: "",
@@ -35,6 +35,8 @@ function Detail() {
     numbersData: [],
     hashtagsData: [],
   });
+  const [isLoading, setIsLoading] = useState(true);
+
   // const _url = new URL(window.location.href)
   // const [url, setUrl] = useState(_url);
   // const [title, setTitle] = useState(decodeURI(_url.pathname.slice(9)))
@@ -44,7 +46,7 @@ function Detail() {
     // 첫 방문 시에 url에서 작품 제목을 받아오기
     const url = new URL(window.location.href);
     const title = decodeURI(url.pathname.slice(9));
-    console.log("url: ", url, "title: ", title)
+    console.log("url: ", url, "title: ", title);
     console.log("useEffect 가 실행되었습니다.");
     axios
       .get(`${process.env.REACT_APP_END_POINT}/musical/${title}`, {
@@ -52,6 +54,9 @@ function Detail() {
       })
       .then((res) => {
         setPerformanceInfo(res.data.data);
+      })
+      .then((res) => {
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("작품정보를 불러오지 못한 이유는?", err);
@@ -109,28 +114,32 @@ function Detail() {
 
   // 핸들러함수
   return (
-    <div className="detailPageWrap">
-      <div id="detailPage">
-        {userInfo.admin === 1 ? (
-          <div className="adminBtnWrap">
-            <button onClick={adminEditMusical}>수정</button>
-            <button onClick={adminDeleteMusical}>삭제</button>
-          </div>
-        ) : null}
-        <div className="pfInfoContainer">
-          <PerformanceInfo
-            performanceInfo={performanceInfo}
-            isSignin={isSignin}
-          />
-          <PerformanceTag
-            performanceInfo={performanceInfo}
-            userInfo={userInfo}
-            isSignin={isSignin}
-          />
+    <>
+      {isLoading ? (
+        <div className="detailPageLoader">
+          <Loader />
         </div>
-      </div>
-      <Footer />
-    </div>
+      ) : (
+        <div className="detailPageWrap">
+          <div id="detailPage">
+            {userInfo.admin === 1 ? (
+              <div className="adminBtnWrap">
+                <button onClick={adminEditMusical}>수정</button>
+                <button onClick={adminDeleteMusical}>삭제</button>
+              </div>
+            ) : null}
+            <div className="pfInfoContainer">
+              <PerformanceInfo
+                performanceInfo={performanceInfo}
+                isSignin={isSignin}
+              />
+              <PerformanceTag userInfo={userInfo} isSignin={isSignin} />
+            </div>
+          </div>
+          <Footer />
+        </div>
+      )}
+    </>
   );
 }
 
