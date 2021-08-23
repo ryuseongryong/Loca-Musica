@@ -754,7 +754,7 @@ module.exports = {
           [hashtagId, musicalId]
         );
         if (musicalHashtagIdData.length === 0) {
-          res.status(500).send({ message: 'internal server error(DB)' });
+          return res.status(500).send({ message: 'internal server error(DB)' });
         }
 
         const musicalHashtagId = musicalHashtagIdData[0].id;
