@@ -76,6 +76,7 @@ export const updateUserInfo = (data) => {
   };
 };
 
+// pathname 저장 액션
 export const rememberPathname = (pathname) => {
   return {
     type: REMEMBER_PATHNAME,
@@ -86,12 +87,11 @@ export const rememberPathname = (pathname) => {
 };
 
 // bookmark 더하기
-export const addBookmark = (title) => {
+export const addBookmark = (data) => {
+  // console.log("북마크를 더했을때", data);
   return {
     type: ADD_BOOKMARK,
-    payload: {
-      title,
-    },
+    payload: data,
   };
 };
 // bookmark 취소하기

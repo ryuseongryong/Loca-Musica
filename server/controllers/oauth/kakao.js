@@ -138,6 +138,11 @@ module.exports = {
         const { id, username, email, profile, resign, admin, kakao } =
           newUserData;
 
+        const [bookmarksData] = await connection.execute(
+          `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ?`,
+          [id]
+        );
+
         const accessToken = generateAccessToken({
           id,
           username,
@@ -160,7 +165,16 @@ module.exports = {
         // Send token
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
-        const data = { id, username, email, profile, resign, admin, kakao };
+        const data = {
+          id,
+          username,
+          email,
+          profile,
+          resign,
+          admin,
+          kakao,
+          bookmarksData,
+        };
         // console.log(data);
         res.status(201).json({ data: data, message: 'ok' });
       }
@@ -169,7 +183,7 @@ module.exports = {
       connection.rollback();
       res.status(500).send({ message: 'internal server error' });
     } finally {
-      connection.release()
+      connection.release();
     }
   },
 };

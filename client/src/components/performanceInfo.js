@@ -4,29 +4,24 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ImHeart, ImCheckmark } from "react-icons/im";
 import { useState, useEffect } from "react";
-import { addBookmark, notify } from "../actions/index";
+import { addBookmark, removeBookmark, notify } from "../actions/index";
 
-
-import ChoiceModal from './choiceModal';
+import ChoiceModal from "./choiceModal";
 
 function PerformanceInfo({ performanceInfo, isSignin }) {
   //? 변수
   const title = performanceInfo.title;
   const dispatch = useDispatch();
-
-  const bookmarksData = useSelector((state) => state.bookmarkReducer);
-  console.log(bookmarksData);
-
-  // const checkBookmark
+  const bookmarksData = useSelector(
+    (state) => state.bookmarksReducer.bookmarksData
+  );
+  // console.log("북마크리스트를 보여주세요", bookmarksData);
   const checkBookmarksData = (title) => {
     return bookmarksData.map((el) => el.title).includes(title);
   };
-  // console.log("북마크한 리스트", bookmarksData);
 
-  // 상태관리
+  // 현재 페이지에서 필요한 상태관리
   const [isModal, setIsModal] = useState(false);
-  const [isBookmark, setIsBookmark] = useState(checkBookmarksData(title));
-  // const [isAddBookmark, setIsAddBookmark] = useState('');
 
   // 핸들러 함수
   //* 북마크추가 및 제거 핸들러 함수
@@ -42,61 +37,60 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
             { withCredentials: true }
           )
           .then((res) => {
-            console.log("북마크추가의 결과는?", res);
-            //! 응답으로 온 데이터로 북마크리스트를 새로고침하고
-            // dispatch(addBookmark(res.data));
+            console.log(
+              "북마크추가의 결과는?",
+              res.data.data.updatedBookmarkData[0]
+            );
+            // const newBookmark = res.data.data.slice(-1);
+            dispatch(addBookmark(res.data.data.updatedBookmarkData[0]));
             // 응답결과를 바탕으로 북마크추가 or 북마크추가됨 상태를 업데이트 해야함
-            dispatch(notify(`북마크리스트에 ${title}이 추가되었습니다.`));
-            setIsBookmark(!isBookmark);
+            dispatch(notify(`북마크리스트에 ${title}이(가) 추가되었습니다.`));
           })
           .catch((err) => {
             console.log(err);
           });
+      } else if (checkBookmarksData(title)) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_END_POINT}/musical/bookmark/${title}`,
+            { withCredentials: true }
+          )
+          .then((res) => {
+            console.log("북마크제거의 결과는?", res);
+            dispatch(res.data.data.updatedBookmarkData[0].title);
+            dispatch(notify(`북마크리스트에서 ${title}이(가) 제거되었습니다.`));
+          })
+          .catch((err) => {
+            console.log("북마크제거 에러나면 보여줘", err);
+          });
       }
-      // else if (checkBookmarksData(title)) {
-      //   axios
-      //     .delete(
-      //       `${process.env.REACT_APP_END_POINT}/musical/bookmark/${title}`,
-      //       { withCredentials: true }
-      //     )
-      //     .then((res) => {
-      //       console.log("북마크제거의 결과는?", res);
-      //       //! 응답으로 온 데이터로 북마크리스트를 새로고침하고
-      //       // dispatch(addBookmark(res.config.data));
-      //       //! 응답결과를 바탕으로 북마크추가 or 북마크추가됨 상태를 업데이트 해야함
-      //       // setIsBookmark(!isBookmark);
-      //     })
-      //     .catch((err) => {
-      //       console.log("북마크제거 에러나면 보여줘", err);
-      //     });
-      // }
     }
   };
 
   return (
     <div>
-      <div className='pfInfo'>
-        <ul className='pfInfoTextWrap'>
-          <li className='pfTitleWrap'>
-            <h4 className='pfTitle'>{performanceInfo.title}</h4>
-            {performanceInfo.state === '공연중' ? (
-              <span className='cGreen'>{performanceInfo.state}</span>
+      <div className="pfInfo">
+        <ul className="pfInfoTextWrap">
+          <li className="pfTitleWrap">
+            <h4 className="pfTitle">{performanceInfo.title}</h4>
+            {performanceInfo.state === "공연중" ? (
+              <span className="cGreen">{performanceInfo.state}</span>
             ) : (
               <span>{performanceInfo.state}</span>
             )}
           </li>
           <li>
-            <p className='pfItem'>줄거리</p>
-            <div className='pfStory'>{performanceInfo.contents}</div>
+            <p className="pfItem">줄거리</p>
+            <div className="pfStory">{performanceInfo.contents}</div>
           </li>
           <li>
-            <p className='pfItem'>출연진</p>
+            <p className="pfItem">출연진</p>
             <div>{performanceInfo.actors}</div>
           </li>
         </ul>
-        <div className='pfInfoImgWrap'>
+        <div className="pfInfoImgWrap">
           <img
-            className='pfPoster'
+            className="pfPoster"
             src={performanceInfo.thumbnail}
             alt={`${performanceInfo.title}포스터 이미지`}
           />
@@ -111,22 +105,22 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
           {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
         </div>
       </div>
-      <div className='pfNumberWrap'>
-        <p className='pfItem'>대표넘버</p>
-        <div className='pfNumberList'>
+      <div className="pfNumberWrap">
+        <p className="pfItem">대표넘버</p>
+        <div className="pfNumberList">
           {performanceInfo.numbersData.map((el, index) => {
             return (
-              <div className='numberVideo' key={index}>
+              <div className="numberVideo" key={index}>
                 {el.videoId ? (
                   <iframe
-                    className='video'
+                    className="video"
                     src={el.videoId}
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
                 ) : (
-                  <div className='video video-error'>
+                  <div className="video video-error">
                     영상을 불러오는데 실패했습니다.
                   </div>
                 )}

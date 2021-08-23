@@ -65,13 +65,13 @@ function Signin() {
         })
         .catch((err) => {
           console.log("로그인에러", err.response);
-          // if (err.response.data.message === "invalid password") {
-          //   setErrMessage("비밀번호를 다시 확인해주세요.");
-          // } else if (err.response.data.message === "invalid email") {
-          //   setErrMessage("사용자 정보를 찾을 수 없습니다. 회원가입 해주세요.");
-          // } else if (err.response.data.message === "resigned user") {
-          //   setErrMessage("사용할 수 없는 이메일입니다.");
-          // }
+          if (err.response.data.message === "invalid password") {
+            setErrMessage("비밀번호를 다시 확인해주세요.");
+          } else if (err.response.data.message === "invalid email") {
+            setErrMessage("사용자 정보를 찾을 수 없습니다. 회원가입 해주세요.");
+          } else if (err.response.data.message === "resigned user") {
+            setErrMessage("사용할 수 없는 이메일입니다.");
+          }
         });
     }
   };

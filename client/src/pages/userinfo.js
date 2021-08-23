@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/userinfo.css";
 import { notify, signin, updateUserInfo } from "../actions/index";
 import { usernameChecker, passwordChecker } from "../utils/validateCheck";
@@ -13,10 +13,11 @@ import WithdrawalModal from "../components/withdrawalModal";
 
 function UserInfo() {
   const dispatch = useDispatch();
-  const { isSignin, userInfo } = useSelector((state) => {
+  const { isSignin, userInfo, bookmarksData } = useSelector((state) => {
     return {
       isSignin: state.userReducer.isSignin,
       userInfo: state.userReducer.userInfo,
+      bookmarksData: state.bookmarksReducer.bookmarksData,
     };
   });
 
@@ -290,13 +291,6 @@ function UserInfo() {
 
         <div className="bookmarkWrap">
           <p>북마크한 뮤지컬</p>
-          {/* <div className="bookmarksDataWrap">
-            <span className="bookmarkimg"></span>
-            <span className="bookmarkimg"></span>
-            <span className="bookmarkimg"></span>
-            <span className="bookmarkimg"></span>
-            <span className="bookmarkimg"></span>
-          </div> */}
           <BookmarkList />
         </div>
 
