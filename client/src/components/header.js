@@ -70,7 +70,9 @@ function Header() {
           </Link>
         ) : null}
       </div>
-      <div className="header-section3">{/* <Searchbar /> */}</div>
+      <div className="header-section3">
+        <Searchbar />
+      </div>
       {/* 로그인 상태에 따라 보이는 버튼이 달라지도록 설정 */}
       <div className="header-section4">
         {isSignin ? (
