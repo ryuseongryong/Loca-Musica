@@ -15,7 +15,7 @@ function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const dispatch = useDispatch();
-  
+
 
   useEffect(() => {
     axios({
@@ -121,7 +121,7 @@ function Main() {
   }
 
   return (
-    <div className="allPageWrap">
+    <div className="main-wrap">
       {/* <Loader /> */}
       {/* main 대신 musical로 변경 */}
       <div className="main-section1">
