@@ -1,0 +1,116 @@
+.allPageWrap {
+	display: flex;
+	margin-top: 80px;
+	width: 100%;
+	/* footer조절 */
+	/* height: calc(100vh - 5rem); */
+	height: 100%;
+	background-color: black;
+	overflow: auto;
+}
+
+.main-section1 {
+	flex: 1;
+	/* border: 1px solid red; */
+	padding-left: 20px;
+	padding-top: 20px;
+}
+
+.main-section2 {
+	flex: 4;
+	/* border: 1px solid red; */
+	/* display: flex;
+	flex-direction: column;
+	align-items: center; */
+	margin: 0 50px;
+}
+
+.main-section3 {
+	flex: 1;
+	/* border:  1px solid red; */
+}
+
+/* sidebar */
+.main-sidebar-genre-info {
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: right;
+}
+
+.main-sidebar-genreList {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-bottom: 20px;
+}
+
+.main-sidebar-genre {
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+.main-sidebar-withPeople-info {
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: right;
+}
+
+.main-sidebar-withPeopleList {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-bottom: 20px;
+}
+
+.main-sidebar-withPeople {
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+.main-sidebar-hashtag-info {
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: right;
+}
+
+.main-sidebar-hashtagList {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.main-sidebar-hashtag {
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+/* musical list */
+.main-musicalList-info {
+	padding-left: 20px;
+	padding-top: 20px;
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.main-musicalList {
+	list-style: none;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;
+	/* width: 80%; */
+}
+
+.main-musical-image {
+	height: 250px;
+	/* flex: 0 1 20%; */
+	margin: 10px;
+	border-radius: 10px;
+
+}

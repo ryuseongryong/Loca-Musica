@@ -3,95 +3,15 @@ import '../css/AdminEdit.css';
 import EditHashtagModal from '../components/editHashtagModal';
 import axios from 'axios';
 import AWS from "aws-sdk";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function AdminEdit() {
-	let history = useHistory();
+	const history = useHistory();
+	const location = useLocation();
 	// 전달받은 해사태그 중 유저가 작성한 해시태그 목록
 	const [beforeUserHashtag, setBeforeUserHashtag] = useState([]);
 	// 기존에 있던 정보 저장 객체
-	const [beforeAdminPostInfo, setBeforeAdminPostInfo] = useState({
-		id: 15,
-		code: "PF176633",
-		title: "헤드윅",
-		thumbnail: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF176633_210630_094052.PNG",
-		contents: "동베를린 (EAST BERLIN) 이야기는 베를린 장벽이 올랐을 무렵의 동독에서부터 시작된다. 비좁은 아파트에서 엄마와 단둘이 살고 있는 소년 한셀. 한셀의 유일한 즐거움은 미군 라디오 방송을 통해 데이빗 보위, 루 리드, 이기 팝 등의 록 음악을 듣는 것이다. 그러던 어느 날, 한셀에게 암울한 자신의 환경을 탈출할 기회가 찾아온다. 미군 병사 루터가 그에게 여자가 되는 조건으로 결혼을 제의한 것이다. 한셀은 엄마의 이름인 ‘헤드윅’으로 이름을 바꾸고 ",
-		state: "공연중",
-		actors: "오만석, 조승우, 이규형, 고은성, 이영미, 김려원, 이준 등",
-		numbersData: [
-			{
-				"id": 45,
-				"title": "19 뮤지컬 헤드윅 리허설 인터뷰",
-				"videoId": "https://www.youtube.com/embed/-HGLZOULBSU"
-			},
-			{
-				"id": 44,
-				"title": "21 뮤지컬 헤드윅 메이킹 필름",
-				"videoId": "https://www.youtube.com/embed/TEBmIoKXVpo"
-			},
-			{
-				"id": 43,
-				"title": "'The Origin of Love' - 조승우",
-				"videoId": "https://www.youtube.com/embed/bcDlAitQSC0"
-			}
-		],
-		hashtagsData: [
-			{
-				"name": "#컴온컴온",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#창문은네모",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#리액트",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#오늘은금요일",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#내일은토요일",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#항상긍정적으로",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "#일이삼사오육칠",
-				"likeCount": 1,
-				"totalLikeCount": 1,
-				"musicalCount": 1
-			},
-			{
-				"name": "혼자",
-				"likeCount": 1,
-				"totalLikeCount": 4,
-				"musicalCount": 4
-			},
-			{
-				"name": "드라마",
-				"likeCount": 1,
-				"totalLikeCount": 3,
-				"musicalCount": 3
-			}
-		]
-	})
+	const [beforeAdminPostInfo, setBeforeAdminPostInfo] = useState({ ...location.props });
 	// 관리자가 작성한 게시글 정보(server에 보낼것)
 	const [adminPostInfo, setAdminPostInfo] = useState({
 		code: beforeAdminPostInfo.code,
@@ -110,6 +30,8 @@ function AdminEdit() {
 
 	// 만약에 작품검색을 통해 값을 가져오면 가져온 값으로 변경하기 위한 useEffect -> 1.code 2.title 3.image 4.state 변경
 	useEffect(() => {
+		// console.log('location 받아온 값 : ', location.props); // history.push()로 전달한 값을 받기 위해 location사용
+
 		// 1. category- 동행자 전달된 값으로 할당
 		let withPeopleArr = beforeAdminPostInfo.hashtagsData.filter((el) => {
 			return el.name === '혼자' || el.name === '연인과함께' || el.name === '가족과함께' || el.name === '친구와함께'
@@ -163,11 +85,11 @@ function AdminEdit() {
 	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData[0].title);
 	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData[0].videoId);
 	// 넘버2 작성
-	const [numberTitleValue2, setNumberTitleValue2] = useState(beforeAdminPostInfo.numbersData[1].title);
-	const [numberVideoIdValue2, setNumberVideoIdValue2] = useState(beforeAdminPostInfo.numbersData[1].videoId);
+	const [numberTitleValue2, setNumberTitleValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].title : '');
+	const [numberVideoIdValue2, setNumberVideoIdValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].videoId : '');
 	// 넘버3 작성
-	const [numberTitleValue3, setNumberTitleValue3] = useState(beforeAdminPostInfo.numbersData[2].title);
-	const [numberVideoIdValue3, setNumberVideoIdValue3] = useState(beforeAdminPostInfo.numbersData[2].videoId);
+	const [numberTitleValue3, setNumberTitleValue3] = useState(beforeAdminPostInfo.numbersData[2] ? beforeAdminPostInfo.numbersData[2].title : '');
+	const [numberVideoIdValue3, setNumberVideoIdValue3] = useState(beforeAdminPostInfo.numbersData[2] ? beforeAdminPostInfo.numbersData[2].videoId : '');
 	// category 변경을 위한 state
 
 	//! S3를 이용한 파일 업로드
@@ -176,12 +98,19 @@ function AdminEdit() {
 	// s3에 업로드된 후 해당 이미지에 접근하기 위한 경로를 저장하는 state
 	const [uploadImageSrc, setUploadImageSrc] = useState('');
 
+	// 
+	// const awsConfig = {
+	// 	bucketName: "locauploadimagetest",
+	// 	region: "ap-northeast-2",
+	// 	accessKeyId: 'AKIA5ADD5NVPAT4KBT5Y',
+	// 	secretAccessKey: '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',
+	// };
 	// s3 연결 설정
 	const awsConfig = {
-		bucketName: "locauploadimagetest",
+		bucketName: "locamusica-musical-thumbnail",
 		region: "ap-northeast-2",
-		accessKeyId: 'AKIA5ADD5NVPAT4KBT5Y',
-		secretAccessKey: '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',
+		accessKeyId: process.env.REACT_APP_THUMBNAIL_ACCESS_KEY,
+		secretAccessKey: process.env.REACT_APP_THUMBNAIL_SECRET_ACCESS_KEY,
 	};
 	const s3 = new AWS.S3(awsConfig);
 
@@ -189,10 +118,16 @@ function AdminEdit() {
 	const handleUpload = async (file) => {
 		const fileKey = `${Date.now()}-${file.name}`; // '시간 + 파일명'으로 파일명 변경 형삭 ex)1629430434288-lesMiserables.jpeg
 
+		// const params = {
+		// 	ACL: "public-read",
+		// 	Body: file,
+		// 	Bucket: "locauploadimagetest",
+		// 	Key: fileKey,
+		// };
 		const params = {
 			ACL: "public-read",
 			Body: file,
-			Bucket: "locauploadimagetest",
+			Bucket: "locamusica-musical-thumbnail",
 			Key: fileKey,
 		};
 
@@ -208,7 +143,8 @@ function AdminEdit() {
 	const handleImageSrc = async (file) => {
 		const fileKey = await handleUpload(file); // 실제 업로드된 파일명
 		// img태그에서 실제 s3에 업로드된 이미지파일에 접근하기 위해서 s3주소를 추가하여 src경로 지정
-		let uploadMusicalImageSrc = `https://locauploadimagetest.s3.ap-northeast-2.amazonaws.com/${fileKey}`
+		let uploadMusicalImageSrc = `https://locamusica-musical-thumbnail.s3.ap-northeast-2.amazonaws.com/${fileKey}`
+		// let uploadMusicalImageSrc = `https://locauploadimagetest.s3.ap-northeast-2.amazonaws.com/${fileKey}`
 		// return uploadMusicalImageSrc; // promise 객체를 반환한다 -> 여기서 state변수에 저장후 해당 state변수로 경로값을 얻는다.
 		setUploadImageSrc(uploadMusicalImageSrc);
 	};
@@ -322,11 +258,10 @@ function AdminEdit() {
 		})
 			.then(function (response) {
 				alert("게시글 성공적으로 변경되었습니다.");
-				window.location.reload();
-				// history.push({
-				// 	pathname: '/adminEdit',
-				// 	key: adminPostInfo
-				// });
+				history.push({
+					pathname: '/adminEdit', // 수정후 수정페이지 유지
+					props: adminPostInfo // 변경된 정보가 화면에 표시되도록 변경값 전달(key값은 props,location으로 접근)
+				});
 			})
 			.catch(function (error) {
 				console.log(error);
