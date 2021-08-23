@@ -1,6 +1,5 @@
 const { checkAccessToken } = require('../tokenFunctions');
 
-
 module.exports = {
   post: async (req, res) => {
     const accessTokenData = checkAccessToken(req);
@@ -26,7 +25,6 @@ module.exports = {
         res.status(200).json({ message: 'ok' });
       }
     } catch (err) {
-      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
