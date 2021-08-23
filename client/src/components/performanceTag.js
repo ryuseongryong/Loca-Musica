@@ -7,7 +7,7 @@ import { notify } from "../actions/index";
 import ChoiceModal from "./choiceModal";
 import WordCloud from "./wordCloud";
 
-function PerformanceTag({ isSignin, userInfo }) {
+function PerformanceTag({ isSignin, userInfo, performanceInfo }) {
   //? 변수
   const url = new URL(window.location.href);
   const title = decodeURI(url.pathname.slice(9));
@@ -45,7 +45,7 @@ function PerformanceTag({ isSignin, userInfo }) {
         withCredentials: true,
       })
       .then((res) => {
-        // console.log("응답은?", res.data.data);
+        // console.log("지금응답은?", res.data.data);
         setHashtagsData(res.data.data.hashtagsData);
         setUserHashtag(res.data.data.userHashtag);
       })
@@ -77,9 +77,9 @@ function PerformanceTag({ isSignin, userInfo }) {
     const hashtag = `#${inputValue.replace(/ /gi, "")}`;
     if (!isSignin) {
       setIsModal(true);
-    } else if (isSignin && hashtag.length > 8) {
+    } else if (isSignin && hashtag.length > 9) {
       dispatch(notify("해시태그는 7자 이하로 작성해주세요"));
-    } else if (isSignin && hashtag.length < 8) {
+    } else if (isSignin && hashtag.length < 9) {
       axios
         .post(
           `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
@@ -102,9 +102,10 @@ function PerformanceTag({ isSignin, userInfo }) {
   //* 해시태그 공감표시 가능 함수
   const controlLikeRequestHandler = (event) => {
     // console.log("event를 보여줘", event);
-    const hashtag = event.target.innerText;
-    // checkHashtagUser(hashtag, username);
-    // console.log(checkHashtagUser(hashtag, username));
+    let hashtag = event.target.innerText;
+
+    checkHashtagUser(hashtag, username);
+    console.log(checkHashtagUser(hashtag, username));
 
     if (!isSignin) {
       setIsModal(true);
@@ -118,31 +119,34 @@ function PerformanceTag({ isSignin, userInfo }) {
           )
           .then((res) => {
             console.log("공감을 표시했습니다");
+            console.log("공감표시의 결과에 대한 응답은?", res);
             setHashtagsData(res.data.data.hashtagsData);
             dispatch(notify(`Hashtag '${hashtag}'에 공감을 표시했습니다.`));
           })
           .catch((err) => {
             console.log(err);
           });
-      } else {
-        dispatch(notify(`이미 공감을 표시했습니다.`));
+      } else if (checkHashtagUser(hashtag, username)) {
+        if (hashtag[0] === "#") {
+          hashtag = `%23${hashtag.slice(1)}`;
+        }
+        console.log(hashtag, title);
+        axios
+          .delete(
+            `${process.env.REACT_APP_END_POINT}/musical/hashtag/${title}/${hashtag}`,
+            { withCredentials: true }
+          )
+          .then((res) => {
+            console.log("공감취소의 결과에 대한 응답은?", res);
+            console.log("공감이 취소되었습니다");
+            setHashtagsData(res.data.data.hashtagsData);
+            //& 공감을 하면 유저에게 공감이 취소되었다는 메시지(개발 중 이후 notification으로 변경 예정)
+            dispatch(notify("공감이 취소 되었습니다"));
+          })
+          .catch((err) => {
+            console.log("에러를 보여줘", err);
+          });
       }
-      // else if (checkHashtagUser(hashtag, username)) {
-      //   axios
-      //     .delete(
-      //       `${process.env.REACT_APP_END_POINT}/musical/${title}/${hashtag}`,
-      //       { withCredentials: true }
-      //     )
-      //     .then((res) => {
-      //       console.log("공감이 취소되었습니다");
-      //       setHashtagsData(res.data.data.hashtagsData);
-      //       //& 공감을 하면 유저에게 공감이 취소되었다는 메시지(개발 중 이후 notification으로 변경 예정)
-      //       setMessage("공감이 취소되었습니다.");
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
-      // }
     }
   };
 
