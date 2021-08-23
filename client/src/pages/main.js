@@ -3,12 +3,15 @@ import Loader from '../components/loader'
 import { useEffect, useState } from "react";
 import '../css/Main.css';
 import { useHistory } from "react-router-dom";
+import { AiOutlineVerticalAlignTop } from "react-icons/ai";
 
 
 function Main() {
   const [allMusical, setAllMusical] = useState([]);
   const [allHashtag, setAllHashtag] = useState([]);
-  const [searchHashtagMusical, setSearchHashtagMusical] = useState([]); // sidebar hashtag 클릭시 검색결과
+  const [searchHashtagMusical, setSearchHashtagMusical] = useState(0); // sidebar hashtag 클릭시 검색결과
+  const [clickHashtag, setClickHashtag] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
@@ -36,19 +39,34 @@ function Main() {
       })
       let sortUserHashtag = userHashtag.sort((a, b) => b.totalLikeCount - a.totalLikeCount); // '총 좋아요 수' 내림차순(높은 순서 -> 낮은 순서)
       setAllHashtag(sortUserHashtag);
+      // server가 정상적으로 연결해서 통신이 완료 되었으므로 로딩페이지 제거
+      // 0.5초후 state변수 변경
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     });
   }, []);
 
   // 해시태그 클릭시
   const searchHashtag = (event) => {
+    setIsLoading(true); // loading 표시 출력
     let hashtag = event.target.textContent;
+    setClickHashtag(hashtag);
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_END_POINT}/search/${hashtag}`,
+      url: `${process.env.REACT_APP_END_POINT}/search`,
       withCredentials: true,
+      params: {
+        hashtag1: hashtag
+      }
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data.data); // [{id : 15, thumbnail : '~', title : '~'}, {~}, ...] (필터링된 뮤지컬 목록)
+        // 0.5초후 state변수 변경
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+        setSearchHashtagMusical(res.data.data)
       })
       .catch((err) => {
         console.log(err);
@@ -61,9 +79,32 @@ function Main() {
     history.push(`/musical/${title}`);
   }
 
+  // 모든 뮤지컬 조회 클릭
+  const backToAllMusical = (event) => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_END_POINT}/musical/main`,
+      withCredentials: true,
+    })
+      .then((res) => {
+        setAllMusical(res.data.data.allMusicalsData); // all musical 갱신
+        setSearchHashtagMusical(0); // 해시태그 클릭 안한 상태로 변경
+        setClickHashtag(''); // 클릭한 해시태그 초기화
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  // top버튼 클릭 맨위 이동
+  const gotoTop = (event) => {
+    window.scrollTo(0, 0);
+    // window.scrollTo({ top: 0, behavior: 'smooth' }); // 부드럽게 스크롤이 올라감
+  }
+
   return (
     <div className="allPageWrap">
-      <Loader/>
+      {/* <Loader /> */}
       {/* main 대신 musical로 변경 */}
       <div className='main-section1'>
         <div className='main-sidebar-genre-div'>
@@ -96,21 +137,55 @@ function Main() {
           </ul>
         </div>
       </div>
-      <div className='main-section2'>
-        <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
-        <ul className='main-musicalList'>
-          {allMusical.length === 0 ? <li>등록된 뮤지컬이 없습니다.</li>
+      {isLoading ?
+        // 로딩중
+        <div className='main-section2-loading'>
+          <Loader />
+        </div>
+        :
+        // 로딩이 끝난 후
+        <div className='main-section2'>
+          {searchHashtagMusical === 0 ?
+            <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
             :
-            allMusical.map((el, index) =>
-              <li className='main-musical' key={index}>
-                <img className='main-musical-image' src={el.thumbnail}
-                  alt='main-musical-post' onClick={gotoDetail} />
-                <input type='hidden' value={el.title} />
-              </li>)
+            <div className='main-musicalList-info'>분류 : {clickHashtag} 검색결과</div>
           }
-        </ul>
+          <ul className='main-musicalList'>
+            {searchHashtagMusical === 0 ?
+              // 해시태그 클릭을 하지 않는 상태(초기상태) 
+              allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
+                :
+                allMusical.map((el, index) =>
+                  <li className='main-musical' key={index}>
+                    <img className='main-musical-image' src={el.thumbnail}
+                      alt='main-musical-post' onClick={gotoDetail} />
+                    <input type='hidden' value={el.title} />
+                  </li>)
+              :
+              // 해시태그를 클릭한 상태
+              searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
+                :
+                searchHashtagMusical.map((el, index) =>
+                  <li className='main-musical' key={index}>
+                    <img className='main-musical-image' src={el.thumbnail}
+                      alt='main-musical-post' onClick={gotoDetail} />
+                    <input type='hidden' value={el.title} />
+                  </li>)
+            }
+          </ul>
+          <div className='back-allMusical-div'>
+            {/* 현재 클릭한 해시태그가 있는 경우 모든 뮤지컬 조회 버튼이 출력되도록 설정 */}
+            {clickHashtag === '' ?
+              ''
+              :
+              <button className='back-allMusical-btn' onClick={backToAllMusical}>모든 뮤지컬 조회</button>
+            }
+          </div>
+        </div>
+      }
+      <div className='main-section3'>
+        <button className='main-top-btn' onClick={gotoTop}><AiOutlineVerticalAlignTop className='main-top-icon' /></button>
       </div>
-      <div className='main-section3'></div>
     </div>
   );
 }

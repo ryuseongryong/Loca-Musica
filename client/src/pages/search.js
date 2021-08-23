@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import SearchResult from "../components/searchResult";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import Loader from '../components/loader'
+
 
 function Search() {
     // 추천 결과 여부 파악 state변수
@@ -19,6 +21,8 @@ function Search() {
     const [allHashtag, setAllHashtag] = useState([]);
     // 유저 지정 해시태그로 filtering된 musical 목록
     const [recommendMusicalList, setRecommendMusicalList] = useState([]);
+    // 로딩 페이지 지정 state변수
+    const [isLoading, setIsLoading] = useState(false);
 
     // 맨처음 화면 렌더링시 모든 해시태르 목록을 받아오기 위해서 useEffect사용
     useEffect(() => {
@@ -63,6 +67,9 @@ function Search() {
         }
         // 1개 이상의 해시태그 지정시 추천 받음 
         else {
+            // loading페이지가 출력되도록 설정
+            setIsLoading(true);
+
             let temp = {
                 hashtag1: '',
                 hashtag2: '',
@@ -84,7 +91,10 @@ function Search() {
                     setRecommendMusicalList(res.data.data);
                     // 2. 추천 결과 컴포넌트로 전환
                     setIsRecommend(false); // searchResult component전환
-
+                    // 3. 로딩페이지가 0.5초후 없어지도록 설정
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 500);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -259,8 +269,17 @@ function Search() {
                         </div>
                     </div>
                     :
-                    <SearchResult setIsRecommend={setIsRecommend} setRecommendUserHashtag={setRecommendUserHashtag}
-                        recommendMusicalList={recommendMusicalList} />
+                    isLoading ?
+                        // 로딩중, server와 정상적으로 통신이 되어야 로딩창 제거
+                        <div className='search-container'>
+                            <div className='search-loading-div'>
+                                <Loader />
+                            </div>
+                        </div>
+                        :
+                        // 로딩완료 이후 추천결과 페이지
+                        <SearchResult setIsRecommend={setIsRecommend} setRecommendUserHashtag={setRecommendUserHashtag}
+                            recommendMusicalList={recommendMusicalList} />
             }
         </>
     )

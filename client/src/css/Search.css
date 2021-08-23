@@ -264,6 +264,7 @@
 .search-result-musical {
   width: 202px;
   height: 297px;
+  /* flex: 0 1 24%; */
   /* border:1px solid; */
   margin-left: 35px;
   margin-right: 35px;
@@ -342,4 +343,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.search-loading-div {
+  margin-top: 200px;
 }
