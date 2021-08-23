@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import Loader from '../components/loader'
 
 function Main() {
   useEffect(() => {
@@ -12,10 +13,13 @@ function Main() {
     });
   });
   return (
-    <div className="allPageWrap">
-      {/* main 대신 musical로 변경 */}
-      Main페이지입니다.
-    </div>
+    <>
+      <div className="allPageWrap">
+        {/* main 대신 musical로 변경 */}
+        Main페이지입니다.
+      </div>
+      <Loader/>
+    </>
   );
 }
 

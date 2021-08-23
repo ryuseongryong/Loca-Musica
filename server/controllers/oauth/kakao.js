@@ -19,11 +19,6 @@ module.exports = {
       return;
     }
 
-    // DB connection open
-    const db = await getPool();
-    const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
-
     try {
       // Bring access token for kakao
       const kakaoToken = await axios({
@@ -60,6 +55,11 @@ module.exports = {
       const { profile_image_url, thumbnail_image_url } =
         kakaoUser.data.kakao_account.profile;
 
+      // DB connection open
+      const db = await getPool();
+      const connection = await db.getConnection(async (conn) => conn);
+      await connection.beginTransaction();
+
       // Check email
       const [_userData] = await connection.execute(
         `SELECT * FROM users WHERE email = ?`,
@@ -72,7 +72,6 @@ module.exports = {
       if (userData) {
         // 탈퇴한 회원이면 종료
         if (userData.resign) {
-          connection.release();
           return res.status(403).send({ message: 'resigned user' });
         }
 
@@ -104,7 +103,6 @@ module.exports = {
         sendAccessToken(res, accessToken);
         sendRefreshToken(res, refreshToken);
         //console.log(res);
-        connection.release();
         return res.status(200).json({ data: userData, message: 'ok' });
       }
 
@@ -133,7 +131,6 @@ module.exports = {
       const newUserData = _newUserData[0];
       // console.log(newUserData);
       await connection.commit();
-      connection.release();
 
       // Token 생성
       {
@@ -168,8 +165,10 @@ module.exports = {
       }
     } catch (err) {
       console.log('error: ', err);
-      connection.release();
+      connection.rollback();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      await connection.release()
     }
   },
 };

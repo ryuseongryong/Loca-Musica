@@ -7,9 +7,6 @@ module.exports = {
     // Access token 이 없거나 유효하지 않은 경우 종료
     // if (!accessTokenData)
     //   return res.status(401).send({ message: 'invalid access token' });
-    const db = await getPool();
-    const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     try {
       // const {admin} = accessTokenData;
@@ -18,6 +15,10 @@ module.exports = {
       // if (!admin){
       //   return res.status(403).send({message: "not admin"})
       //}
+
+      const db = await getPool();
+      const connection = await db.getConnection(async (conn) => conn);
+      await connection.beginTransaction();
 
       console.log('body:, ', req.body);
 
@@ -41,7 +42,6 @@ module.exports = {
 
       // 수정하고자 하는 뮤지컬이 없을 경우 종료
       if (!existingMusical[0]) {
-        connection.release();
         return res.status(404).send({ message: 'musical not found' });
       }
 
@@ -224,8 +224,7 @@ module.exports = {
         [musical_id]
       );
 
-      const [arrHashtagData] = await connection.execute(
-        `
+      const [arrHashtagData] = await connection.execute(`
         SELECT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount
         FROM hashtags
         JOIN musical_hashtag
@@ -235,7 +234,6 @@ module.exports = {
       );
 
       await connection.commit();
-      connection.release();
 
       const data = {
         ...editedMusical[0],
@@ -247,8 +245,10 @@ module.exports = {
       res.status(200).json({ data: data, message: 'ok' });
     } catch (err) {
       console.log(err);
-      connection.release();
+      await connection.rollback();
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

@@ -15,7 +15,6 @@ module.exports = {
       res.status(200).json({ data: result2 });
     } catch (err) {
       console.log(err);
-      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
