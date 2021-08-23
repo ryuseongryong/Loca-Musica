@@ -6,7 +6,6 @@ module.exports = {
     const db = await getPool();
     console.log('hashtag.js pool');
     const connection = await db.getConnection(async (conn) => conn);
-    await connection.beginTransaction();
 
     const category1Query = [
       '드라마',
@@ -38,15 +37,11 @@ module.exports = {
     const [hashtagsData] = await connection.execute(
       `SELECT * FROM hashtags WHERE name LIKE '#%'`
     );
-    await connection.commit();
-    connection.release();
 
     if (category1Data.length === 0 || category2Data.length === 0) {
       return res.status(404).send({ message: 'no match' });
     }
 
-    // console.log('req.query: ', req.query);
-    // return res.send('end');
     try {
       if (Object.keys(req.query).length === 0) {
         res
@@ -55,6 +50,8 @@ module.exports = {
       } else res.status(404).send({ message: 'no match somethings wrong!' });
     } catch (err) {
       res.status(500).send({ message: 'internal server error' });
+    } finally {
+      connection.release();
     }
   },
 };

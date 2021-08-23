@@ -1,6 +1,5 @@
 const { checkAccessToken } = require('../tokenFunctions');
 
-
 module.exports = {
   post: async (req, res) => {
     const accessTokenData = checkAccessToken(req);
@@ -13,20 +12,19 @@ module.exports = {
         res.cookie('accessToken', null, {
           httpOnly: true,
           maxAge: 1000,
-          secure: true,
+          secure: false,
           sameSite: 'None',
         });
         res.cookie('refreshToken', null, {
           httpOnly: true,
           maxAge: 1000,
-          secure: true,
+          secure: false,
           sameSite: 'None',
         });
 
         res.status(200).json({ message: 'ok' });
       }
     } catch (err) {
-      connection.release();
       res.status(500).send({ message: 'internal server error' });
     }
   },
