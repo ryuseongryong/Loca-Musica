@@ -42,7 +42,7 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
               res.data.data.updatedBookmarkData[0]
             );
             // const newBookmark = res.data.data.slice(-1);
-            dispatch(addBookmark(res.data.data.updatedBookmarkData[0]));
+            dispatch(addBookmark(res.data.data.updatedBookmarkData));
             // 응답결과를 바탕으로 북마크추가 or 북마크추가됨 상태를 업데이트 해야함
             dispatch(notify(`북마크리스트에 ${title}이(가) 추가되었습니다.`));
           })
