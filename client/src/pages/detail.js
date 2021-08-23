@@ -35,12 +35,17 @@ function Detail() {
     numbersData: [],
     hashtagsData: [],
   });
+  const _url = new URL(window.location.href)
+  const [url, setUrl] = useState(_url);
+  const [title, setTitle] = useState(decodeURI(_url.pathname.slice(9)))
 
   // 작품정보 가져오기
   useEffect(() => {
     // 첫 방문 시에 url에서 작품 제목을 받아오기
-    const url = new URL(window.location.href);
-    const title = decodeURI(url.pathname.slice(9));
+    // const url = new URL(window.location.href);
+    // const title = decodeURI(url.pathname.slice(9));
+    console.log("url: ", url, "title: ", title)
+    console.log("useEffect 가 실행되었습니다.");
     axios
       .get(`${process.env.REACT_APP_END_POINT}/musical/${title}`, {
         withCredentials: true,
@@ -54,7 +59,7 @@ function Detail() {
 
     // 첫 방문 시에 url에서 pathname을 받아와서 redux상태 관리에 사용
     dispatch(rememberPathname(decodeURI(url.pathname)));
-  }, []);
+  }, [url]);
 
   //! Edit Musical [code start]
   const history = useHistory();

@@ -10,7 +10,7 @@ function Searchbar() {
 
   const allMusicalData = useSelector((state) => {
     let data = state.allMusicalDataReducer.arrAllMusicalData
-    console.log('Data from redux store: ', data);
+    //console.log('Data from redux store: ', data);
     return data;
   })
   const history = useHistory();
@@ -33,7 +33,21 @@ function Searchbar() {
   const handleClickSearchResult = (title) => {
     console.log("Clicked a title: ", title);
     setStr('');
-    history.push(`/musical/${title}`);
+    const url = new URL(window.location.href)
+    console.log("current url: ", url)
+    if (url.pathname.includes("/musical")) {
+      console.log("I'm in /musical page");
+      if (url.host === "localhost:3000"){
+        window.location.assign(`http://localhost:3000/musical/${title}`); 
+      }
+      else if (url.host === "loca-musica.com"){
+        window.location.assign(`https://loca-musica.com/musical/${title}`); 
+      }
+    }
+    else {
+      history.push(`/musical/${title}`);
+      console.log(history);
+    }
   };
 
   useEffect(() => {
