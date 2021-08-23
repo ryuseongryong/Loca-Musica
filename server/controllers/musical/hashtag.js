@@ -874,7 +874,7 @@ module.exports = {
     try {
       await connection.beginTransaction();
 
-      const [hashtagsData] = await connection.execute(
+      const [hashtagData] = await connection.execute(
         `SELECT * FROM hashtags WHERE name = ?`,
         [hashtag]
       );
@@ -884,32 +884,32 @@ module.exports = {
         [title]
       );
 
-      if (musicalsData.length === 0 || hashtagsData.length === 0) {
+      if (musicalsData.length === 0 || hashtagData.length === 0) {
         return res.status(404).send({ message: 'data not found' });
       }
-      const hashtagId = hashtagsData[0].id;
+      const hashtagId = hashtagData[0].id;
       const musicalId = musicalsData[0].id;
       const userId = accessTokenData.id;
 
-      const [musicalHashtagData] = await connection.execute(
+      const [musicalHashtagsData] = await connection.execute(
         `SELECT * FROM musical_hashtag WHERE hashtag_id = ? AND musical_id = ?`,
         [hashtagId, musicalId]
       );
 
-      if (musicalHashtagData.length === 0) {
+      if (musicalHashtagsData.length === 0) {
         return res.status(404).send({ message: 'data not found' });
       }
-      const musicalHashtagId = musicalHashtagData[0].id;
+      const musicalHashtagId = musicalHashtagsData[0].id;
 
-      const [userHashtag] = await connection.execute(
+      const [userHashtags] = await connection.execute(
         `SELECT * FROM user_hashtag WHERE user_id = ? AND musical_hashtag_id = ?`,
         [userId, musicalHashtagId]
       );
 
-      if (userHashtag.length === 0) {
+      if (userHashtags.length === 0) {
         return res.status(404).send({ message: 'data not found' });
       }
-      const userHashtagId = userHashtag[0].id;
+      const userHashtagId = userHashtags[0].id;
       // 1단계
       // musical_hashtag의 likeCount -1
       // hashtags의 totalLikeCount -1
@@ -951,8 +951,57 @@ module.exports = {
         `DELETE FROM hashtags WHERE id = ? AND (totalLikeCount < 1 OR musicalCount < 1)`,
         [hashtagId]
       );
+
+      const [userHashtagUpdatedData] = await connection.execute(
+        `SELECT users.username, users.profile, users.email, musicals.title, hashtags.name FROM ( ( ( users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id ) INNER JOIN musical_hashtag ON user_hashtag.musical_hashtag_id = musical_hashtag.id) INNER JOIN hashtags ON hashtag_id = hashtags.id) INNER JOIN musicals ON musical_hashtag.musical_id = musicals.id WHERE user_hashtag.user_id = ? AND musicals.id = ?`,
+        [userId, musicalId]
+      );
+
+      const [hashtagsData] = await connection.execute(
+        `SELECT DISTINCT musical_hashtag.id, hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount FROM ((hashtags INNER JOIN musical_hashtag ON hashtags.id = musical_hashtag.hashtag_id) INNER JOIN musicals ON musical_hashtag.musical_id = ?)`,
+        [musicalId]
+      );
+
+      const [musicalHashtagData] = await connection.execute(
+        `SELECT musical_hashtag.id, musicals.title FROM musical_hashtag INNER JOIN musicals ON musicals.id = ?`,
+        [musicalId]
+      );
+
+      for (let i = 0; i < hashtagsData.length; i++) {
+        hashtagsData[i].userInfo = [];
+      }
+
+      const userHashtag = [];
+      for (let i = 0; i < musicalHashtagData.length; i++) {
+        const [userHashtagData] = await connection.execute(
+          `SELECT musical_hashtag.id, hashtags.name, users.username, users.profile FROM ((users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id) INNER JOIN musical_hashtag ON musical_hashtag.id = user_hashtag.musical_hashtag_id) INNER JOIN hashtags ON musical_hashtag.hashtag_id = hashtags.id WHERE musical_hashtag.id = ?`,
+          [musicalHashtagData[i].id]
+        );
+        if (userHashtagData.length !== 0) {
+          for (let j = 0; j < hashtagsData.length; j++) {
+            for (let k = 0; k < userHashtagData.length; k++) {
+              if (hashtagsData[j].id === userHashtagData[k].id) {
+                userHashtag.push(userHashtagData);
+                hashtagsData[j].userInfo.push({
+                  username: userHashtagData[k].username,
+                  profile: userHashtagData[k].profile,
+                });
+              }
+            }
+          }
+        }
+      }
+
       await connection.commit();
-      res.status(200).json({ message: 'ok' });
+      res.status(200).json({
+        data: {
+          updatedHashtagData: hashtagData,
+          userHashtagUpdatedData,
+          hashtagsData,
+          userHashtag,
+        },
+        message: 'ok',
+      });
     } catch (err) {
       console.log(err);
       await connection.rollback();
