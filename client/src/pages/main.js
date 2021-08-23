@@ -3,13 +3,16 @@ import Loader from '../components/loader'
 import { useEffect, useState } from "react";
 import '../css/Main.css';
 import { useHistory } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { storeAllMusicalInfo } from '../actions/index';
 
 function Main() {
   const [allMusical, setAllMusical] = useState([]);
   const [allHashtag, setAllHashtag] = useState([]);
   const [searchHashtagMusical, setSearchHashtagMusical] = useState([]); // sidebar hashtag 클릭시 검색결과
   const history = useHistory();
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {
     axios({
@@ -27,6 +30,7 @@ function Main() {
       }
       */
       // all musical
+      dispatch(storeAllMusicalInfo(res.data.data.allMusicalsData));
       setAllMusical(res.data.data.allMusicalsData);
       // hasgtag
       let userHashtag = res.data.data.allHashtagsData.filter((el) => {

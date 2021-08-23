@@ -28,11 +28,11 @@ function Header() {
       .then((res) => {
         dispatch(signout());
       })
-      .then((res) => {
-        dispatch(notify("로그아웃 되었습니다"));
-        console.log("로그아웃 되었습니다");
-        dispatch(rememberPathname("/musical/main"));
-      })
+      // .then((res) => {
+      //   dispatch(notify("로그아웃 되었습니다"));
+      //   console.log("로그아웃 되었습니다");
+      //   dispatch(rememberPathname("/musical/main"));
+      // })
       .then((res) => {
         history.push("/musical/main");
       })
