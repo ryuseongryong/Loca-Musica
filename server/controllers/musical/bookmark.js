@@ -40,8 +40,15 @@ module.exports = {
         [id]
       );
 
+      const [updatedBookmarkData] = await connection.execute(
+        `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ? AND user_musical.musical_id = ?`,
+        [id, musicalId]
+      );
+
       await connection.commit();
-      res.status(200).json({ data: bookmarksData, message: 'ok' });
+      res
+        .status(200)
+        .json({ data: { bookmarksData, updatedBookmarkData }, message: 'ok' });
     } catch (err) {
       console.log(err);
       await connection.rollback();
@@ -79,6 +86,11 @@ module.exports = {
       }
       const musicalId = musicalsData[0].id;
 
+      const [updatedBookmarkData] = await connection.execute(
+        `SELECT user_musical.id, musicals.title, musicals.thumbnail FROM (musicals INNER JOIN user_musical ON musicals.id = user_musical.musical_id) WHERE user_musical.user_id = ? AND user_musical.musical_id = ?`,
+        [id, musicalId]
+      );
+
       const deleteBookmark = await connection.execute(
         `DELETE FROM user_musical WHERE user_id = ? AND musical_id = ?`,
         [id, musicalId]
@@ -90,7 +102,9 @@ module.exports = {
       );
 
       await connection.commit();
-      res.status(200).json({ data: bookmarksData, message: 'ok' });
+      res
+        .status(200)
+        .json({ data: { bookmarksData, updatedBookmarkData }, message: 'ok' });
     } catch (err) {
       console.log(err);
       await connection.rollback();
