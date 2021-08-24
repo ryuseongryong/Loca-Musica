@@ -731,17 +731,31 @@ module.exports = {
       );
       // console.log('existedHashtagData: ', existedHashtagData);
 
-      // 이미 등록된 hashtag 라면 musicalCount + 1, totalLikeCount + 1
+      // 이미 등록된 hashtag 라면 totalLikeCount + 1
       if (existedHashtagData.length !== 0) {
         const hashtagId = existedHashtagData[0].id;
+        const [existedMusicalHashtag] = await connection.execute(
+          `SELECT * FROM musical_hashtag WHERE hashtag_id = ? AND musical_id = ?`,
+          [hashtagId, musicalId]
+        );
+        // 새로운 뮤지컬에 등록되는 것이면 totalLikeCount + 1 AND musicalCount + 1
+        if (existedMusicalHashtag.legnth === 0) {
+          await connection.execute(
+            `
+              UPDATE hashtags 
+              SET totalLikeCount = totalLikeCount + 1, musicalCount = musicalCount + 1
+              WHERE name = ?`,
+            [hashtag]
+          );
+        }
+        // 이미 등록된 hashtag 중에 해당 뮤지컬에도 등록되어있는 것이면 totalLikeCount + 1
         await connection.execute(
           `
               UPDATE hashtags 
-              SET musicalCount = musicalCount + 1, totalLikeCount = totalLikeCount + 1
+              SET totalLikeCount = totalLikeCount + 1
               WHERE name = ?`,
           [hashtag]
         );
-
         // 해당 musical의 hashtag likeCount를 1 증가
         await connection.execute(
           `UPDATE musical_hashtag SET likeCount = likeCount + 1 WHERE hashtag_id = ? AND musical_id = ?`,
