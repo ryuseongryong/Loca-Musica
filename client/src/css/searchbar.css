@@ -67,6 +67,10 @@
   /* border: 1px solid #fff; */
 }
 
+.searchbar-result-li-highlighted {
+  background-color: #676767;
+}
+
 .searchbar-result-poster{
   width: 40px;
 }
