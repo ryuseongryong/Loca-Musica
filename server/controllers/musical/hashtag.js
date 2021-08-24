@@ -1018,12 +1018,6 @@ module.exports = {
         }
         return acc;
       }, []);
-      console.log({
-        updatedHashtagData: hashtagData,
-        userHashtagUpdatedData,
-        hashtagsData,
-        userHashtag,
-      });
 
       await connection.commit();
       res.status(200).json({
