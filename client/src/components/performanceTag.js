@@ -25,7 +25,7 @@ function PerformanceTag({ isSignin, userInfo }) {
 
   //? 사용자가 해시태그에 공감버튼을 눌렀는지 안 눌렀는지 확인하기 위한 데이터
   const checkHashtagUser = (hashtag, email) => {
-    const clickedHashtag = hashtagsData.filter((el) => el.email === hashtag);
+    const clickedHashtag = hashtagsData.filter((el) => el.name === hashtag);
     return clickedHashtag[0].userInfo.map((el) => el.email).includes(email);
   };
 
