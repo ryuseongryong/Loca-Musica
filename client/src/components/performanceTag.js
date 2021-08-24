@@ -22,6 +22,7 @@ function PerformanceTag({ isSignin, userInfo }) {
   const [hashtagsData, setHashtagsData] = useState([]); // 페이지 내에 있는 해시태그에 대한 유저 정보를 포함
   const [userHashtag, setUserHashtag] = useState([]);
   const [isModal, setIsModal] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   //? 사용자가 해시태그에 공감버튼을 눌렀는지 안 눌렀는지 확인하기 위한 데이터
   const checkHashtagUser = (hashtag, email) => {
@@ -43,7 +44,7 @@ function PerformanceTag({ isSignin, userInfo }) {
       .catch((err) => {
         console.log("해시태그 데이터를 불러오지 못한 이유는?", err);
       });
-  }, []);
+  }, [isUpdate]);
 
   // console.log("해시태그에 담긴 정보(hashtagData", hashtagsData);
   // console.log("공감을 한 유저정보", userHashtag);
@@ -97,6 +98,10 @@ function PerformanceTag({ isSignin, userInfo }) {
             )
             .then((res) => {
               setHashtagsData(res.data.data.hashtagsData);
+              setIsUpdate(!isUpdate);
+            })
+            .then(() => {
+              console.log("반영후 결과", hashtagsData);
               setInputValue("");
               dispatch(notify("해시태그가 등록되었습니다"));
             })
