@@ -64,7 +64,16 @@ function PerformanceTag({ isSignin, userInfo }) {
     event.preventDefault();
     const hashtag = `#${inputValue.replace(/ /gi, "")}`;
     const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/; // 입력값 유효성 확인을 위한 정규식(기호금지, 영어, 한글, 숫자만)
-    const checkUser = () => {};
+    const checkUser = (hashtag, email) => {
+      const choicedHashtag = hashtagsData.filter((el) => el.name === hashtag);
+      if (choicedHashtag.length === 0) {
+        return false;
+      } else {
+        return !choicedHashtag[0].userInfo
+          .map((el) => el.email)
+          .includes(email);
+      }
+    };
 
     if (!isSignin) {
       setIsModal(true); // 로그인을 해야 작성가능(로그인 모달창이 열림)
@@ -76,9 +85,10 @@ function PerformanceTag({ isSignin, userInfo }) {
       } else if (!regex.test(hashtag.slice(1))) {
         dispatch(notify("해시태그는 기호를 사용할 수 없습니다.")); // 해시태그에 기호를 사용했을때 사용자에게 보여주는 메세지
       } else if (regex.test(hashtag.slice(1)) && hashtag.length < 9) {
-        if (checkHashtagUser(hashtag, email)) {
+        if (checkUser(hashtag, email)) {
           dispatch(notify("이미 공감을 표시한 해시태그입니다")); // 이미 공감을 표시한 해시태그를 이중등록할때 사용자에게 보여주는 메세지
-        } else if (!checkHashtagUser(hashtag, email)) {
+        } else if (!checkUser(hashtag, email)) {
+          // console.log(checkUser(hashtag, email));
           axios
             .post(
               `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
@@ -136,7 +146,7 @@ function PerformanceTag({ isSignin, userInfo }) {
             { withCredentials: true }
           )
           .then((res) => {
-            // console.log("공감취소의 결과에 대한 응답은?", res);
+            console.log("공감취소의 결과에 대한 응답은?", res);
             // console.log("공감이 취소되었습니다");
             setHashtagsData(res.data.data.hashtagsData);
             dispatch(notify("공감이 취소 되었습니다"));
