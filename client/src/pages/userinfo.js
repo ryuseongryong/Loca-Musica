@@ -1,5 +1,3 @@
-/*eslint-disable*/
-
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -10,6 +8,8 @@ import BookmarkList from "../components/bookmarkList";
 import Footer from "../components/footer";
 import dummyProfile from "../images/dummyProfile.png";
 import WithdrawalModal from "../components/withdrawalModal";
+import AWS from "aws-sdk";
+
 
 function UserInfo() {
   const dispatch = useDispatch();
