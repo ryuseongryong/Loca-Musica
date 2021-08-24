@@ -69,7 +69,7 @@ function Searchbar() {
     if (searchResult.length === 0) return;
     
     const key = event.key;
-    //console.log("key: ", key);
+    console.log("key: ", key);
     //console.log("highlightIdx: ", highlightIdx)
 
     if (key === 'ArrowDown') {
