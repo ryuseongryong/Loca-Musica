@@ -136,6 +136,7 @@ function Detail() {
               <PerformanceTag userInfo={userInfo} isSignin={isSignin} />
             </div>
           </div>
+
           <Footer />
         </div>
       )}

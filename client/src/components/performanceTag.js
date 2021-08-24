@@ -12,7 +12,8 @@ function PerformanceTag({ isSignin, userInfo }) {
   //? 변수
   const url = new URL(window.location.href);
   const title = decodeURI(url.pathname.slice(9));
-  const username = userInfo.username;
+  const email = userInfo.email;
+  const email = userInfo.email;
   const dispatch = useDispatch();
 
   // 상태관리
@@ -24,11 +25,9 @@ function PerformanceTag({ isSignin, userInfo }) {
   const [isModal, setIsModal] = useState(false);
 
   //? 사용자가 해시태그에 공감버튼을 눌렀는지 안 눌렀는지 확인하기 위한 데이터
-  const checkHashtagUser = (hashtag, username) => {
-    const clickedHashtag = hashtagsData.filter((el) => el.name === hashtag);
-    return clickedHashtag[0].userInfo
-      .map((el) => el.username)
-      .includes(username);
+  const checkHashtagUser = (hashtag, email) => {
+    const clickedHashtag = hashtagsData.filter((el) => el.email === hashtag);
+    return clickedHashtag[0].userInfo.map((el) => el.email).includes(email);
   };
 
   useEffect(() => {
@@ -78,9 +77,9 @@ function PerformanceTag({ isSignin, userInfo }) {
       } else if (!regex.test(hashtag.slice(1))) {
         dispatch(notify("해시태그는 기호를 사용할 수 없습니다.")); // 해시태그에 기호를 사용했을때 사용자에게 보여주는 메세지
       } else if (regex.test(hashtag.slice(1)) && hashtag.length < 9) {
-        if (checkHashtagUser(hashtag, username)) {
+        if (checkHashtagUser(hashtag, email)) {
           dispatch(notify("이미 공감을 표시한 해시태그입니다")); // 이미 공감을 표시한 해시태그를 이중등록할때 사용자에게 보여주는 메세지
-        } else if (!checkHashtagUser(hashtag, username)) {
+        } else if (!checkHashtagUser(hashtag, email)) {
           axios
             .post(
               `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
@@ -111,7 +110,7 @@ function PerformanceTag({ isSignin, userInfo }) {
     if (!isSignin) {
       setIsModal(true);
     } else if (isSignin) {
-      if (!checkHashtagUser(hashtag, username)) {
+      if (!checkHashtagUser(hashtag, email)) {
         axios
           .post(
             `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
@@ -127,7 +126,7 @@ function PerformanceTag({ isSignin, userInfo }) {
           .catch((err) => {
             console.log("공감기능에 대한 오류", err.response);
           });
-      } else if (checkHashtagUser(hashtag, username)) {
+      } else if (checkHashtagUser(hashtag, email)) {
         if (hashtag[0] === "#") {
           hashtag = `%23${hashtag.slice(1)}`;
         }
