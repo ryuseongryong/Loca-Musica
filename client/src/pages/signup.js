@@ -1,5 +1,3 @@
-/*eslint-disable*/
-
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -18,7 +16,6 @@ import KakaoLogin from "../components/kakaoOAuth";
 function Signup() {
   let history = useHistory();
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.userReducer);
   const pathname = useSelector((state) => state.pathnameReducer.pathname);
 
   // 현재 페이지에서만 관리가 필요한 state
@@ -74,7 +71,8 @@ function Signup() {
       case "invalidUsername":
         setErrMessage({
           ...errMessage,
-          errUsername: "한글, 영어, 숫자를 포함하여 2자 이상으로 설정해 주세요",
+          errUsername:
+            "한글, 영어, 숫자를 사용하여 2글자 이상으로 설정해 주세요",
         });
         break;
       case "validUsername":
@@ -88,7 +86,8 @@ function Signup() {
       case "emptyPassword":
         setErrMessage({
           ...errMessage,
-          errPassword: "영문, 숫자, 기호를 포함하며 공백이 없어야 합니다",
+          errPassword:
+            "영문, 숫자, 기호를 모두 사용해야 하며 공백이 없어야 합니다",
         });
         break;
       case "shortPassword":
@@ -100,7 +99,8 @@ function Signup() {
       case "invalidPassword":
         setErrMessage({
           ...errMessage,
-          errPassword: "영어, 숫자, 기호를 포함하여 8자 이상으로 설정해 주세요",
+          errPassword:
+            "영문, 숫자, 기호를 모두 사용해야 하며 공백이 없어야 합니다",
         });
         break;
       case "validPassword":
@@ -109,6 +109,8 @@ function Signup() {
           errPassword: "",
         });
         break;
+      default:
+        return "";
     }
   };
 
@@ -130,7 +132,12 @@ function Signup() {
     if (!email || !username || !password || !passwordCheck) {
       setErrMessage({
         ...errMessage,
-        errOverall: "모든 항목을 올바르게 입력해주세요",
+        errOverall: "모든 항목을 입력해주세요",
+      });
+    } else if (!valuesChecker(email, username, password)) {
+      setErrMessage({
+        ...errMessage,
+        errOverall: "모든 항목에 유효한 값을 입력해주세요",
       });
     } else if (
       valuesChecker(email, username, password) &&

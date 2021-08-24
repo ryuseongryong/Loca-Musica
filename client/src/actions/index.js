@@ -54,6 +54,7 @@ export const signout = () => {
         kakao: "",
       },
       bookmarksData: [],
+      notifications: [],
     },
   };
 };
