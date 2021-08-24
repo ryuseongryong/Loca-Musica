@@ -128,12 +128,12 @@ function Searchbar() {
         </div>
       </div>
       {searchResult.length ? (
-        <ol className='searchbar-result-ol'>
+        <ol className={`searchbar-result-ol ${searchResult.length > 2 ? 'searchbar-result-ol-scroll' : null}`}>
           {searchResult.map((item, idx) => {
             return (
               <li
                 key={idx}
-                className={`searchbar-result-li ${highlightIdx === idx ? ' searchbar-result-li-highlighted' : null}`}
+                className={`searchbar-result-li ${highlightIdx === idx ? 'searchbar-result-li-highlighted' : null}`}
                 onClick={()=>handleClickSearchResult(item.title)}
               >
                 <img
