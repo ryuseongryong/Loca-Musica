@@ -23,6 +23,7 @@ function PerformanceTag({ isSignin, userInfo }) {
   const [userHashtag, setUserHashtag] = useState([]);
   const [isModal, setIsModal] = useState(false);
   const [delta, setDelta] = useState(Date.now());
+  const [isUpdate, setIsUpdate] = useState(false);
 
   //? 사용자가 해시태그에 공감버튼을 눌렀는지 안 눌렀는지 확인하기 위한 데이터
   const checkHashtagUser = (hashtag, email) => {
@@ -54,7 +55,7 @@ function PerformanceTag({ isSignin, userInfo }) {
       .catch((err) => {
         console.log("해시태그 데이터를 불러오지 못한 이유는?", err);
       });
-  }, []);
+  }, [isUpdate]);
 
   // console.log("해시태그에 담긴 정보(hashtagData", hashtagsData);
   // console.log("공감을 한 유저정보", userHashtag);
@@ -94,40 +95,39 @@ function PerformanceTag({ isSignin, userInfo }) {
     if (!isSignin) {
       setIsModal(true); // 로그인을 해야 작성가능(로그인 모달창이 열림)
       return;
-    }
+    } 
     if (hashtag.length === 1) {
       dispatch(notify("해시태그를 입력해주세요")); // 아무것도 입력하지 않으면 사용자에게 보여주는 메세지
-    } 
-    else if (hashtag.length > 8) {
+    } else if (hashtag.length > 8) {
       dispatch(notify("해시태그는 7자 이하로 입력해주세요")); // 7자를 초과해서 작성했을 때 사용자에게 보여주는 메세지
-    } 
-    else if (!regex.test(hashtag.slice(1))) {
+    } else if (!regex.test(hashtag.slice(1))) {
       dispatch(notify("해시태그는 기호를 사용할 수 없습니다.")); // 해시태그에 기호를 사용했을때 사용자에게 보여주는 메세지
-    } 
-    else if (regex.test(hashtag.slice(1)) && hashtag.length < 9) {
+    } else if (regex.test(hashtag.slice(1)) && hashtag.length < 9) {
       if (checkUser(hashtag, email)) {
         dispatch(notify("이미 공감을 표시한 해시태그입니다")); // 이미 공감을 표시한 해시태그를 이중등록할때 사용자에게 보여주는 메세지
-      } 
-      else {
+      } else if (!checkUser(hashtag, email)) {
         // console.log(checkUser(hashtag, email));
         axios
-        .post(
-          `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
-          { title, hashtag },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          console.log("new data from server", res.data.data.hashtagsData)
-          setHashtagsData(res.data.data.hashtagsData);
-          setInputValue("");
-          dispatch(notify("해시태그가 등록되었습니다"));
-        })
-        .catch((err) => {
-          console.log("해시태그 입력 기능에 대한 오류", err.response);
-          if (err.response.data.message === "let's use the right words") {
-            dispatch(notify("해시태그에 부적절한 표현이 보이네요")); // 부정적인 표현이 등록될때 사용자에게 보여주는 메세지
-          }
-        });
+          .post(
+            `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
+            { title, hashtag },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            setHashtagsData(res.data.data.hashtagsData);
+            setIsUpdate(!isUpdate);
+          })
+          .then(() => {
+            console.log("반영후 결과", hashtagsData);
+            setInputValue("");
+            dispatch(notify("해시태그가 등록되었습니다"));
+          })
+          .catch((err) => {
+            console.log("해시태그 입력 기능에 대한 오류", err.response);
+            if (err.response.data.message === "let's use the right words") {
+              dispatch(notify("해시태그에 부적절한 표현이 보이네요")); // 부정적인 표현이 등록될때 사용자에게 보여주는 메세지
+            }
+          });
       }
     }
   };
