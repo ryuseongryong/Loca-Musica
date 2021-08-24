@@ -13,7 +13,6 @@ function PerformanceTag({ isSignin, userInfo }) {
   const url = new URL(window.location.href);
   const title = decodeURI(url.pathname.slice(9));
   const email = userInfo.email;
-  const email = userInfo.email;
   const dispatch = useDispatch();
 
   // 상태관리
