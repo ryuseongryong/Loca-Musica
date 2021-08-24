@@ -44,18 +44,23 @@ module.exports = {
         hashtagsData[i].userInfo = [];
       }
 
-      const userHashtag = [];
+      const userHashtags = [];
       for (let i = 0; i < musicalHashtagData.length; i++) {
         const [userHashtagData] = await connection.execute(
-          `SELECT musical_hashtag.id, hashtags.name, users.username, users.profile FROM ((users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id) INNER JOIN musical_hashtag ON musical_hashtag.id = user_hashtag.musical_hashtag_id) INNER JOIN hashtags ON musical_hashtag.hashtag_id = hashtags.id WHERE musical_hashtag.id = ?`,
+          `SELECT musical_hashtag.id, hashtags.name, users.email, users.username, users.profile FROM ((users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id) INNER JOIN musical_hashtag ON musical_hashtag.id = user_hashtag.musical_hashtag_id) INNER JOIN hashtags ON musical_hashtag.hashtag_id = hashtags.id WHERE musical_hashtag.id = ?`,
           [musicalHashtagData[i].id]
         );
         if (userHashtagData.length !== 0) {
           for (let j = 0; j < hashtagsData.length; j++) {
             for (let k = 0; k < userHashtagData.length; k++) {
               if (hashtagsData[j].id === userHashtagData[k].id) {
-                userHashtag.push(userHashtagData);
+                userHashtags.push({
+                  email: userHashtagData[k].email,
+                  username: userHashtagData[k].username,
+                  profile: userHashtagData[k].profile,
+                });
                 hashtagsData[j].userInfo.push({
+                  email: userHashtagData[k].email,
                   username: userHashtagData[k].username,
                   profile: userHashtagData[k].profile,
                 });
@@ -64,6 +69,14 @@ module.exports = {
           }
         }
       }
+      const userHashtag = [];
+      userHashtags.reduce(function (acc, cur) {
+        if (acc.findIndex(({ email }) => email === cur.email) === -1) {
+          acc.push(cur);
+          userHashtag.push(cur);
+        }
+        return acc;
+      }, []);
 
       const data = {
         ...musicalData[0],
