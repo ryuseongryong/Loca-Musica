@@ -43,8 +43,21 @@ function Header() {
 
   // 추천받기 버튼 클릭시 사용자 추천 시스템 화면 이동
   const goRecommend = (event) => {
-    history.push("/search");
+    // history.push("/search");
     // window.location.reload();
+    const url = new URL(window.location.href)
+    // 같은 url내에서 새로고침 효과
+    if (url.pathname.includes("/search")) {
+      if (url.host === "localhost:3000") {
+        window.location.assign(`http://localhost:3000/search`);
+      }
+      else if (url.host === "loca-musica.com") {
+        window.location.assign(`https://loca-musica.com/search`);
+      }
+    }
+    else {
+      history.push(`/search`);
+    }
   };
 
   return (
