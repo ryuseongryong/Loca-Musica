@@ -6,6 +6,7 @@ import SearchResult from "../components/searchResult";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Loader from '../components/loader'
+import Footer from "../components/footer";
 
 
 function Search() {
@@ -266,6 +267,9 @@ function Search() {
                                 </div>
                             </div>
                             <div className='search-section3'></div>
+                        </div>
+                        <div className='search-footer-div'>
+                            <Footer />
                         </div>
                     </div>
                     :
