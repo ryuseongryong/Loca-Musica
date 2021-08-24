@@ -3,7 +3,7 @@ import userReducer from "./userReducer";
 import bookmarksReducer from "./bookMarksReducer";
 import notificationReducer from "./notificationReducer";
 import pathnameReducer from "./pathnameReducer";
-import allMusicalDataReducer from "./allMusicalDataReducer"
+import allMusicalDataReducer from "./allMusicalDataReducer";
 
 // 필요한 reducer를 import해온다.
 
@@ -17,5 +17,3 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
-
-// npm(https://www.npmjs.com/package/redux-persist) Nested Presists 참고
