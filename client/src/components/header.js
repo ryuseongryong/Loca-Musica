@@ -50,9 +50,9 @@ function Header() {
   return (
     <div className="header-main">
       <div className="header-logo">
-        <a href="/" className="logo">
+        <Link to="/musical/main" className="logo">
           Loca Musica
-        </a>
+        </Link>
       </div>
       <div className="header-section1">
         {/* <Link to="/search" className="header-link-router"> */}
