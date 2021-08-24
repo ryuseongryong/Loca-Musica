@@ -117,7 +117,7 @@ function Searchbar() {
         </div>
         <div className='searchbar-input-div'>
           <input
-            autoVomplete="off"
+            autoComplete="off"
             className='searchbar-input'
             placeholder='뮤지컬 검색'
             id='headerSearchTitleInput'
