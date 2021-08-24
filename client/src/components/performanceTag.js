@@ -34,12 +34,12 @@ function PerformanceTag({ isSignin, userInfo }) {
   const isDoubleKeyDown = () => {
     setDelta(Date.now());
     let now = Date.now();
-    if (now - delta < 10){
-      console.log("Prevent double keydown!")
+    if (now - delta < 10) {
+      console.log("Prevent double keydown!");
       return true;
     }
     return false;
-  }
+  };
 
   useEffect(() => {
     // 컴포넌트가 렌더링되면 해시태그데이터를 목록으로 가져옴
@@ -73,8 +73,8 @@ function PerformanceTag({ isSignin, userInfo }) {
 
   //* 해시태그 등록 기능 함수
   const sendHashtagRequestHandler = (event) => {
-    console.log("hashtag state data: ", hashtagsData)
-    if (event.key === 'Enter') console.log("Enter Pressed!");
+    console.log("hashtag state data: ", hashtagsData);
+    if (event.key === "Enter") console.log("Enter Pressed!");
     event.preventDefault();
     if (isDoubleKeyDown()) return;
 
@@ -84,18 +84,22 @@ function PerformanceTag({ isSignin, userInfo }) {
     const checkUser = (hashtag, email) => {
       const choicedHashtag = hashtagsData.filter((el) => el.name === hashtag);
       if (choicedHashtag.length === 0) {
-        return false;
+        return true;
       } else {
-        return !choicedHashtag[0].userInfo
+        const temp = choicedHashtag[0].userInfo
           .map((el) => el.email)
           .includes(email);
+        if (temp) return false;
+        return true;
       }
     };
+
+    console.log(checkUser(hashtag, email));
 
     if (!isSignin) {
       setIsModal(true); // 로그인을 해야 작성가능(로그인 모달창이 열림)
       return;
-    } 
+    }
     if (hashtag.length === 1) {
       dispatch(notify("해시태그를 입력해주세요")); // 아무것도 입력하지 않으면 사용자에게 보여주는 메세지
     } else if (hashtag.length > 8) {
@@ -103,9 +107,9 @@ function PerformanceTag({ isSignin, userInfo }) {
     } else if (!regex.test(hashtag.slice(1))) {
       dispatch(notify("해시태그는 기호를 사용할 수 없습니다.")); // 해시태그에 기호를 사용했을때 사용자에게 보여주는 메세지
     } else if (regex.test(hashtag.slice(1)) && hashtag.length < 9) {
-      if (checkUser(hashtag, email)) {
+      if (!checkUser(hashtag, email)) {
         dispatch(notify("이미 공감을 표시한 해시태그입니다")); // 이미 공감을 표시한 해시태그를 이중등록할때 사용자에게 보여주는 메세지
-      } else if (!checkUser(hashtag, email)) {
+      } else if (checkUser(hashtag, email)) {
         // console.log(checkUser(hashtag, email));
         axios
           .post(
