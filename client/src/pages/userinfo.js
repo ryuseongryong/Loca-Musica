@@ -2,9 +2,9 @@
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../css/userinfo.css";
-import { notify, signin, updateUserInfo } from "../actions/index";
+import { notify, updateUserInfo } from "../actions/index";
 import { usernameChecker, passwordChecker } from "../utils/validateCheck";
 import BookmarkList from "../components/bookmarkList";
 import Footer from "../components/footer";
@@ -195,7 +195,7 @@ function UserInfo() {
     setIsModal(!isModal);
   };
 
-  //! S3를 이용한 파일 업로드 
+  //! S3를 이용한 파일 업로드
   // s3 연결 설정
   const awsConfig = {
     bucketName: "locamusica-user-profile",
@@ -247,7 +247,7 @@ function UserInfo() {
   const handleImageSrc = async (file) => {
     const fileKey = await handleUpload(file); // 실제 업로드된 파일명(s3에 이미지 파일 업로드f)
     // img태그에서 실제 s3에 업로드된 이미지파일에 접근하기 위해서 s3주소를 추가하여 src경로 지정
-    let uploadProfileSrc = `https://locamusica-user-profile.s3.ap-northeast-2.amazonaws.com/${fileKey}`
+    let uploadProfileSrc = `https://locamusica-user-profile.s3.ap-northeast-2.amazonaws.com/${fileKey}`;
     return uploadProfileSrc; // promise 객체를 반환한다 -> 여기서 state변수에 저장후 해당 state변수로 경로값을 얻는다.
   };
   //!
@@ -260,40 +260,42 @@ function UserInfo() {
       let reader = new FileReader();
       reader.onload = function (e) {
         // 지정한 img태그에 input에서 업로드한 이미지를 미리보기 설정
-        document.querySelector('#userProfileImg').setAttribute('src', e.target.result);
-      }
+        document
+          .querySelector("#userProfileImg")
+          .setAttribute("src", e.target.result);
+      };
       reader.readAsDataURL(input.files[0]);
     }
-  }
+  };
 
   // 이미지 변경 클릭시 input[type=file]이 실행
   const editProfile = (event) => {
     // input[type=file]클릭
-    const editProfileInput = document.querySelector('#editProfileInput');
+    const editProfileInput = document.querySelector("#editProfileInput");
     editProfileInput.click(); // 이미지 클릭시 file업로드 input태그 실행
-  }
+  };
 
-  // input[type=file]에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기(input 이벤트 핸들러) 
+  // input[type=file]에 파일이 업로드 되면 지정된 img태그에 이미지를 미리보기(input 이벤트 핸들러)
   // + input[type='file']에서 이미지 변경시 바로 s3에 업로드 되고 state변수에 경로 저장
   // + 업로드 된 이미지 경로를 반환하는 함수가 promise객체 형태로 반환하기 때문에 비동기함수(async)로 이벤트 핸들러를 지정한후 업로드된 경로를 전달받음
   //! s3에 이미지 업로드 가능, 업로드 된 이미지 제거기능 필요
   const previewEditProfile = async (event) => {
-    console.log('work');
-    // 현재 변경되기 전 프로필 이미지 
-    let nowProfile = document.querySelector('#userProfileImg').src
+    console.log("work");
+    // 현재 변경되기 전 프로필 이미지
+    let nowProfile = document.querySelector("#userProfileImg").src;
     // event.target.files[0] -> 현재 업로드된 이미지 파일, 이 파일을 s3에 업로드 할 것
     readURL(event.target); // 이미지 업로드시 미리보기
 
     // s3에 이미지 업로드후 업로드 된 이미지 경로 반환(단 promise객체를 반환하기 때문에 비동기함수를 이용하여 return값을 가져온다.)
     let uploadProfileSrc = await handleImageSrc(event.target.files[0]); // s3에 업로드된 이미지 경로 반환
     // 변경하려는 경우
-    if (window.confirm('정말 해당 이미지로 프로필을 변경하시겠습니까?')) {
+    if (window.confirm("정말 해당 이미지로 프로필을 변경하시겠습니까?")) {
       // server에 변경할 이미지 경로 전달(s3 업로드 경로)
       axios({
-        method: 'patch',
+        method: "patch",
         url: `${process.env.REACT_APP_END_POINT}/user/editprofile`,
         data: {
-          url: uploadProfileSrc
+          url: uploadProfileSrc,
         },
         withCredentials: true,
       })
@@ -303,23 +305,20 @@ function UserInfo() {
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     }
     // 변경안하는 경우
     else {
-      document.querySelector('#userProfileImg').setAttribute('src', nowProfile); // 변경한 프로필에서 이전 프로필로 변경
-      // input[type=file]에서 같은 파일을 연속해서 업로드시 
+      document.querySelector("#userProfileImg").setAttribute("src", nowProfile); // 변경한 프로필에서 이전 프로필로 변경
+      // input[type=file]에서 같은 파일을 연속해서 업로드시
       // onChange에서 인식을 못하는 경우가 있는데 이 때 value값을 ''으로 지정하면 onChange에서 인식할 수 있다.
-      document.querySelector('#editProfileInput').value = '';  // input[type=file]이 연속적으로 같은 파일을 올려도 onChange가 인식하도록 설정
+      document.querySelector("#editProfileInput").value = ""; // input[type=file]이 연속적으로 같은 파일을 올려도 onChange가 인식하도록 설정
       dispatch(notify("프로필이 변경이 취소되었습니다.")); // 알림 메시지
       // uploadProfileSrc -> 방금 변경된 프로필 이미지가 s3에 업로드 된 후 접근하려는 경로
       // deleteUpload(uploadProfileSrc); // s3에 업로드된 이미지 제거(db에 저장하지 않고 s3에 우선적으로 업로드된 이미지 제거) -> 추후 구현
     }
-
-  }
+  };
   //! edit profile [code end]
-
-
 
   return (
     <div className="allPageWrap">
@@ -333,11 +332,15 @@ function UserInfo() {
             <img
               alt="사용자 프로필"
               src={userInfo.profile !== null ? userInfo.profile : dummyProfile}
-              id='userProfileImg'
+              id="userProfileImg"
             />
             <span onClick={editProfile}>이미지 변경</span>
             {/* <span>이미지 삭제</span> */}
-            <input type='file' id='editProfileInput' onChange={previewEditProfile} />
+            <input
+              type="file"
+              id="editProfileInput"
+              onChange={previewEditProfile}
+            />
           </div>
           <div className="infoChangeWrap">
             <p>사용자 이름 변경</p>
