@@ -166,3 +166,7 @@
 .withdrawalForKakao {
   margin-top: 50px;
 }
+/* edit profile input */
+#editProfileInput{
+  display: none;
+}

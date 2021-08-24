@@ -174,6 +174,8 @@ function Admin() {
             alert('해시태그에 빈칸을 입력할 수 없습니다!');
             event.target.value = ''
         }
+        // 영어, 한글, 숫자만 입력 가능하도록 설정(그 외 텍스트는 모두 제거)
+        event.target.value = event.target.value.replace(/[^ㄱ-힣a-zA-Z0-9]/gi, "");
     }
 
     return (
@@ -277,9 +279,7 @@ function Admin() {
                                     </div>
                                     <div className='admin-manual-category-div-hashtag'>
                                         <div className='admin-musical-hashtag-info'>해시태그</div>
-
                                         <input type="text" className='admin-musical-hashtag' placeholder='해시태그 입력(최대 7글자)' maxLength='7' onChange={noSpaceHashtag} />
-
                                     </div>
                                 </div>
                             </div>

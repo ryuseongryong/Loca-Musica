@@ -82,8 +82,8 @@ function AdminEdit() {
 	const [contentsValue, setContentsValue] = useState(beforeAdminPostInfo.contents);
 	// numbers 변경을 위한 state
 	// 넘버1 작성(title,videoId 순서)
-	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData[0].title);
-	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData[0].videoId);
+	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData[0] ? beforeAdminPostInfo.numbersData[0].title : '');
+	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData[0] ? beforeAdminPostInfo.numbersData[0].videoId : '');
 	// 넘버2 작성
 	const [numberTitleValue2, setNumberTitleValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].title : '');
 	const [numberVideoIdValue2, setNumberVideoIdValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].videoId : '');

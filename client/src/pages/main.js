@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { storeAllMusicalInfo } from '../actions/index';
 import { AiOutlineVerticalAlignTop } from "react-icons/ai";
+import Footer from "../components/footer";
+
 
 function Main() {
   const [allMusical, setAllMusical] = useState([]);
@@ -84,7 +86,8 @@ function Main() {
         setTimeout(() => {
           setIsLoading(false);
         }, 500);
-        setSearchHashtagMusical(res.data.data)
+        setSearchHashtagMusical(res.data.data);
+        window.scrollTo(0, 0); // 최상단 이동
       })
       .catch((err) => {
         console.log(err);
@@ -122,122 +125,124 @@ function Main() {
 
   return (
     <div className="main-wrap">
-      {/* <Loader /> */}
       {/* main 대신 musical로 변경 */}
-      <div className="main-section1">
-        <div className="main-sidebar-genre-div">
-          <p className="main-sidebar-genre-info">장르</p>
-          <ul className="main-sidebar-genreList">
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              드라마
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              로맨스
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              판타지
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              코미디
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              역사
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              스릴러
-            </li>
-            <li className="main-sidebar-genre" onClick={searchHashtag}>
-              가족
-            </li>
-          </ul>
-        </div>
-        <div className="main-sidebar-withPeople-div">
-          <p className="main-sidebar-withPeople-info">누구와 함께</p>
-          <ul className="main-sidebar-withPeopleList">
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              혼자
-            </li>
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              연인과함께
-            </li>
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              가족과함께
-            </li>
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              친구와함께
-            </li>
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              아이와함께
-            </li>
-            <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-              동료와함께
-            </li>
-          </ul>
-        </div>
-        <div className="main-sidebar-hashtag-div">
-          <p className="main-sidebar-hashtag-info">해시태그</p>
-          <ul className="main-sidebar-hashtagList">
-            {allHashtag.map((el, index) => (
-              <li
-                className="main-sidebar-hashtag"
-                onClick={searchHashtag}
-                key={index}
-              >
-                {el.name}
+      <div className='main-container'>
+        <div className="main-section1">
+          <div className="main-sidebar-genre-div">
+            <p className="main-sidebar-genre-info">장르</p>
+            <ul className="main-sidebar-genreList">
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                드라마
               </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      {isLoading ?
-        // 로딩중
-        <div className='main-section2-loading'>
-          <Loader />
-        </div>
-        :
-        // 로딩이 끝난 후
-        <div className='main-section2'>
-          {searchHashtagMusical === 0 ?
-            <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
-            :
-            <div className='main-musicalList-info'>분류 : {clickHashtag} 검색결과</div>
-          }
-          <ul className='main-musicalList'>
-            {searchHashtagMusical === 0 ?
-              // 해시태그 클릭을 하지 않는 상태(초기상태) 
-              allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
-                :
-                allMusical.map((el, index) =>
-                  <li className='main-musical' key={index}>
-                    <img className='main-musical-image' src={el.thumbnail}
-                      alt='main-musical-post' onClick={gotoDetail} />
-                    <input type='hidden' value={el.title} />
-                  </li>)
-              :
-              // 해시태그를 클릭한 상태
-              searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
-                :
-                searchHashtagMusical.map((el, index) =>
-                  <li className='main-musical' key={index}>
-                    <img className='main-musical-image' src={el.thumbnail}
-                      alt='main-musical-post' onClick={gotoDetail} />
-                    <input type='hidden' value={el.title} />
-                  </li>)
-            }
-          </ul>
-          <div className='back-allMusical-div'>
-            {/* 현재 클릭한 해시태그가 있는 경우 모든 뮤지컬 조회 버튼이 출력되도록 설정 */}
-            {clickHashtag === '' ?
-              ''
-              :
-              <button className='back-allMusical-btn' onClick={backToAllMusical}>모든 뮤지컬 조회</button>
-            }
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                로맨스
+              </li>
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                판타지
+              </li>
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                코미디
+              </li>
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                역사
+              </li>
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                스릴러
+              </li>
+              <li className="main-sidebar-genre" onClick={searchHashtag}>
+                가족
+              </li>
+            </ul>
+          </div>
+          <div className="main-sidebar-withPeople-div">
+            <p className="main-sidebar-withPeople-info">누구와 함께</p>
+            <ul className="main-sidebar-withPeopleList">
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                혼자
+              </li>
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                연인과함께
+              </li>
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                가족과함께
+              </li>
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                친구와함께
+              </li>
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                아이와함께
+              </li>
+              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                동료와함께
+              </li>
+            </ul>
+          </div>
+          <div className="main-sidebar-hashtag-div">
+            <p className="main-sidebar-hashtag-info">해시태그</p>
+            <ul className="main-sidebar-hashtagList">
+              {allHashtag.map((el, index) => (
+                <li
+                  className="main-sidebar-hashtag"
+                  onClick={searchHashtag}
+                  key={index}
+                >
+                  {el.name}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      }
-      <div className='main-section3'>
-        <button className='main-top-btn' onClick={gotoTop}><AiOutlineVerticalAlignTop className='main-top-icon' /></button>
+        {isLoading ?
+          // 로딩중
+          <div className='main-section2-loading'>
+            <Loader />
+          </div>
+          :
+          // 로딩이 끝난 후
+          <div className='main-section2'>
+            {searchHashtagMusical === 0 ?
+              <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
+              :
+              <div className='main-musicalList-info'>분류 : {clickHashtag} 검색결과</div>
+            }
+            <ul className='main-musicalList'>
+              {searchHashtagMusical === 0 ?
+                // 해시태그 클릭을 하지 않는 상태(초기상태) 
+                allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
+                  :
+                  allMusical.map((el, index) =>
+                    <li className='main-musical' key={index}>
+                      <img className='main-musical-image' src={el.thumbnail}
+                        alt='main-musical-post' onClick={gotoDetail} />
+                      <input type='hidden' value={el.title} />
+                    </li>)
+                :
+                // 해시태그를 클릭한 상태
+                searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
+                  :
+                  searchHashtagMusical.map((el, index) =>
+                    <li className='main-musical' key={index}>
+                      <img className='main-musical-image' src={el.thumbnail}
+                        alt='main-musical-post' onClick={gotoDetail} />
+                      <input type='hidden' value={el.title} />
+                    </li>)
+              }
+            </ul>
+            <div className='back-allMusical-div'>
+              {/* 현재 클릭한 해시태그가 있는 경우 모든 뮤지컬 조회 버튼이 출력되도록 설정 */}
+              {clickHashtag === '' ?
+                ''
+                :
+                <button className='back-allMusical-btn' onClick={backToAllMusical}>모든 뮤지컬 조회</button>
+              }
+            </div>
+          </div>
+        }
+        <div className='main-section3'>
+          <button className='main-top-btn' onClick={gotoTop}><AiOutlineVerticalAlignTop className='main-top-icon' /></button>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -4,6 +4,8 @@ import 'slick-carousel/slick/slick-theme.css';
 // import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 import MusicalBaseImage from '../images/musical_baseimage.jpg';
+import Footer from "../components/footer";
+
 
 function Search({
   setIsRecommend,
@@ -81,6 +83,9 @@ function Search({
           </div>
         </div>
         <div className="search-section3"></div>
+      </div>
+      <div className='search-footer-div'>
+        <Footer />
       </div>
     </div>
   );
