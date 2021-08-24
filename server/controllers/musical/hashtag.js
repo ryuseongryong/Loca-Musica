@@ -928,6 +928,11 @@ module.exports = {
       // musical_hashtag의 likeCount -1
       // hashtags의 totalLikeCount -1
       // user_hashtag 삭제
+      const [userHashtagUpdatedData] = await connection.execute(
+        `SELECT users.username, users.profile, users.email, musicals.title, hashtags.name FROM ( ( ( users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id ) INNER JOIN musical_hashtag ON user_hashtag.musical_hashtag_id = musical_hashtag.id) INNER JOIN hashtags ON hashtag_id = hashtags.id) INNER JOIN musicals ON musical_hashtag.musical_id = musicals.id WHERE user_hashtag.user_id = ? AND musicals.id = ?`,
+        [userId, musicalId]
+      );
+
       await connection.execute(
         `UPDATE musical_hashtag SET likeCount = likeCount - 1 WHERE id = ?`,
         [musicalHashtagId]
@@ -964,11 +969,6 @@ module.exports = {
       const [deleteResultHashtags] = await connection.execute(
         `DELETE FROM hashtags WHERE id = ? AND (totalLikeCount < 1 OR musicalCount < 1)`,
         [hashtagId]
-      );
-
-      const [userHashtagUpdatedData] = await connection.execute(
-        `SELECT users.username, users.profile, users.email, musicals.title, hashtags.name FROM ( ( ( users INNER JOIN user_hashtag ON users.id = user_hashtag.user_id ) INNER JOIN musical_hashtag ON user_hashtag.musical_hashtag_id = musical_hashtag.id) INNER JOIN hashtags ON hashtag_id = hashtags.id) INNER JOIN musicals ON musical_hashtag.musical_id = musicals.id WHERE user_hashtag.user_id = ? AND musicals.id = ?`,
-        [userId, musicalId]
       );
 
       const [hashtagsData] = await connection.execute(
@@ -1018,6 +1018,12 @@ module.exports = {
         }
         return acc;
       }, []);
+      console.log({
+        updatedHashtagData: hashtagData,
+        userHashtagUpdatedData,
+        hashtagsData,
+        userHashtag,
+      });
 
       await connection.commit();
       res.status(200).json({
