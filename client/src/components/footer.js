@@ -7,43 +7,39 @@ function Footer() {
       <div className="footerWrap">
         <p id="footerBI">Loca Musica</p>
         <div id="footerInfoWrap">
-          <div>
-            <p>
-              Developed by
-              <span
-                onClick={() =>
-                  (window.location.href = "https://github.com/ryuseongryong")
-                }
-              >
-                <img className="github" alt="github logo" src={github} />
-                유성룡,
-              </span>
-              <span
-                onClick={() =>
-                  (window.location.href = "https://github.com/ezyeon07")
-                }
-              >
-                <img className="github" alt="github logo" src={github} />
-                이지연,
-              </span>
-              <span
-                onClick={() =>
-                  (window.location.href = "https://github.com/200911184")
-                }
-              >
-                <img className="github" alt="github logo" src={github} />
-                정승환,
-              </span>
-              <span
-                onClick={() =>
-                  (window.location.href = "https://github.com/jhoryong")
-                }
-              >
-                <img className="github" alt="github logo" src={github} />
-                정호룡
-              </span>
-            </p>
-          </div>
+          <p>Developed by</p>
+          <span
+            onClick={() =>
+              (window.location.href = "https://github.com/ryuseongryong")
+            }
+          >
+            <img className="github" alt="github logo" src={github} />
+            유성룡,
+          </span>
+          <span
+            onClick={() =>
+              (window.location.href = "https://github.com/ezyeon07")
+            }
+          >
+            <img className="github" alt="github logo" src={github} />
+            이지연,
+          </span>
+          <span
+            onClick={() =>
+              (window.location.href = "https://github.com/200911184")
+            }
+          >
+            <img className="github" alt="github logo" src={github} />
+            정승환,
+          </span>
+          <span
+            onClick={() =>
+              (window.location.href = "https://github.com/jhoryong")
+            }
+          >
+            <img className="github" alt="github logo" src={github} />
+            정호룡
+          </span>
         </div>
         <div className="footerSrcWrap">
           <p className="apiSource">
