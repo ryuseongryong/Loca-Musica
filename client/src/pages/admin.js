@@ -199,15 +199,16 @@ function Admin() {
                                 </div>
                                 <div className='admin-auto-info-musical-state-div'>
                                     <div className='admin-auto-info-musical-state'>공연상태 : </div>
-                                    {nowClickMusical.state ?
-                                        // 현재 클릭한 정보가 있는 경우
-                                        nowClickMusical.state === '공연완료' ?
-                                            <div className='admin-auto-info-musical-state-input-end '>공연완료</div>
+                                    {nowClickMusical.state === '' ? '' :
+                                        nowClickMusical.state !== '공연예정' ?
+                                            // 공연예정이 아닌 경우
+                                            nowClickMusical.state === '공연완료' ?
+                                                <div className='admin-auto-info-musical-state-input-end '>공연완료</div>
+                                                :
+                                                <div className='admin-auto-info-musical-state-input-ing '>공연중</div>
                                             :
-                                            <div className='admin-auto-info-musical-state-input-ing '>공연중</div>
-                                        :
-                                        // 현재 클릭한 정보가 없는 경우
-                                        ''
+                                            // 공연예정인 경우
+                                            <div className='admin-auto-info-musical-state-input-future '>공연예정</div>
                                     }
 
                                 </div>

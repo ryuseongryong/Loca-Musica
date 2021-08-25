@@ -26,8 +26,8 @@ module.exports = {
       }
 
       const { id, email, username, resign, admin, kakao } = accessTokenData;
-      const { url, file } = req.body;
-      if (!url) {
+      const { url } = req.body;
+      if (!url && url !== null) {
         return res
           .status(422)
           .send({ message: 'insufficient data information!' });

@@ -59,13 +59,29 @@ function Header() {
       history.push(`/search`);
     }
   };
+  // 메인 이동
+  const gotoMain = (event) => {
+    const url = new URL(window.location.href)
+    // 같은 url내에서 새로고침 효과
+    if (url.pathname.includes("/musical/main")) {
+      if (url.host === "localhost:3000") {
+        window.location.assign(`http://localhost:3000/musical/main`);
+      }
+      else if (url.host === "loca-musica.com") {
+        window.location.assign(`https://loca-musica.com/musical/main`);
+      }
+    }
+    else {
+      history.push(`/musical/main`);
+    }
+  }
 
   return (
     <div className="header-main">
       <div className="header-logo">
-        <Link to="/musical/main" className="logo">
+        <div className="logo" onClick={gotoMain}>
           Loca Musica
-        </Link>
+        </div>
       </div>
       <div className="header-section1">
         {/* <Link to="/search" className="header-link-router"> */}

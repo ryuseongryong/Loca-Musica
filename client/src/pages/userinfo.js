@@ -9,6 +9,7 @@ import Footer from "../components/footer";
 import dummyProfile from "../images/dummyProfile.png";
 import WithdrawalModal from "../components/withdrawalModal";
 import AWS from "aws-sdk";
+import DeleteProfileModal from '../components/deleteProfileModal';
 
 
 function UserInfo() {
@@ -37,6 +38,8 @@ function UserInfo() {
   });
   //* modal창을 관리
   const [isModal, setIsModal] = useState(false);
+  // delete modal 여부 state
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   // 핸들러 함수
   //* 이미지 변경 요청 함수(구현 중)
@@ -319,6 +322,10 @@ function UserInfo() {
     }
   };
   //! edit profile [code end]
+  // 프로필 삭제 클릭시 삭제 모달 클릭
+  const deleteProfile = (event) => {
+    setIsDeleteModal(true);
+  }
 
   return (
     <div className="allPageWrap">
@@ -335,7 +342,7 @@ function UserInfo() {
               id="userProfileImg"
             />
             <span onClick={editProfile}>이미지 변경</span>
-            {/* <span>이미지 삭제</span> */}
+            <span onClick={deleteProfile}>이미지 삭제</span>
             <input
               type="file"
               id="editProfileInput"
@@ -435,6 +442,7 @@ function UserInfo() {
           />
         ) : null}
       </div>
+      {isDeleteModal ? <DeleteProfileModal setIsDeleteModal={setIsDeleteModal} /> : ''}
       <Footer />
     </div>
   );

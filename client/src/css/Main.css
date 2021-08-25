@@ -1,6 +1,7 @@
 .main-wrap {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	margin-top: 80px;
 	width: 100%;
 	/* footer조절 */
