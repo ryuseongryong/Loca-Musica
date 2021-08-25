@@ -7,9 +7,13 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Loader from '../components/loader'
 import Footer from "../components/footer";
+import { notify } from "../actions/index";
+import { useDispatch } from "react-redux";
 
 
 function Search() {
+    // redux사용 하기 위한 dispatch
+    const dispatch = useDispatch();
     // 추천 결과 여부 파악 state변수
     const [isRecommend, setIsRecommend] = useState(true);
     // 유저 추천 해시태그 list(카테고리 + 해시태그)
@@ -64,7 +68,7 @@ function Search() {
 
         // 만약 유저 해시태크를 1개도 지정하지 않고 추천 받으려는 경우 추천안됨(최소 1개 이상)
         if (recommendUserHashtag.length === 0) {
-            alert('최소 1개 이상의 카테고리 또는 해시태그를 지정해야 합니다.');
+            dispatch(notify('1개 이상의 카테고리 또는 해시태그를 선택해 주세요.')); // 알림 메시지
         }
         // 1개 이상의 해시태그 지정시 추천 받음 
         else {
@@ -131,7 +135,7 @@ function Search() {
             }
             // 4개 이상을 선택하려는 경우 선택이 안되도록 설정
             else {
-                alert('이미 3개가 선택되었습니다!');
+                dispatch(notify('이미 3개가 선택되었습니다!')); // 알림 메시지                
             }
         }
         // 2. 취소 if 부모span className = selected-category
@@ -181,7 +185,7 @@ function Search() {
             }
             // 4개 이상을 선택하려는 경우 선택이 안되도록 설정
             else {
-                alert('이미 3개가 선택되었습니다!');
+                dispatch(notify('이미 3개가 선택되었습니다!')); // 알림 메시지
             }
         }
         // 2. 취소 if 부모span className = selected-hashtag 인 경우
@@ -210,10 +214,7 @@ function Search() {
                             <div className='search-section1'></div>
                             <div className='search-section2'>
                                 <div className='search-section2-top'>
-                                    <div className='search-left'></div>
-                                    <div className='search-right-info'>
-                                        <p className='search-info'>취향에 따라 최대 3개를 선택해주세요(카테고리 내 중복선택 가능)</p>
-                                    </div>
+                                    <p className='search-info'>취향에 따라 최대 3개를 선택해주세요(카테고리 내 중복선택 가능)</p>
                                 </div>
                                 <div className='search-section2-middle'>
                                     <div className='search-category1'>
@@ -239,7 +240,7 @@ function Search() {
                                         </div>
                                     </div>
                                     <div className='search-hashtags'>
-                                        <div className='search-left-hashtag'></div>
+                                        <div className='search-left-hashtag'>해시태그</div>
                                         <div className='search-right'>
                                             <ul className='hashtags-list'>
                                                 {allHashtag.length === 0 ?
