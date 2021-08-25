@@ -18,7 +18,7 @@ CREATE TABLE musicals (
 	code varchar(255) not null UNIQUE,
   title varchar(255) not null,
   thumbnail varchar(255),
-	contents varchar(255),
+	contents varchar(1000),
 	state varchar(255),
 	actors varchar(255),
   PRIMARY KEY (id)
