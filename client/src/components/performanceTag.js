@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { notify } from "../actions/index";
 import ChoiceModal from "./choiceModal";
 
-import WordCloud from "./wordCloud";
+import WordCloud1 from "./wordCloud";
 
 function PerformanceTag({ isSignin, userInfo }) {
   //? 변수
@@ -49,6 +49,7 @@ function PerformanceTag({ isSignin, userInfo }) {
       })
       .then((res) => {
         console.log("지금응답은?", res.data.data);
+
         setHashtagsData(res.data.data.hashtagsData);
         setUserHashtag(res.data.data.userHashtag);
       })
@@ -139,7 +140,8 @@ function PerformanceTag({ isSignin, userInfo }) {
   //* 해시태그 공감표시 기능 함수
   const controlLikeRequestHandler = (event) => {
     event.preventDefault();
-    let hashtag = event.target.innerText;
+    let hashtag = event.target.textContent;
+    console.log("hashtag: ", hashtag)
 
     if (!isSignin) {
       setIsModal(true);
@@ -187,7 +189,7 @@ function PerformanceTag({ isSignin, userInfo }) {
     <div>
       <div className="pfHashtagWrap">
         <p className="pfItem">태그</p>
-        <div className="pfHashtags">
+        {/* <div className="pfHashtags">
           <ul id="hashtagItemList">
             {hashtagsData.map((el, index) => (
               <li
@@ -199,8 +201,8 @@ function PerformanceTag({ isSignin, userInfo }) {
               </li>
             ))}
           </ul>
-        </div>
-        {/* <WordCloud hashtagsData={hashtagsData} /> */}
+        </div> */}
+        <WordCloud1 controlLikeRequestHandler={controlLikeRequestHandler} hashtagsData={hashtagsData} />
         <form>
           <input
             id="inputHashtag"
