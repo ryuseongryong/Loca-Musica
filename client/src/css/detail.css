@@ -130,7 +130,7 @@
 
 /* 뮤지컬 해시태그 관련 css */
 .pfHashtagWrap {
-  height: 580px;
+  /* height: 580px; */
   border: 1px solid blue;
 }
 .pfHashtagWrap > form {

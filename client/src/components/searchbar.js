@@ -106,7 +106,7 @@ function Searchbar() {
         return;
 
       if (highlightIdx - 1 >= 0) { 
-        if (highlightIdx - 1 <= numResultsVisible) {
+        if (highlightIdx - 1 <= searchResult.length - numResultsVisible) { // TODO:
           scrollTo({
             top: scrollTop - liHeight, 
             behavior: scrollBehavior
