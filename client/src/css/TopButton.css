@@ -1,0 +1,16 @@
+.top-btn {
+	width: 80px;
+	height: 80px;
+	position: fixed;
+	right: 5%;
+	bottom : 50px;
+	border-radius: 10rem;
+}
+
+.top-btn:hover {
+	background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+}
+
+.top-btn-icon {
+	font-size: 45px;
+}

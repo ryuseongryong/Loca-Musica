@@ -88,6 +88,10 @@
   font-weight: bold;
   font-size: 18px;
   color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* react-router-dom Link태그 밑줄 제거 */

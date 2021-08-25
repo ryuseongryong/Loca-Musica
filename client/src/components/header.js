@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../css/Header.css";
 import { signout, notify, rememberPathname } from "../actions/index";
-
+import { CgChevronRight } from "react-icons/cg"
 import Searchbar from "./searchbar";
 
 function Header() {
@@ -82,7 +82,7 @@ function Header() {
       <div className="header-section1">
         {/* <Link to="/search" className="header-link-router"> */}
         <div className="recommend-musical-button" onClick={goRecommend}>
-          뮤지컬 추천 &nbsp;{">"}
+          뮤지컬 추천 &nbsp;<CgChevronRight size='24' />
           {/* <FiChevronRight className='header-search-btn-icon' /> */}
         </div>
         {/* </Link> */}
