@@ -23,7 +23,8 @@ landing page
 #### [EveryReview GitHub 링크](https://github.com/codestates/Loca-Musica)
 
 # 💻 Tech Stack
-<img width="691" alt="스크린샷 2021-07-30 오전 12 11 40" src="https://user-images.githubusercontent.com/58920833/127517668-c7a6c0b3-b402-4b05-a534-7d7fdf175f4b.png">
+<img width="700" alt="CloudCraft Stack" src="https://user-images.githubusercontent.com/58920833/130772316-c3ac8b32-269a-432f-88c1-d72191fae9ee.png">
+
 
 # 🔍 기능 소개
 
