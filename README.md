@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# 🌈 서비스 소개
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+landing page
+<img width="1200" alt="Landing Page" src="">
 
-## Available Scripts
+### 💬 뮤지컬에 관심있으신가요?
 
-In the project directory, you can run:
+### ❓ 관심은 있지만 뮤지컬을 잘 모르신다면,
 
-### `yarn start`
+### 🤷‍♀️ 🤷‍♂️ 누구와 함께 볼 지 🔎 그리고 어떤 장르를 좋아하는지만 알려주세요! 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 👨‍👩‍👧‍👦 👬👭 💑 🙆‍♂️🙆‍♀️ 누구와 함께든지, 평소 친근한 장르들로 뮤지컬을 분류했습니다!
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 💡 당신이 생각하는 뮤지컬?
 
-### `yarn test`
+### :exclamation: 이제 Loca-Musica에서 찾을 수 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### ☀️ 좋은 날, 당신이 좋아하는 사람❤️과 좋아하는 분위기❣️를 만나보세요.
 
-### `yarn build`
+### :heartbeat: 그리고 당신이 남긴 해시태그로 사람들의 마음을 움직여보세요.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### [EveryReview 배포 링크](https://loca-musica.com)
+#### [EveryReview GitHub 링크](https://github.com/codestates/Loca-Musica)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 💻 Tech Stack
+<img width="691" alt="스크린샷 2021-07-30 오전 12 11 40" src="https://user-images.githubusercontent.com/58920833/127517668-c7a6c0b3-b402-4b05-a534-7d7fdf175f4b.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 🔍 기능 소개
 
-### `yarn eject`
+### 1. 로그인
+![]()
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 2. 뮤지컬 추천받기
+![]()
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. 뮤지컬 소개
+![]()
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 4. 해시태그 입력
+![]()
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 5. 마이페이지
 
-## Learn More
+# 👍 Team EveryOne
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+|포지션|이름|GitHub|
+|------|---|---|
+|Front-End|이지연|[ezyeon07](https://github.com/ezyeon07)|
+|Front-End|정승환|[200911184](https://github.com/200911184)|
+|Back-End|유성룡|[ryuseongryong](https://github.com/ryuseongryong)|
+|Full-Stack|정호룡|[jhoryong](https://github.com/jhoryong)|
