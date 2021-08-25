@@ -1,23 +1,30 @@
 /* eslint-disable */
 import { GoSearch } from 'react-icons/go';
 import '../css/searchbar.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as Hangul from 'korean-regexp';
 
 function Searchbar() {
+  // Redux State
+  const allMusicalData = useSelector((state) => {
+    let data = state.allMusicalDataReducer.arrAllMusicalData;
+    //console.log('Data from redux store: ', data);
+    return data;
+  });
+  // Local State
   const [str, setStr] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const [delta, setDelta] = useState(Date.now());
 
-  const allMusicalData = useSelector((state) => {
-    let data = state.allMusicalDataReducer.arrAllMusicalData;
-    //console.log('Data from redux store: ', data);
-    return data;
-  })
   const history = useHistory();
+  const olElm = useRef(null);
+
+  const numResultsVisible = 3 - 1; // 검색결과에 기본적으로 보이는 <li>의 수. index 를 맞추기 위해 -1
+  const scrollBehavior = 'smooth'; // 'auto', 'smooth'
+  // const olHeight = 250; // Height of <ol> element
 
   const handleChange = (e) => {
     setStr(e.target.value);
@@ -25,8 +32,7 @@ function Searchbar() {
 
   const filterResults = (searchValue) => {
     if (!searchValue) return;
-    
-    //const reg = new RegExp(searchValue, 'i'); // i -> case insensative
+
     const reg = Hangul.getRegExp(searchValue);
     const filtered = allMusicalData.filter((item) => {
       return reg.test(item.title);
@@ -36,20 +42,18 @@ function Searchbar() {
   };
 
   const handleClickSearchResult = (title) => {
-    console.log("Clicked a title: ", title);
+    console.log('Clicked a title: ', title);
     setStr('');
-    const url = new URL(window.location.href)
-    console.log("current url: ", url)
-    if (url.pathname.includes("/musical")) {
+    const url = new URL(window.location.href);
+    console.log('current url: ', url);
+    if (url.pathname.includes('/musical')) {
       console.log("I'm in /musical page");
-      if (url.host === "localhost:3000"){
-        window.location.assign(`http://localhost:3000/musical/${title}`); 
+      if (url.host === 'localhost:3000') {
+        window.location.assign(`http://localhost:3000/musical/${title}`);
+      } else if (url.host === 'loca-musica.com') {
+        window.location.assign(`https://loca-musica.com/musical/${title}`);
       }
-      else if (url.host === "loca-musica.com"){
-        window.location.assign(`https://loca-musica.com/musical/${title}`); 
-      }
-    }
-    else {
+    } else {
       history.push(`/musical/${title}`);
       console.log(history);
     }
@@ -58,46 +62,75 @@ function Searchbar() {
   const isDoubleKeyDown = () => {
     setDelta(Date.now());
     let now = Date.now();
-    if (now - delta < 10){
-      console.log("Prevent double keydown!")
+    if (now - delta < 10) {
+      console.log('Prevent double keydown!');
       return true;
     }
     return false;
-  }
-
+  };
   const handleKeyDown = (event) => {
     if (searchResult.length === 0) return;
-    
+
     const key = event.key;
-    console.log("key: ", key);
-    //console.log("highlightIdx: ", highlightIdx)
+    const scrollTop = olElm.current.scrollTop;
+    const scrollHeight = olElm.current.scrollHeight;
+    const liHeight = scrollHeight / searchResult.length;
+    function scrollTo(e) { olElm.current.scrollTo(e);}
+    // const extraOlHeight = olHeight - numResultsVisible * liHeight;
 
     if (key === 'ArrowDown') {
       event.preventDefault();
-      if (isDoubleKeyDown()) return;
-      if (highlightIdx + 1 < searchResult.length)
+      if (isDoubleKeyDown()) 
+        return;
+
+      if (highlightIdx + 1 < searchResult.length){
+        if (highlightIdx + 1 > numResultsVisible) {
+          scrollTo({
+            top: scrollTop + liHeight, 
+            behavior: scrollBehavior
+          })
+        }
         setHighlightIdx(highlightIdx + 1);
-      else{
+      }
+      else {
+        scrollTo({
+          top: 0, 
+          behavior: scrollBehavior
+        });
         setHighlightIdx(0);
       }
-    }
-
+    } 
     else if (key === 'ArrowUp') {
       event.preventDefault();
-      if (isDoubleKeyDown()) return;
-      if (highlightIdx - 1 >= 0)
-        setHighlightIdx(highlightIdx - 1)
-      else 
-        setHighlightIdx(searchResult.length - 1)
-    }
+      if (isDoubleKeyDown()) 
+        return;
 
+      if (highlightIdx - 1 >= 0) { 
+        if (highlightIdx - 1 <= numResultsVisible) {
+          scrollTo({
+            top: scrollTop - liHeight, 
+            behavior: scrollBehavior
+          })
+        }
+        setHighlightIdx(highlightIdx - 1);
+      }
+      else {
+        scrollTo({
+          top: scrollHeight, 
+          behavior: scrollBehavior
+        });
+        setHighlightIdx(searchResult.length - 1);
+      }
+    } 
     else if (key === 'Enter') {
       event.preventDefault();
-      if (isDoubleKeyDown()) return;
+      if (isDoubleKeyDown()) 
+        return;
+
       let value = searchResult[highlightIdx].title;
       handleClickSearchResult(value);
     }
-  }
+  };
 
   useEffect(() => {
     if (str) {
@@ -117,7 +150,7 @@ function Searchbar() {
         </div>
         <div className='searchbar-input-div'>
           <input
-            autoComplete="off"
+            autoComplete='off'
             className='searchbar-input'
             placeholder='뮤지컬 검색'
             id='headerSearchTitleInput'
@@ -128,13 +161,22 @@ function Searchbar() {
         </div>
       </div>
       {searchResult.length ? (
-        <ol className={`searchbar-result-ol ${searchResult.length > 2 ? 'searchbar-result-ol-scroll' : null}`}>
+        <ol
+          ref={olElm}
+          className={`searchbar-result-ol ${
+            searchResult.length > 2 ? 'searchbar-result-ol-scroll' : null
+          }`}
+        >
           {searchResult.map((item, idx) => {
             return (
               <li
                 key={idx}
-                className={`searchbar-result-li ${highlightIdx === idx ? 'searchbar-result-li-highlighted' : null}`}
-                onClick={()=>handleClickSearchResult(item.title)}
+                className={`searchbar-result-li ${
+                  highlightIdx === idx
+                    ? 'searchbar-result-li-highlighted'
+                    : null
+                }`}
+                onClick={() => handleClickSearchResult(item.title)}
               >
                 <img
                   className='searchbar-result-poster'

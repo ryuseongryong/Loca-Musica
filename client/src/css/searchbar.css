@@ -50,11 +50,12 @@
   width: 100%;
   /* border: 1px solid #fff; */
   border-top: 1px solid rgb(91, 91, 91);
+  border-bottom: 1px solid rgb(91, 91, 91);
   margin-bottom: 20px;
 }
 
 .searchbar-result-ol-scroll{
-  height: 250px;
+  height: 230px;
   overflow-y: scroll;
   scrollbar-color:auto;
   /* scrollbar-width: none; */
@@ -62,9 +63,8 @@
 .searchbar-result-ol-scroll::-webkit-scrollbar {
   /* display:none; */
   width: 5px;
-  /* background-color: black; */
+  background-color: rgb(50, 50, 50);
   /* color: #000; */
-  /* background-color: #fff; */
 }
 .searchbar-result-ol-scroll::-webkit-scrollbar-thumb {
   background: #ccc;
