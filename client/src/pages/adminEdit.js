@@ -11,7 +11,10 @@ function AdminEdit() {
 	// 전달받은 해사태그 중 유저가 작성한 해시태그 목록
 	const [beforeUserHashtag, setBeforeUserHashtag] = useState([]);
 	// 기존에 있던 정보 저장 객체
-	const [beforeAdminPostInfo, setBeforeAdminPostInfo] = useState({ ...location.props });
+	// 이전에 localStorage에 저장된 전달된 값을 가져와서 사용한다. string형으로 저장된 객체를 다시 객체로 변환해준다(JSON.parse()사용)
+	const [beforeAdminPostInfo, setBeforeAdminPostInfo] = useState(
+		location.props ? { ...location.props } :
+			() => JSON.parse(window.localStorage.getItem("beforeAdminPostInfo")));
 	// 관리자가 작성한 게시글 정보(server에 보낼것)
 	const [adminPostInfo, setAdminPostInfo] = useState({
 		code: beforeAdminPostInfo.code,
@@ -30,39 +33,64 @@ function AdminEdit() {
 
 	// 만약에 작품검색을 통해 값을 가져오면 가져온 값으로 변경하기 위한 useEffect -> 1.code 2.title 3.image 4.state 변경
 	useEffect(() => {
+		// location.props -> 전달되는 값, history.push()에서 값을 전달하면 'location.키값'으로 전달된 값을 받을 수 있다. 
 		// console.log('location 받아온 값 : ', location.props); // history.push()로 전달한 값을 받기 위해 location사용
 
+		//전달된 값을 localStorage에 저장(새로고침을 해도 미리 저장한 값을 localStorage에서 불러오면 된다. 
+		// 단 localStorage는 string형만 저장하므로 JSON.stringfy()를 이용하여 객체를 string화 시켜준 후 저장한다.)
+		window.localStorage.setItem("beforeAdminPostInfo", JSON.stringify(beforeAdminPostInfo));
 		// 1. category- 동행자 전달된 값으로 할당
 		let withPeopleArr = beforeAdminPostInfo.hashtagsData.filter((el) => {
 			return el.name === '혼자' || el.name === '연인과함께' || el.name === '가족과함께' || el.name === '친구와함께'
 				|| el.name === '아이와함께' || el.name === '동료와함께'
 		});
-		setGenre(withPeopleArr[0].name);
-		const optionList1 = document.querySelectorAll('.adminEdit-musical-category-together-value');
-		for (let b = 0; b < optionList1.length; b++) {
-			if (withPeopleArr[0].name === optionList1[b].value) {
-				optionList1[b].setAttribute('selected', true);
-				break;
+
+		// 1-1. 만약 동행자(카테고리)가 선택된 뮤지컬은 option 지정(select태그 내부)
+		if (withPeopleArr.length !== 0) {
+			setWithPeople(withPeopleArr[0].name);
+			const optionList1 = document.querySelectorAll('.adminEdit-musical-category-together-value');
+			for (let b = 0; b < optionList1.length; b++) {
+				if (withPeopleArr[0].name === optionList1[b].value) {
+					optionList1[b].setAttribute('selected', true);
+					break;
+				}
 			}
 		}
+		// 1-1. 만약 동행자(카테고리)가 선택되지 않는 뮤지컬은 ''로 지정
+		else {
+			setWithPeople('');
+		}
+
+
 
 		// 2. category - 장르 전달된 값으로 할당
 		let genreArr = beforeAdminPostInfo.hashtagsData.filter((el) => {
 			return el.name === '드라마' || el.name === '로맨스' || el.name === '판타지' || el.name === '코미디'
 				|| el.name === '역사' || el.name === '스릴러' || el.name === '가족'
 		});
-		setWithPeople(genreArr[0].name);
-		const optionList2 = document.querySelectorAll('.adminEdit-musical-category-genre-value');
-		for (let c = 0; c < optionList2.length; c++) {
-			if (genreArr[0].name === optionList2[c].value) {
-				optionList2[c].setAttribute('selected', true);
-				break;
+
+		// 2-1. 만약 장르(카테고리)를 선택된 뮤지컬은 option 지정(select태그 내부)
+		if (genreArr.length !== 0) {
+			setGenre(genreArr[0].name);
+			const optionList2 = document.querySelectorAll('.adminEdit-musical-category-genre-value');
+			for (let c = 0; c < optionList2.length; c++) {
+				if (genreArr[0].name === optionList2[c].value) {
+					optionList2[c].setAttribute('selected', true);
+					break;
+				}
 			}
 		}
+		// 2-1. 만약 장르(카테고리)를 선택하지 않는 뮤지컬은 ''로 지정
+		else {
+			setGenre('');
+		}
 
-		// 사용자가 작성 해시태그
+		// 3. 사용자가 작성 해시태그
+		// 3-1. 만약 장르, 동행자(카테고리)가 지정되어 있지 않는 뮤지컬은 해당 카테고리 value는 ''로 지정
+		let genrefilter = genreArr.length !== 0 ? genreArr[0].name : ''
+		let withPeoplefilter = withPeopleArr.length !== 0 ? withPeopleArr[0].name : ''
 		let userHashtagArr = beforeAdminPostInfo.hashtagsData.filter((el) => {
-			return el.name !== genreArr[0].name && el.name !== withPeopleArr[0].name
+			return el.name !== genrefilter && el.name !== withPeoplefilter
 		})
 
 		setBeforeUserHashtag(userHashtagArr); // 전달받은 해시태그 중 유저가 직접 작성한 해시태그
@@ -82,8 +110,8 @@ function AdminEdit() {
 	const [contentsValue, setContentsValue] = useState(beforeAdminPostInfo.contents);
 	// numbers 변경을 위한 state
 	// 넘버1 작성(title,videoId 순서)
-	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData[0] ? beforeAdminPostInfo.numbersData[0].title : '');
-	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData[0] ? beforeAdminPostInfo.numbersData[0].videoId : '');
+	const [numberTitleValue1, setNumberTitleValue1] = useState(beforeAdminPostInfo.numbersData ? beforeAdminPostInfo.numbersData[0].title : '');
+	const [numberVideoIdValue1, setNumberVideoIdValue1] = useState(beforeAdminPostInfo.numbersData ? beforeAdminPostInfo.numbersData[0].videoId : '');
 	// 넘버2 작성
 	const [numberTitleValue2, setNumberTitleValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].title : '');
 	const [numberVideoIdValue2, setNumberVideoIdValue2] = useState(beforeAdminPostInfo.numbersData[1] ? beforeAdminPostInfo.numbersData[1].videoId : '');
@@ -258,10 +286,7 @@ function AdminEdit() {
 		})
 			.then(function (response) {
 				alert("게시글 성공적으로 변경되었습니다.");
-				history.push({
-					pathname: '/adminEdit', // 수정후 수정페이지 유지
-					props: adminPostInfo // 변경된 정보가 화면에 표시되도록 변경값 전달(key값은 props,location으로 접근)
-				});
+				history.push('/musical/main');
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -305,10 +330,17 @@ function AdminEdit() {
 			event.target.textContent = '공연중';
 			setStateValue('공연중')
 		}
-		// 현재 공연중 -> 공연완료 으로 변경
+		// 현재 공연중 -> 공연예정 으로 변경
 		else if (event.target.classList.contains('adminEdit-auto-info-musical-state-input-ing')) {
-			event.target.classList.remove('adminEdit-auto-info-musical-state-input-ing'); // 공연중 상태 추가
-			event.target.classList.add('adminEdit-auto-info-musical-state-input-end'); // 공연완료 상태 제거
+			event.target.classList.remove('adminEdit-auto-info-musical-state-input-ing'); // 공연중 상태 제거
+			event.target.classList.add('adminEdit-auto-info-musical-state-input-future'); // 공연예정 상태 추가
+			event.target.textContent = '공연예정';
+			setStateValue('공연예정')
+		}
+		// 현재 공연예정 -> 공연완료 으로 변경
+		else {
+			event.target.classList.remove('adminEdit-auto-info-musical-state-input-future'); // 공연예정 상태 제거
+			event.target.classList.add('adminEdit-auto-info-musical-state-input-end'); // 공연완료 상태 추가
 			event.target.textContent = '공연완료';
 			setStateValue('공연완료')
 		}
@@ -381,7 +413,10 @@ function AdminEdit() {
 									{stateValue === '공연완료' ?
 										<div className='adminEdit-auto-info-musical-state-input-end' onClick={editMusicalState}>공연완료</div>
 										:
-										<div className='adminEdit-auto-info-musical-state-input-ing' onClick={editMusicalState}>공연중</div>
+										stateValue === '공연중' ?
+											<div className='adminEdit-auto-info-musical-state-input-ing' onClick={editMusicalState}>공연중</div>
+											:
+											<div className='adminEdit-auto-info-musical-state-input-future' onClick={editMusicalState}>공연예정</div>
 									}
 								</div>
 								<div className='adminEdit-auto-info-actor-div'>

@@ -301,6 +301,29 @@
   .adminEdit-auto-info-musical-state-input-end:hover {
 	background-color: rgb(73, 71, 71);
   }
+
+  .adminEdit-auto-info-musical-state-input-future {
+	height: 20px;
+	width: 60px;
+	border-radius: 10px;
+	background-color: rgb(64, 181, 194);
+	text-align: center;
+	line-height: 20px;
+	font-size: 13px;
+	font-weight: bolder;
+	cursor: pointer;
+  }
+
+  .adminEdit-auto-info-musical-state-input-future:active {
+	background-color: rgb(12, 213, 231);
+	line-height: 23px;
+  }
+
+  .adminEdit-auto-info-musical-state-input-future:hover {
+	background-color: rgb(12, 213, 231);
+  }
+  
+
   
   .adminEdit-auto-info-actor-div {
 	display: flex;

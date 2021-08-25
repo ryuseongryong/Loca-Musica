@@ -66,6 +66,7 @@
   overflow: hidden;
   flex-wrap: wrap;
   text-decoration: none;
+  cursor: pointer;
 }
 
 /* 버튼 테두리 그라데이션 효과 */

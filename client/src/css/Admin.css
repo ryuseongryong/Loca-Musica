@@ -250,6 +250,17 @@
   font-weight: bolder;
 }
 
+.admin-auto-info-musical-state-input-future {
+  height: 20px;
+  width: 60px;
+  border-radius: 10px;
+  background-color: rgb(64, 181, 194);
+  text-align: center;
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: bolder;
+}
+
 .admin-auto-info-actor-div {
   display: flex;
   align-items: center;

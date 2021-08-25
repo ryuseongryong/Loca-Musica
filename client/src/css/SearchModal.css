@@ -184,6 +184,18 @@
   font-weight: bolder;
 }
 
+.searchModal-result-state-future {
+  margin: 10px;
+  height: 20px;
+  width: 60px;
+  border-radius: 10px;
+  background-color: rgb(64, 181, 194);
+  text-align: center;
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: bolder;
+}
+
 .searchModal-result-title {
   margin: 10px;
   display: flex;

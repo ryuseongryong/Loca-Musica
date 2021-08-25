@@ -54,18 +54,19 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
   // end date
   const getEndDate = (event) => {
     // today이후는 선택 못하도록 설정
-    let today = new Date().toISOString().split("T")[0]; // 현재 날짜 바로 전날, yyyy-mm-dd형태
-    event.target.setAttribute("max", today);
+    // let today = new Date().toISOString().split("T")[0]; // 현재 날짜 바로 전날, yyyy-mm-dd형태
+    // event.target.setAttribute("max", today);
 
     const endDate = event.target.value.replaceAll("-", "");
     setSearchInput(Object.assign(searchInput, { eddate: endDate }));
   };
+  /* input[type=date] 최대 날짜를 지정하는 함수
   const setMaxEndDate = (event) => {
     // today이후는 선택 못하도록 설정
     let today = new Date().toISOString().split("T")[0]; // 현재 날짜 바로 전날, yyyy-mm-dd형태
     event.target.setAttribute("max", today);
   };
-
+  */
   // current page
   const getCurrentPage = (event) => {
     setSearchInput(Object.assign(searchInput, { cpage: event.target.value }));
@@ -206,7 +207,6 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
                       placeholder="종료날짜 8자리(예시 : 20210811)"
                       id="endddate"
                       onChange={getEndDate}
-                      onClick={setMaxEndDate}
                     />
                     <input
                       type="number"
@@ -294,9 +294,14 @@ function SearchModal({ isOpen, searchModalClose, setNowClickMusical }) {
                               공연완료
                             </div>
                           ) : (
-                            <div className="searchModal-result-state-now">
-                              공연중
-                            </div>
+                            el.prfstate._text === '공연중' ?
+                              <div className="searchModal-result-state-now">
+                                공연중
+                              </div>
+                              :
+                              <div className="searchModal-result-state-future">
+                                공연예정
+                              </div>
                           )}
                         </div>
                       </li>
