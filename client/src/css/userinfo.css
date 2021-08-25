@@ -16,11 +16,11 @@
   max-width: 1286px;
   margin: 45px auto;
 }
-.textWelcome > p {
+.welcomtextP1 {
   font-size: 1.75rem;
   line-height: 72px;
 }
-.fs20px {
+.welcomtextP2 {
   font-size: 1.25rem;
 }
 
@@ -62,7 +62,7 @@
 .infoChangeWrap > button {
   font-size: 1rem;
   width: 95px;
-  height: 47px;
+  height: 46px;
   margin: 5px 0 0 60px;
 }
 .mypageMsg {
@@ -76,16 +76,15 @@
 .bookmarkWrap {
   max-width: 1120px;
   margin: 100px auto;
-  /* border: 1px solid blue; */
 }
-.bookmarkWrap > p {
+.bookmarkText {
   font-size: 1.75rem;
   margin-bottom: 50px;
 }
 .bookmarksDataWrap {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
+  justify-content: space-between;
   max-width: 1280px;
   height: 100%;
   margin: 0 auto;
@@ -107,7 +106,7 @@
 .btnWithdrawal {
   font-size: 1rem;
   width: 120px;
-  height: 45px;
+  height: 46px;
   margin: 0 auto;
 }
 
@@ -167,6 +166,90 @@
   margin-top: 50px;
 }
 /* edit profile input */
-#editProfileInput{
+#editProfileInput {
   display: none;
+}
+
+/* 반응형css */
+@media screen and (max-width: 768px) {
+  #userInfo {
+    text-align: center;
+    width: 100%;
+    margin: 150px auto;
+  }
+  .welcomtextP1 {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+  .welcomtextP2 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .userInfoChangeWrap {
+    display: block;
+    flex-direction: column;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  /* 이미지변경 768px */
+  .imgChangeWrap > img {
+    width: 128px;
+    height: 128px;
+    margin: 30px auto;
+  }
+  .imgChangeWrap > span {
+    display: block;
+    margin: 20px auto;
+  }
+  /* 정보변경 768px */
+  .infoChangeWrap {
+    max-width: 500px;
+    padding: 0 40px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .infoChangeWrap > p {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: left;
+    margin: 50px 0 20px 10px;
+  }
+  .infoChangeWrap > form > input {
+    width: 100%;
+    height: 50px;
+    margin: 0 auto 10px;
+  }
+  .infoChangeWrap > button {
+    font-size: 1rem;
+    width: 95px;
+    height: 46px;
+    margin: 0 auto;
+  }
+
+  /* 북마크 768px */
+  .bookmarkWrap {
+    max-width: 500px;
+    margin: 100px auto;
+  }
+  .bookmarkText {
+    font-size: 1.5rem;
+    margin-bottom: 36px;
+  }
+  .bookmarksDataWrap {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .bookmarkImgWrap {
+    margin: 10px 0;
+  }
+  .bookmarkimg {
+    max-width: 180px;
+    height: 100%;
+    margin: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    float: left;
+  }
 }

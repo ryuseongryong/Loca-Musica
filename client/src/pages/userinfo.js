@@ -9,8 +9,7 @@ import Footer from "../components/footer";
 import dummyProfile from "../images/dummyProfile.png";
 import WithdrawalModal from "../components/withdrawalModal";
 import AWS from "aws-sdk";
-import DeleteProfileModal from '../components/deleteProfileModal';
-
+import DeleteProfileModal from "../components/deleteProfileModal";
 
 function UserInfo() {
   const dispatch = useDispatch();
@@ -42,8 +41,6 @@ function UserInfo() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   // 핸들러 함수
-  //* 이미지 변경 요청 함수(구현 중)
-  //* 이미지 삭제 요청 함수(구현 중)
   //* input에 입력되는 value 변경 함수
   const inputHandler = (event) => {
     const { name, value } = event.target;
@@ -132,7 +129,6 @@ function UserInfo() {
           console.log("사용자이름 잘 변경되었어요");
         })
         .then(() => {
-          //& 임시, 왜 notification이 두개가 나오는거지??????
           dispatch(notify("사용자이름이 변경되었습니다"));
           setInputValue({
             ...inputValue,
@@ -173,7 +169,6 @@ function UserInfo() {
         .then((res) => {
           console.log("비번변경 결과", res);
           dispatch(updateUserInfo(res.data.data));
-          //!비밀번호 변경하면 토큰을 다시 받아와야하는가?????
           console.log("비밀번호가 변경되었습니다.");
         })
         .then(() => {
@@ -325,14 +320,14 @@ function UserInfo() {
   // 프로필 삭제 클릭시 삭제 모달 클릭
   const deleteProfile = (event) => {
     setIsDeleteModal(true);
-  }
+  };
 
   return (
     <div className="allPageWrap">
       <div id="userInfo">
         <div className="textWelcome">
-          <p>반가워요, {userInfo.username} 님!</p>
-          <p className="fs20px">{userInfo.email}</p>
+          <p className="welcomtextP1">반가워요, {userInfo.username} 님!</p>
+          <p className="welcomtextP2">{userInfo.email}</p>
         </div>
         <div className="userInfoChangeWrap">
           <div className="imgChangeWrap">
@@ -428,7 +423,7 @@ function UserInfo() {
         </div>
 
         <div className="bookmarkWrap">
-          <p>북마크한 뮤지컬</p>
+          <p className="bookmarkText">북마크한 뮤지컬</p>
           <BookmarkList />
         </div>
 
@@ -442,7 +437,11 @@ function UserInfo() {
           />
         ) : null}
       </div>
-      {isDeleteModal ? <DeleteProfileModal setIsDeleteModal={setIsDeleteModal} /> : ''}
+      {isDeleteModal ? (
+        <DeleteProfileModal setIsDeleteModal={setIsDeleteModal} />
+      ) : (
+        ""
+      )}
       <Footer />
     </div>
   );

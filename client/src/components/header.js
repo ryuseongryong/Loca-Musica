@@ -45,36 +45,32 @@ function Header() {
   const goRecommend = (event) => {
     // history.push("/search");
     // window.location.reload();
-    const url = new URL(window.location.href)
+    const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
     if (url.pathname.includes("/search")) {
       if (url.host === "localhost:3000") {
         window.location.assign(`http://localhost:3000/search`);
-      }
-      else if (url.host === "loca-musica.com") {
+      } else if (url.host === "loca-musica.com") {
         window.location.assign(`https://loca-musica.com/search`);
       }
-    }
-    else {
+    } else {
       history.push(`/search`);
     }
   };
   // 메인 이동
   const gotoMain = (event) => {
-    const url = new URL(window.location.href)
+    const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
     if (url.pathname.includes("/musical/main")) {
       if (url.host === "localhost:3000") {
         window.location.assign(`http://localhost:3000/musical/main`);
-      }
-      else if (url.host === "loca-musica.com") {
+      } else if (url.host === "loca-musica.com") {
         window.location.assign(`https://loca-musica.com/musical/main`);
       }
-    }
-    else {
+    } else {
       history.push(`/musical/main`);
     }
-  }
+  };
 
   return (
     <div className="header-main">

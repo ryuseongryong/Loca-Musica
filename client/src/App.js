@@ -27,6 +27,7 @@ function App() {
       userInfo: state.userReducer.userInfo,
     };
   });
+  const [isLanding, setIsLanding] = useState(false);
   // useEffect(() => {
   //   if (isSignin) {
   //     history.push('/musical/main');
@@ -35,10 +36,10 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header isLanding={isLanding} />
       <Switch>
         <Route exact path="/">
-          <Landing />
+          <Landing setIsLanding={setIsLanding} />
         </Route>
 
         <Route path="/musical/main">

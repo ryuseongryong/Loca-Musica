@@ -1,34 +1,60 @@
 .landingPageWrap {
   width: 100%;
   height: 100%;
-  margin-top: 80px;
   position: relative;
+  margin-top: 80px;
 }
 
 #landing {
   text-align: center;
+  /* background: url("../images/97469997.png") no-repeat center;
+  background-size: cover; */
 }
 
 .btnLanding {
   font-size: 1rem;
-  width: 200px;
+  width: 180px;
   height: 50px;
   margin: 0 auto;
   background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
   position: fixed;
-  bottom: 200px;
-  left: calc(50% - 100px);
+  bottom: 250px;
+  left: calc(50% - 90px);
 }
 
+.btnLandingWrap {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  margin: 0 auto;
+  position: fixed;
+  bottom: 200px;
+  left: calc(50% - 200px);
+}
+.btnLandingTwins {
+  font-size: 1rem;
+  width: 180px;
+  height: 50px;
+  margin: 0 auto;
+  background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+}
 .landingTextWrap {
   max-width: 1280px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 270px);
   margin: 0 auto;
-  padding: 150px 0;
-  border: 1px solid red;
+  padding: 200px 0;
+  /* border: 1px solid red; */
+}
+.landingCarousel {
+  padding: 0 0 30px;
 }
 
 .landingTextWrap > p {
   font-size: 1.5rem;
   margin: 20px 0;
+}
+
+.landingIcon {
+  height: 50px;
+  margin: 100px auto 0;
 }

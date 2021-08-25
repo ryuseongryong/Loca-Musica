@@ -26,7 +26,7 @@ function BookmarkList() {
           <p>북마크한 뮤지컬이 없습니다.</p>
         ) : (
           bookmarksData.map((el, index) => (
-            <li className="" key={index}>
+            <li className="bookmarkImgWrap" key={index}>
               <img
                 className="bookmarkimg"
                 src={el.thumbnail}

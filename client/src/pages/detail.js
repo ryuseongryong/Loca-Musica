@@ -10,7 +10,6 @@ import PerformanceTag from "../components/performanceTag";
 import Footer from "../components/footer";
 import Loader from "../components/loader";
 import { useHistory } from "react-router-dom"; // 페이지 이동
-import seat from "../images/seat.png";
 
 function Detail() {
   // 상태관리

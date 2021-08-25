@@ -117,3 +117,7 @@
   border: 2px solid red;
   margin: 0 auto;
 }
+
+/* 반응형css */
+@media screen and (max-width: 768px) {
+}
