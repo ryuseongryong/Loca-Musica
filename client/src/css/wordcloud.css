@@ -1,0 +1,15 @@
+.wordcloud-container {
+  /* border: 1px solid white; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wordcloud {
+  /* width: inherit;
+  height: inherit; */
+  /* height: 1000px; */
+  margin: auto;
+  padding: auto;
+  /* border: 1px solid red; */
+}
