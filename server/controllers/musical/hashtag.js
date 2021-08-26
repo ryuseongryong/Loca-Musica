@@ -735,38 +735,42 @@ module.exports = {
           `SELECT * FROM musical_hashtag WHERE hashtag_id = ? AND musical_id = ?`,
           [hashtagId, musicalId]
         );
-        // 새로운 뮤지컬에 등록되는 것이면 totalLikeCount + 1 AND musicalCount + 1
-        if (existedMusicalHashtag.legnth === 0) {
-          await connection.execute(
-            `
-              UPDATE hashtags 
-              SET totalLikeCount = totalLikeCount + 1, musicalCount = musicalCount + 1
-              WHERE name = ?`,
-            [hashtag]
-          );
-        }
-        // 이미 등록된 hashtag 중에 해당 뮤지컬에도 등록되어있는 것이면 totalLikeCount + 1
+        // 해시태그의 totalLikeCount + 1
         await connection.execute(
           `
-              UPDATE hashtags 
-              SET totalLikeCount = totalLikeCount + 1
-              WHERE name = ?`,
+            UPDATE hashtags 
+            SET totalLikeCount = totalLikeCount + 1
+            WHERE name = ?`,
           [hashtag]
         );
-        // 해당 musical의 hashtag likeCount를 1 증가
+
         await connection.execute(
           `UPDATE musical_hashtag SET likeCount = likeCount + 1 WHERE hashtag_id = ? AND musical_id = ?`,
           [hashtagId, musicalId]
         );
+
+        // musical_hashtag에 등록되어있지 않은 경우: 새로운 musical_hashtag입력 끝
+        if (existedMusicalHashtag.length === 0) {
+          // musical_hashtag 등록(musical 에 hashtag 부여)
+          await connection.execute(
+            `INSERT IGNORE INTO musical_hashtag (hashtag_id, musical_id) VALUES (?, ?)`,
+            [hashtagId, musicalId]
+          );
+          // hashtags의 musicalCount + 1
+          await connection.execute(
+            `
+              UPDATE hashtags 
+              SET musicalCount = musicalCount + 1
+              WHERE name = ?`,
+            [hashtag]
+          );
+        }
 
         // user_hashtag에 등록
         const [musicalHashtagIdData] = await connection.execute(
           `SELECT id FROM musical_hashtag WHERE hashtag_id = ? AND musical_id = ?`,
           [hashtagId, musicalId]
         );
-        if (musicalHashtagIdData.length === 0) {
-          return res.status(500).send({ message: 'internal server error(DB)' });
-        }
 
         const musicalHashtagId = musicalHashtagIdData[0].id;
 
@@ -960,27 +964,48 @@ module.exports = {
 
       // 2단계
       // musical_hashtag의 숫자가 0인 경우, musical_hashtag에서 삭제
-      // hashtags의 musicalCount -1
-      const [deleteResultMusicalHashtag] = await connection.execute(
-        `DELETE FROM musical_hashtag WHERE id = ? AND likeCount < 1`,
+      const [checkHashtagUser] = await connection.execute(
+        `SELECT * FROM user_hashtag WHERE musical_hashtag_id = ?`,
         [musicalHashtagId]
       );
-      if (deleteResultMusicalHashtag.affectedRows === 1) {
-        await connection.execute(
-          `UPDATE hashtags SET musicalCount = musicalCount - 1 WHERE id = ?`,
-          [hashtagId]
+      // hashtags의 musicalCount -1
+
+      console.log(checkHashtagUser, checkHashtagUser[0].user_id === userId);
+
+      if (
+        checkHashtagUser.length <= 1 &&
+        checkHashtagUser[0].user_id === userId
+      ) {
+        const [deleteResultMusicalHashtag] = await connection.execute(
+          `DELETE FROM musical_hashtag WHERE id = ? AND likeCount = 0`,
+          [musicalHashtagId]
         );
-      } else if (deleteResultMusicalHashtag.affectedRows > 1) {
-        await connection.rollback();
-        res.status(500).send({ message: 'internal server error' });
+
+        if (deleteResultMusicalHashtag.affectedRows === 1) {
+          await connection.execute(
+            `UPDATE hashtags SET musicalCount = musicalCount - 1 WHERE id = ?`,
+            [hashtagId]
+          );
+        } else if (deleteResultMusicalHashtag.affectedRows > 1) {
+          await connection.rollback();
+          res.status(500).send({ message: 'internal server error' });
+        }
       }
 
       // 3단계
       // hashtags의 totalLikeCount가 0 또는 musicalCount가 0인 경우 hashtags에서 삭제(1보다 작은 경우)
-      const [deleteResultHashtags] = await connection.execute(
-        `DELETE FROM hashtags WHERE id = ? AND (totalLikeCount < 1 OR musicalCount < 1)`,
+
+      const [lastHashtags] = await connection.execute(
+        `SELECT * FROM hashtags WHERE id = ?`,
         [hashtagId]
       );
+
+      if (lastHashtags[0].totalLikeCount === 1) {
+        const [deleteResultHashtags] = await connection.execute(
+          `DELETE FROM hashtags WHERE id = ? AND (totalLikeCount < 1 OR musicalCount < 1)`,
+          [hashtagId]
+        );
+      }
 
       const [hashtagsData] = await connection.execute(
         `SELECT DISTINCT musical_hashtag.id, hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount FROM ((hashtags INNER JOIN musical_hashtag ON hashtags.id = musical_hashtag.hashtag_id) INNER JOIN musicals ON musical_hashtag.musical_id = ?)`,
