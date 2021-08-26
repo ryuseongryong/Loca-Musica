@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { storeAllMusicalInfo } from '../actions/index';
 import { AiOutlineVerticalAlignTop } from "react-icons/ai";
 import Footer from "../components/footer";
+import { CgChevronRight } from "react-icons/cg";
+import { CgChevronDown } from "react-icons/cg";
 
 
 function Main() {
@@ -87,7 +89,8 @@ function Main() {
           setIsLoading(false);
         }, 500);
         setSearchHashtagMusical(res.data.data);
-        window.scrollTo(0, 0); // 최상단 이동
+        document.querySelector('.main-container').scroll(0, 0);
+        // window.scrollTo(0, 0); // 최상단 이동
       })
       .catch((err) => {
         console.log(err);
@@ -119,8 +122,22 @@ function Main() {
 
   // top버튼 클릭 맨위 이동
   const gotoTop = (event) => {
-    window.scrollTo(0, 0);
+    document.querySelector('.main-container').scroll(0, 0); // 스크롤이 생긴 태그 지정후 scroll()함수 이용하여 맨위 이동
+    // window.scrollTo(0, 0);
     // window.scrollTo({ top: 0, behavior: 'smooth' }); // 부드럽게 스크롤이 올라감
+  }
+
+  // 뮤지컬을 나타내는 li가 각각 다른 높이를 가질 수 있도록 랜덤으로 각 li 높이를 다르게 지정해준다
+  // 클래스명 main-musical-one ~ main-musical-five까지 (0~4, 5개 숫자 랜덤)
+  const randomHeight = () => {
+    let randomIndex = Math.floor(Math.random() * 5);
+    switch (randomIndex) {
+      case 0: return 'one';
+      case 1: return 'two';
+      case 2: return 'three';
+      case 3: return 'four';
+      case 4: return 'five';
+    }
   }
 
   return (
@@ -178,7 +195,7 @@ function Main() {
             </ul>
           </div>
           <div className="main-sidebar-hashtag-div">
-            <p className="main-sidebar-hashtag-info">해시태그</p>
+            <p className="main-sidebar-hashtag-info">해시태그 <CgChevronDown size='22' /> </p>
             <ul className="main-sidebar-hashtagList">
               {allHashtag.map((el, index) => (
                 <li
@@ -211,7 +228,8 @@ function Main() {
                 allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
                   :
                   allMusical.map((el, index) =>
-                    <li className='main-musical' key={index}>
+                    // <li className={`main-musical-${randomHeight()}`} key={index}>
+                    <li className={`main-musical`} key={index}>
                       <img className='main-musical-image' src={el.thumbnail}
                         alt='main-musical-post' onClick={gotoDetail} />
                       <input type='hidden' value={el.title} />
@@ -221,7 +239,8 @@ function Main() {
                 searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
                   :
                   searchHashtagMusical.map((el, index) =>
-                    <li className='main-musical' key={index}>
+                    // <li className={`main-musical-${randomHeight()}`} key={index}>
+                    <li className={`main-musical`} key={index}>
                       <img className='main-musical-image' src={el.thumbnail}
                         alt='main-musical-post' onClick={gotoDetail} />
                       <input type='hidden' value={el.title} />
