@@ -1,18 +1,19 @@
 .detailPageWrap {
   width: 100%;
   margin: 80px auto 0;
-  padding: 180px 0 0;
+  padding: 100px 0 0;
 }
 #detailPage {
-  max-width: 1280px;
+  width: 1080px;
   height: 100%;
-  position: relative;
   margin: 0 auto;
-  padding: 0 30px;
+  position: relative;
 }
 .adminBtnWrap {
   text-align: right;
-  padding: 0 50px 0 0;
+  padding: 0 20px 0 0;
+  position: absolute;
+  right: 10px;
 }
 .adminBtnWrap > button {
   width: 100px;
@@ -25,11 +26,12 @@
   /* border: 1px solid red; */
 }
 .pfInfo {
-  height: 460px;
+  height: 100%;
   display: flex;
-  padding: 10px 0;
+  justify-content: space-between;
+
+  padding: 0 0 10px;
   margin-bottom: 30px;
-  /* border: 1px solid blue; */
 }
 .pfItem {
   font-size: 1.25rem;
@@ -38,7 +40,7 @@
 
 /* 뮤지컬 정보 텍스트 css */
 .pfInfoTextWrap {
-  width: 70%;
+  width: calc(100% - 256px);
   /* border: 1px solid green; */
 }
 .pfTitleWrap {
@@ -54,33 +56,37 @@
 .pfTitle {
   color: rgb(255, 255, 255);
   font-size: 3rem;
-  margin: 0 30px 0 0;
+  margin: 0 20px 0 0;
 }
 .pfStory {
   line-height: 1.75rem;
-  height: 250px;
+  height: 100%;
+  padding: 0 30px 0 0;
+}
+.pfActors {
+  margin-top: 28px;
 }
 
 /* 뮤지컬 포스터 이미지 css */
 .pfInfoImgWrap {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   text-align: center;
-  width: 30%;
+  width: 256px;
+  padding-top: 78px;
   /* border: 1px solid green; */
 }
 .pfPoster {
-  width: 257px;
-  height: 368px;
+  width: 256px;
+  height: 100%;
   border-radius: 10px;
-  margin: 0 auto;
+  margin: 0;
   /* border: 1px solid green; */
 }
 #btnBookmark {
   width: 138px;
   height: 43px;
-  margin: 0 auto;
+  margin: 20px auto 0;
   background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
 }
 .iconBtn {
@@ -91,32 +97,27 @@
 /* 뮤지컬 대표넘버 관련 css */
 .pfNumberWrap {
   width: 100%;
-  height: 300px;
-  margin-bottom: 30px;
-  /* border: 1px solid blue; */
+  margin-bottom: 160px;
+  border: 1 solid red;
 }
 .pfNumberList {
+  max-width: 1180px;
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 30px 0 0 0;
-  position: relative;
+  margin: 0;
 }
-.numberVideo {
+.iframbox {
+  width: calc(100% - 20px);
+  height: 100%;
+}
+iframe {
   width: 100%;
-  padding: 0 5px;
+  height: 100%;
 }
-.numberVideoClick {
-  width: 560px;
-  height: 315px;
-  position: absolute;
-  left: calc(50% - 280px);
-}
-.numberVideo > p {
+.numberVideoWrap > p {
   font-size: 1.25rem;
-  margin: 15px 0;
-}
-.video {
-  width: 100%;
+  margin: 15px 0 0;
 }
 
 .video-error {
@@ -175,4 +176,94 @@
   display: block;
   width: 1280px;
   margin: 0 auto;
+}
+
+/* 반응형css */
+@media screen and (max-width: 768px) {
+  .detailPageWrap {
+    width: 100%;
+    margin: 80px auto;
+    padding: 0;
+  }
+  #detailPage {
+    max-width: 768px;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+  .adminBtnWrap {
+    padding: 0 46px 0 0;
+  }
+
+  /* 뮤지컬 정보 css */
+  .pfInfo {
+    height: 100%;
+    flex-wrap: wrap-reverse;
+    padding: 0 0 10px;
+    margin-bottom: 30px;
+  }
+  /* .pfItem {
+    font-size: 1.25rem;
+    margin: 12px 0 16px 0;
+  } */
+  .pfTitleWrap {
+    margin: 0 0 46px 0;
+  }
+  /* 포스터이미지 */
+  .pfInfoImgWrap {
+    width: 100%;
+    padding-top: 0;
+  }
+  .pfPoster {
+    max-width: 362px;
+    height: 100%;
+    margin: 0 auto;
+    /* border: 1px solid green; */
+  }
+  /* 뮤지컬 텍스트 */
+  .pfInfoTextWrap {
+    width: 100%;
+    /* border: 1px solid green; */
+  }
+  .pfTitle {
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    margin: 0 20px 0 0;
+  }
+  .pfState {
+    font-size: 0.75rem;
+  }
+  .pfStory {
+    line-height: 1.344rem;
+    height: 100%;
+    padding: 0;
+  }
+  .pfActors {
+    margin-top: 28px;
+  }
+
+  /* 뮤지컬 대표넘버 css */
+  /* .pfNumberWrap {
+  } */
+  .pfNumberList {
+    display: block;
+    /* justify-content: space-between;
+    flex-direction: row; */
+    margin: 30px 0 0 0;
+    /* position: relative; */
+  }
+  .numberVideo {
+    width: 100%;
+    height: 100%;
+    padding: 0 5px;
+  }
+  .numberVideo > p {
+    font-size: 1.25rem;
+    margin: 15px 0;
+  }
+  .video {
+    width: 100%;
+    height: 100%;
+  }
 }
