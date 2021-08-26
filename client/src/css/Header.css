@@ -42,7 +42,7 @@
   justify-content: center; */
   max-width: 314px;
   margin: 20px 0;
-  border: 1px red solid;
+  /* border: 1px red solid; */
 }
 
 /* .header-section4 {
@@ -242,6 +242,7 @@
   /* 모바일화면에서 폰트사이즈, 높이조정 */
   .header-main {
     font-size: 1.125rem;
+    width: 100%;
     height: 52px;
     padding: 0;
     background: #171717;
@@ -307,7 +308,7 @@
     margin: 0 0 0 10px;
   }
 
-  /* 모바이에서 추천 및 회원기능 버튼 공간 */
+  /* 모바일에서 추천 및 회원기능 버튼 공간 */
   .mobileRightBottom {
     display: flex;
     flex-direction: column;
