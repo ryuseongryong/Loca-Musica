@@ -1,14 +1,10 @@
 .main-wrap {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 	margin-top: 80px;
 	width: 100%;
 	/* footer조절 */
 	/* height: calc(100vh - 5rem); */
 	height: 100%;
 	background-color: black;
-	overflow: auto;
 }
 
 .main-container {
@@ -16,13 +12,14 @@
 	width: 100%;
 	margin-bottom: 20px;
 	overflow: auto;
+	height: calc(100vh - 15rem);
 }
 
 .main-section1 {
 	flex: 1;
 	/* border: 1px solid red; */
-	padding-left: 20px;
 	padding-top: 20px;
+	padding-left: 40px;
 }
 
 .main-section2 {
@@ -31,7 +28,8 @@
 	/* display: flex;
 	flex-direction: column;
 	align-items: center; */
-	margin: 0 50px;
+	/* margin: 0 50px; */
+	margin-left: 20px;
 }
 
 .main-section2-loading {
@@ -54,14 +52,14 @@
 	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 10px;
-	text-align: right;
+	text-align: left;
 }
 
 .main-sidebar-genreList {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	align-items: flex-start;
 	margin-bottom: 20px;
 }
 
@@ -74,14 +72,14 @@
 	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 10px;
-	text-align: right;
+	text-align: left;
 }
 
 .main-sidebar-withPeopleList {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	align-items: flex-start;
 	margin-bottom: 20px;
 }
 
@@ -94,14 +92,14 @@
 	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 10px;
-	text-align: right;
+	text-align: left;
 }
 
 .main-sidebar-hashtagList {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	align-items: flex-start;
 }
 
 .main-sidebar-hashtag {
@@ -117,6 +115,8 @@
 	font-size: 20px;
 }
 
+/*! 같은 높이를 가진 태그 정렬  */
+/* ul */
 .main-musicalList {
 	margin-top: 35px;
 	list-style: none;
@@ -124,16 +124,83 @@
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
-	/* width: 80%; */
 }
 
+
+/* li, li 클래스명 변경 필요 */
+.main-musical {
+	flex : 0 1 18%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	margin-bottom: 1.5rem;
+}
+
+
+/* li > img  */
 .main-musical-image {
-	height: 290px;
-	/* flex: 0 1 20%; */
-	margin: 10px;
+	/* height: ; */
+	height: 100%;
+	width: 100%;
 	border-radius: 10px;
 	cursor: pointer;
+} 
+/*! css end */
+
+/*! 서로 다른 높이를 가진 태그 정렬, 단 높이를 정해야 한다. */
+/* ul */
+	/* column wrap을 사용하면 서로 다른 높이를 가진 태그를 정렬할 수 있다. */
+	/* 높이가 고정되어 있음, 고정된 높이가 초과되면 가로로 생성됨 */
+	/* 1. 세로로 먼저 정렬 2. 해당 높이를 초과하면 가로애 새로 추가후 이 후 세로로 정렬 */
+	/* 높이가 고정되어 있기 때문에 등록할 뮤지컬의 수를 지정해야 한다(더 추가할 경우 가로로 더 추가되어서 css 이상해짐 */
+	/* 세로에 추가할 수 있는 길이 설정 */
+/* .main-musicalList {
+	margin-top: 35px;
+	list-style: none;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: flex-start;
+  	align-items: flex-start;
+	height: 90vh; 
+} */
+
+/* li, li 클래스명 변경 필요 */
+/* .main-musical-one {
+	width: 14%;
+	height: 260px;
+	margin: 10px;
 }
+.main-musical-two {
+	width: 14%;
+	height: 290px;
+	margin: 10px;
+}
+.main-musical-three {
+	width: 14%;
+	height: 320px;
+	margin: 10px;
+}
+.main-musical-four {
+	width: 14%;
+	height: 350px;
+	margin: 10px;
+}
+.main-musical-five {
+	width: 14%;
+	height: 380px;
+	margin: 10px;
+} */
+
+/* li > img */
+/* .main-musical-image {
+	height: 100%;
+	width: 100%;
+	border-radius: 10px;
+	cursor: pointer;
+} */
+
+/*! css end  */
+
 
 .back-allMusical-div {
 	margin: 20px;
