@@ -1,11 +1,10 @@
 .searchbar-container{
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 300px;
   background-color: #484848;
   border-radius: 20px;
 }
-
 
 .searchbar-div {
   height: 39px;
