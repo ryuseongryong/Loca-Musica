@@ -224,7 +224,7 @@ const Searchbar = function () {
   }
 
   return (
-    <div className={'searchbar-container'}>
+    <div className='searchbar-container'>
       <div className='searchbar-div'>
         <div className='searchbar-icon-div'>
           <GoSearch className='searchbar-icon' />
@@ -234,7 +234,7 @@ const Searchbar = function () {
             autoComplete='off'
             className='searchbar-input'
             placeholder='뮤지컬 검색'
-            id='headerSearchTitleInput'
+            // id='headerSearchTitleInput'
             value={str}
             onChange={handleChange}
             onKeyDown={handleKeyDown}

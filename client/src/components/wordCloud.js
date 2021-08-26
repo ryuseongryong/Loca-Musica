@@ -13,7 +13,7 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
 
   useEffect(() => {
     count++;
-    console.log('Count: ', count);
+    // console.log('Count: ', count);
     setData(makeWordcloudData(hashtagsData));
   }, [hashtagsData]);
 
