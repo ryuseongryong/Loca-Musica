@@ -25,9 +25,9 @@
 .main-section2 {
 	flex: 4;
 	/* border: 1px solid red; */
-	/* display: flex;
+	display: flex;
 	flex-direction: column;
-	align-items: center; */
+	align-items: flex-start;
 	/* margin: 0 50px; */
 	margin-left: 20px;
 }
@@ -93,6 +93,7 @@
 	font-weight: bold;
 	margin-bottom: 10px;
 	text-align: left;
+	cursor: pointer;
 }
 
 .main-sidebar-hashtagList {
@@ -109,19 +110,21 @@
 
 /* musical list */
 .main-musicalList-info {
-	padding-left: 20px;
+	/* padding-left: 20px; */
 	padding-top: 20px;
-	margin-bottom: 20px;
-	font-size: 20px;
+	/* margin-bottom: 20px; */
+	font-size: 28px;
+	font-weight: bold;
 }
 
 /*! 같은 높이를 가진 태그 정렬  */
 /* ul */
 .main-musicalList {
+	width: 100%;
 	margin-top: 35px;
 	list-style: none;
 	display: flex;
-	justify-content: space-around;
+	justify-content: left;
 	align-items: center;
 	flex-wrap: wrap;
 }
@@ -129,17 +132,18 @@
 
 /* li, li 클래스명 변경 필요 */
 .main-musical {
+	/* height: 18rem; */
 	flex : 0 1 18%;
 	display: flex;
 	justify-content: flex-end;
 	align-items: flex-end;
 	margin-bottom: 1.5rem;
+	margin-right: 1.5rem;
 }
 
 
 /* li > img  */
 .main-musical-image {
-	/* height: ; */
 	height: 100%;
 	width: 100%;
 	border-radius: 10px;
@@ -246,4 +250,141 @@
 
 .main-top-icon {
 	font-size: 27px;
+}
+
+.noShow {
+	height: 0px;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 600ms, visibility 600ms;	
+	overflow: hidden;
+	/* display: none; */
+}
+
+.show {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 600ms, visibility 600ms;	
+}
+
+.main-hidden-category-info {
+	display: none;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* 반응형 */
+@media screen and (max-width: 768px) {
+
+	.main-section1 {
+		display: none;
+	}
+
+	.main-section2 {
+		margin-left: 3rem;
+		margin-right: 3rem;
+	}
+
+	.main-section3 {
+		display: none;
+	}
+
+	.main-musicalList-info {
+		display: none;
+	}
+
+	/* 카테고리 + 해시태그 보여주는 공간 */
+	.main-hidden-category-div {
+		width: 300px;
+		height: 77vh;
+		padding: 12px 24px;
+		position: absolute;
+		top: 120px;
+		left: 40px;
+		overflow: auto;
+		background: rgba(0, 0, 0, 0.81);
+		backdrop-filter: blur(4px);
+	}
+	
+	/* info */
+	.main-hidden-category-info {
+		display: flex;
+	}
+	/* info 왼쪽, 오른쪽 */
+	.main-hidden-category-info-left {
+		font-size: large;
+	}
+	.main-hidden-category-info-right {
+		font-size: large;
+	}
+
+	/* 뮤지컬 ul */
+	.main-musicalList {
+		width: 100%;
+		margin-top: 35px;
+		list-style: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	/* 뮤지컬 li */
+	.main-musical {
+		height: 24rem;
+		flex : 0 1 45%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		margin-bottom: 1.5rem;
+	}
+
+	/* 뮤지컬 li(결과없음) */
+	.main-noSearch {
+		margin-right: 50px;
+		height: 24rem;
+		flex : 0 1 40%;
+		border-radius: 10px;
+		margin: 5px;
+		/* 정렬 */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: large;
+	}
+
+	/* 모든 뮤지컬 조회 버튼 div */
+	.back-allMusical-div {
+		width: 92%;
+	}
+	/* 모든 뮤지컬 조회 버튼 */
+	.back-allMusical-btn {
+		height: 60px;
+		width: 240px;
+		font-size: large;
+	}
+
+	/* 카테고리 장르 + info */
+	.main-sidebar-genre {
+		font-size: large;
+	}
+	.main-sidebar-genre-info {
+		font-size: x-large;
+	}
+	/* 카테고리 동행자 + info */
+	.main-sidebar-withPeople {
+		font-size: large;
+	}
+	.main-sidebar-withPeople-info {
+		font-size: x-large;
+	}
+	/* 카테고리 해시태그 + info */
+	.main-sidebar-hashtag {
+		font-size: large;
+	}
+	.main-sidebar-hashtag-info {
+		font-size: x-large;
+	}
+
 }
