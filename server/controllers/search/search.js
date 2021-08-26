@@ -15,7 +15,10 @@ module.exports = {
       [selectedQuery]
     );
 
-    const hashtagsId = selectedData.map((el) => el.id);
+    let hashtagsId = selectedData.map((el) => el.id);
+    if (hashtagsId.length === 0) {
+      hashtagsId = [''];
+    }
 
     try {
       if (hashtag1 || hashtag2 || hashtag3) {
