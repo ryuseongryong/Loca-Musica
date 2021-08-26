@@ -72,6 +72,7 @@
 }
 
 .searchbar-result-li{
+  height: 75px;
   flex: 1 1 100%;
   display: flex;
   align-items: center;
