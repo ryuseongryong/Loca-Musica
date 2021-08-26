@@ -10,6 +10,7 @@ import PerformanceTag from "../components/performanceTag";
 import Footer from "../components/footer";
 import Loader from "../components/loader";
 import { useHistory } from "react-router-dom"; // 페이지 이동
+import TopButton from "../components/topButton";
 
 function Detail() {
   // 상태관리
@@ -135,7 +136,7 @@ function Detail() {
               <PerformanceTag userInfo={userInfo} isSignin={isSignin} />
             </div>
           </div>
-
+          <TopButton />
           <Footer />
         </div>
       )}

@@ -48,6 +48,8 @@ function Header() {
       .catch((err) => {
         console.log(err);
       });
+    // 모바일화면에서 이동 후 히든메뉴를 닫도록 처리
+    setIsHiddenMeunOpen(!isHiddenMeunOpen);
   };
 
   // 추천받기 버튼 클릭시 사용자 추천 시스템 화면 이동
