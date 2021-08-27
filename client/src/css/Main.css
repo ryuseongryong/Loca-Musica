@@ -8,29 +8,32 @@
 }
 
 .main-container {
-  display: flex;
-  width: 100%;
-  margin-bottom: 20px;
-  /* 내용이 없으면 주석 풀어서 footer 아래에 위치하도록 설정 */
-  /* overflow: auto;
-	height: calc(100vh - 15rem); */
+	display: flex;
+	width: 100%;
+	margin-bottom: 20px;
+	/* 내용이 없으면 주석 풀어서 footer 아래에 위치하도록 설정 */
+	overflow: auto;
+	height: calc(100vh - 19rem);
 }
 
 .main-section1 {
-  flex: 1;
-  /* border: 1px solid red; */
-  padding-top: 20px;
-  padding-left: 40px;
+	/* flex: 1; */
+	width: 330px;
+	/* border: 1px solid red; */
+	padding-top: 20px;
+	padding-left: 40px;
 }
 
 .main-section2 {
-  flex: 4;
-  /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  /* margin: 0 50px; */
-  margin-left: 20px;
+	/* flex: 4; */
+	max-width: 1280px;
+	width: calc(100% - 330px);
+	/* border: 1px solid red; */
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	/* margin: 0 50px; */
+	margin-left: 20px;
 }
 
 .main-section2-loading {
@@ -44,8 +47,9 @@
 }
 
 .main-section3 {
-  flex: 1;
-  /* border:  1px solid red; */
+	display: none;
+	flex: 1;
+	/* border:  1px solid red; */
 }
 
 /* sidebar */
@@ -135,13 +139,15 @@
 
 /* li, li 클래스명 변경 필요 */
 .main-musical {
-  /* height: 18rem; */
-  flex: 0 1 18%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  margin-bottom: 1.5rem;
-  margin-right: 1.5rem;
+	/* height: 18rem; */
+	/* flex : 0 1 18%; */
+	width: 224px;
+	height: 360px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	margin-bottom: 1.5rem;
+	margin-right: 1rem;
 }
 
 /* li > img  */
@@ -238,11 +244,12 @@
 }
 
 .main-top-btn {
-  width: 50px;
-  height: 50px;
-  position: fixed;
-  right: 5%;
-  bottom: 50px;
+	width: 50px;
+	height: 50px;
+	position: fixed;
+	right: 5%;
+	bottom : 20px;
+	z-index: 500;
 }
 
 .main-top-btn:hover {
@@ -292,183 +299,230 @@
   display: none;
 }
 
+.main-footer {
+
+}
+/* 뮤지컬 li, css layout용, 실제 값은 없음 */
+.filling-empty-space {
+	visibility: hidden;
+}
+
 /* 반응형 */
 @media screen and (max-width: 768px) {
-  .main-wrap {
-    margin-top: 80px;
-  }
+	.main-container {
+		/* height: 100%; */
+		height: calc(100vh - 14rem);
+		position: relative;
+	}
 
-  .main-section1 {
-    display: none;
-  }
+	/* footer */
+	/* #footer {
+		position:absolute;
+		bottom:0;
+		z-index: 100;
+	} */
 
-  .main-section2 {
-    margin-left: 3rem;
-    margin-right: 3rem;
-  }
+	.main-wrap {
+		margin-top: 80px;
+	}
 
-  .main-section3 {
-    display: none;
-  }
+	.main-section1 {
+		display: none;
+	}
 
-  .main-musicalList-info {
-    display: none;
-  }
+	.main-section2 {
+		/* margin-left: 1rem;
+		margin-right: 1rem; */
+		width: 100%;
+		margin: 0 auto;
+		padding: 0 10px;
+	}
 
-  /* 카테고리 + 해시태그 보여주는 공간 */
-  .main-hidden-category-div {
-    display: block;
-    width: 300px;
-    height: 83vh;
-    padding: 12px 24px;
-    position: absolute;
-    top: 120px;
-    overflow: auto;
-    background: rgba(0, 0, 0, 0.81);
-    backdrop-filter: blur(4px);
-  }
+	.main-section3 {
+		display: none;
+	}
 
-  /* info */
-  .main-hidden-category-info {
-    display: flex;
-  }
-  /* info 왼쪽, 오른쪽 */
-  .main-hidden-category-info-left {
-    font-size: large;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .main-hidden-category-info-right {
-    font-size: large;
-  }
+	.main-musicalList-info {
+		display: none;
+	}
 
-  /* 뮤지컬 ul */
-  .main-musicalList {
-    width: 100%;
-    margin-top: 35px;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+	/* 카테고리 + 해시태그 보여주는 공간 */
+	.main-hidden-category-div {
+		display: block;
+		width: 300px;
+		height: calc(100vh - 52px);
+		padding: 12px 24px;
+		position: absolute;
+		top: 25px;
+		overflow: auto;
+		background: rgba(0, 0, 0, 0.81);
+		backdrop-filter: blur(4px);
+	}
+	
+	/* info */
+	.main-hidden-category-info {
+		display: flex;
+		padding: 0 14px;
+	}
+	/* info 왼쪽, 오른쪽 */
+	.main-hidden-category-info-left {
+		font-size: large;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.main-hidden-category-info-right {
+		font-size: large;
+	}
 
-  /* 뮤지컬 li */
-  .main-musical {
-    height: 24rem;
-    flex: 0 1 45%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    margin-bottom: 1.5rem;
-  }
+	/* 뮤지컬 ul */
+	.main-musicalList {
+		width: 100%;
+		margin-top: 35px;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		justify-content: center;
+		float: left;
+	}
 
-  /* 뮤지컬 li(결과없음) */
-  .main-noSearch {
-    margin-right: 50px;
-    height: 24rem;
-    flex: 0 1 40%;
-    border-radius: 10px;
-    margin: 5px;
-    /* 정렬 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: large;
-  }
+	/* 뮤지컬 li */
+	.main-musical {
+		/* height: 24rem; */
+		/* flex : 0 1 45%;  */
+		max-width: 163px;
+		height: 230px;
+		width: 163px;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		margin-bottom: 1.5rem;
+		margin-right: 10px;
+	}
+	/* 뮤지컬 li, 단 내용은 없고 css layout을 왼쪽으로 보이게 하기 위해서 생성한 li, 같은 li가 3개있음 / 758px ~ 376px에서만 사용
+	(1줄 최대 4개이므로 1~3개 일때 중앙으로 오지않고 저 빈 li 3개와 1~3개가 1줄을 이룰 수 있게 되어서 보일 때는 왼쪽으로 정렬된것 처럼 보임, 실제는 center) */
+	.filling-empty-space {
+		visibility: visible;
+		max-width: 163px;
+		height: 0px;
+		width: 163px;
+		margin-bottom: 1.5rem;
+		margin-right: 10px;
+	}
 
-  /* 모든 뮤지컬 조회 버튼 div */
-  .back-allMusical-div {
-    width: 92%;
-  }
-  /* 모든 뮤지컬 조회 버튼 */
-  .back-allMusical-btn {
-    height: 60px;
-    width: 240px;
-    font-size: large;
-  }
+	/* 뮤지컬 li(결과없음) */
+	.main-noSearch {
+		margin-right: 50px;
+		/* height: 24rem; */
+		/* flex : 0 1 40%; */
+		height: 264px;
+		width: 177px;
+		border-radius: 10px;
+		margin: 5px;
+		/* 정렬 */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: large;
+	}
 
-  /* 카테고리 장르 + info */
-  .main-sidebar-genre {
-    font-size: large;
-  }
-  .main-sidebar-genre-info {
-    font-size: x-large;
-  }
-  /* 카테고리 동행자 + info */
-  .main-sidebar-withPeople {
-    font-size: large;
-  }
-  .main-sidebar-withPeople-info {
-    font-size: x-large;
-  }
-  /* 카테고리 해시태그 + info */
-  .main-sidebar-hashtag {
-    font-size: large;
-  }
-  .main-sidebar-hashtag-info {
-    font-size: x-large;
-  }
+	/* 모든 뮤지컬 조회 버튼 div */
+	.back-allMusical-div {
+		width: 92%;
+	}
+	/* 모든 뮤지컬 조회 버튼 */
+	.back-allMusical-btn {
+		height: 60px;
+		width: 240px;
+		font-size: large;
+	}
+
+	/* 카테고리 장르 + info */
+	.main-sidebar-genre {
+		font-size: large;
+	}
+	.main-sidebar-genre-info {
+		font-size: x-large;
+	}
+	/* 카테고리 동행자 + info */
+	.main-sidebar-withPeople {
+		font-size: large;
+	}
+	.main-sidebar-withPeople-info {
+		font-size: x-large;
+	}
+	/* 카테고리 해시태그 + info */
+	.main-sidebar-hashtag {
+		font-size: large;
+	}
+	.main-sidebar-hashtag-info {
+		font-size: x-large;
+	}
+
 }
 
 @media screen and (max-width: 375px) {
-  .main-section2 {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
+	
+	.main-section2 {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
 
-  .main-hidden-category-info {
-    justify-content: space-between;
-    align-items: center;
-  }
+	.main-hidden-category-info-left {
+		font-size: 16px;
+	}
+	.main-hidden-category-info-right {
+		font-size: 16px;
+	}
 
-  .main-hidden-category-info-left {
-    font-size: 16px;
-  }
-  .main-hidden-category-info-right {
-    font-size: 16px;
-  }
+	/* 카테고리 보여주기, 분류 보여주는 공간 */
+	.main-hidden-category-info {
+		height: 2em;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0;
+	}
 
-  /* 카테고리 보여주기, 분류 보여주는 공간 */
-  .main-hidden-category-info {
-    height: 2em;
-  }
+	/* 카테고리 + 해시태그 보여주는 공간 */
+	.main-hidden-category-div {
+		width: 250px;
+		top: 25px;
+	}
 
-  /* 카테고리 + 해시태그 보여주는 공간 */
-  .main-hidden-category-div {
-    width: 250px;
-    top: 110px;
-  }
+	/* 뮤지컬 ul */
+	.main-musicalList {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+		float: left;
+	}
 
-  /* 뮤지컬 ul */
-  .main-musicalList {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+	/* 뮤지컬 li */
+	.main-musical {
+		height: 14rem;
+		flex : 0 1 47%;
+		margin-right: 0;
+	}
+	/* 758px ~ 376px에서 layout에 사용하는 빈 li, 375px에서는 사용하지 않아서 제거 */
+	.filling-empty-space {
+		display: none;
+	}
 
-  /* 뮤지컬 li */
-  .main-musical {
-    height: 16rem;
-    flex: 0 1 47%;
-    margin-right: 0;
-  }
+	/* 뮤지컬 li(결과없음) */
+	.main-noSearch {
+		height: 14rem;
+		flex : 0 1 47%;
+	}
 
-  /* 뮤지컬 li(결과없음) */
-  .main-noSearch {
-    height: 17rem;
-    flex: 0 1 55%;
-  }
-
-  /* 모든 뮤지컬 조회 버튼 div */
-  .back-allMusical-div {
-    margin-bottom: 2em;
-  }
-  /* 모든 뮤지컬 조회 버튼 */
-  .back-allMusical-btn {
-    height: 50px;
-    width: 200px;
-    font-size: large;
-  }
+	/* 모든 뮤지컬 조회 버튼 div */
+	.back-allMusical-div{
+		margin-bottom: 2em;
+	}
+	/* 모든 뮤지컬 조회 버튼 */
+	.back-allMusical-btn {
+		height: 50px;
+		width: 200px;
+		font-size: large;
+	}
 }
