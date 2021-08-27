@@ -30,7 +30,7 @@ landing page
 #### [LOCA MUSICA GitHub 링크](https://github.com/codestates/Loca-Musica)
 
 # 💻 Tech Stack
-<img width="700" alt="CloudCraft Stack" src="https://user-images.githubusercontent.com/58920833/130772316-c3ac8b32-269a-432f-88c1-d72191fae9ee.png">
+<img width="700" alt="스크린샷 2021-08-27 오후 2 05 17" src="https://user-images.githubusercontent.com/58920833/131074690-d7c5bba3-5240-4659-a9cd-ce113d962503.png">
 
 
 # 🔍 기능 소개
