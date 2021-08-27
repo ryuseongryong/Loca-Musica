@@ -26,7 +26,6 @@
   /* width: calc(100% - 40px); */
   padding: 20px;
   margin: 0 auto;
-  /* border: 1px solid red; */
 }
 .pfInfo {
   height: 100%;
@@ -109,7 +108,7 @@
 .pfNumberWrap {
   width: 100%;
   margin-bottom: 160px;
-  border: 1 solid red;
+  /* border: 1 solid red; */
 }
 .pfNumberList {
   max-width: 1180px;
@@ -185,6 +184,9 @@ iframe {
 
 /* 반응형css */
 @media screen and (max-width: 768px) {
+  .detail {
+    width: 100%;
+  }
   .detailPageWrap {
     width: 100%;
     margin: 80px auto 0;
@@ -192,7 +194,6 @@ iframe {
     position: relative;
   }
   #detailPage {
-    /* max-width: 768px; */
     height: 100%;
     position: relative;
     margin: 0 auto;
@@ -226,7 +227,7 @@ iframe {
     top: -540px;
   }
   .pfPoster {
-    width: 362px;
+    width: 363px;
     height: 518px;
     min-width: 336px;
     min-height: 480px;
@@ -284,6 +285,7 @@ iframe {
     height: 100%;
     padding: 0;
     margin: 0 0 46px 0;
+    word-break: break-all;
   }
   .pfActors {
     margin: 0 0 46px 0;
@@ -292,7 +294,7 @@ iframe {
   /* 뮤지컬 대표넘버 css */
   .pfNumberWrap {
     margin: 0 0 46px 0;
-    border: 1 solid red;
+    /* border: 1 solid red; */
   }
   .pfNumberList {
     display: block;
@@ -325,11 +327,33 @@ iframe {
 
   /* 해시태그 css */
   #inputHashtag {
-    width: 320px;
+    width: 330px;
     height: 50px;
     margin: 10px auto;
     background: #484848 url("../images/hashtag_icon.png") no-repeat 15px center;
     background-size: 20px;
     padding: 0 35px;
+  }
+
+  ::placeholder {
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+
+  .detailPageLoader {
+    position: fixed;
+    top: 20rem;
+    left: calc(50% - 4rem);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pfInfoContainer {
+    padding: 20px 15px;
+    /* border: 1px solid red; */
+  }
+  .pfPoster {
+    width: 330px;
+    height: 472px;
   }
 }

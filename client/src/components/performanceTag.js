@@ -1,4 +1,5 @@
 /*eslint-disable*/
+
 import '../css/detail.css'
 import axios from "axios";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -36,6 +37,7 @@ function PerformanceTag({ isSignin, userInfo }) {
         withCredentials: true,
       })
       .then((res) => {
+
         // console.log('지금응답은?', res.data.data);
         let data = res.data.data.hashtagsData;
 
@@ -114,10 +116,10 @@ function PerformanceTag({ isSignin, userInfo }) {
           dispatch(notify(`Hashtag '${hashtag}'에 공감을 표시했습니다.`));
         })
         .catch((err) => {
-          console.log('공감기능에 대한 오류', err.response);
+          console.log("공감기능에 대한 오류", err.response);
         });
     } else if (checkHashtagUser(hashtag, email)) {
-      if (hashtag[0] === '#') {
+      if (hashtag[0] === "#") {
         hashtag = `%23${hashtag.slice(1)}`;
       }
       console.log(hashtag, title);
@@ -127,13 +129,13 @@ function PerformanceTag({ isSignin, userInfo }) {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log('공감취소의 결과에 대한 응답은?', res);
+          console.log("공감취소의 결과에 대한 응답은?", res);
           // console.log("공감이 취소되었습니다");
           setHashtagsData(res.data.data.hashtagsData);
-          dispatch(notify('공감이 취소 되었습니다'));
+          dispatch(notify("공감이 취소 되었습니다"));
         })
         .catch((err) => {
-          console.log('공감취소에 대한 오류', err.response);
+          console.log("공감취소에 대한 오류", err.response);
         });
     }
   };

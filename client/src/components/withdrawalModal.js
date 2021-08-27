@@ -7,12 +7,10 @@ import { useHistory } from "react-router-dom";
 import { signout } from "../actions";
 import { CgClose } from "react-icons/cg";
 
-
 function WithdrawalModal({ withdrawalModalHandler, userInfo }) {
-
   let history = useHistory();
   const dispatch = useDispatch();
-  
+
   // 현재페이지에서만 관리되는 state
   const [inputValue, setInputValue] = useState("");
   const [message, setMessage] = useState("");
@@ -51,10 +49,9 @@ function WithdrawalModal({ withdrawalModalHandler, userInfo }) {
   //! 카카오사용자 탈퇴요청
   const kakaoWithdrawalRequestHandler = (event) => {
     axios
-      .patch(
-        `${process.env.REACT_APP_END_POINT}/user/delete`, 
-        null, 
-        {withCredentials: true})
+      .patch(`${process.env.REACT_APP_END_POINT}/user/delete`, null, {
+        withCredentials: true,
+      })
       .then((res) => {
         dispatch(signout());
       })
@@ -79,60 +76,56 @@ function WithdrawalModal({ withdrawalModalHandler, userInfo }) {
           불가합니다.
         </p>
         <p>
-          회원탈퇴 후에도 등록한 게시물은 그대로 남아 있습니다.
-          <br /> 삭제를 원하는 게시글이 있다면 탈퇴 전 삭제하시기 바랍니다.
+          회원탈퇴 후에도 등록한 게시물은 그대로 남아 있습니다. 삭제를 원하는
+          게시글이 있다면 탈퇴 전 삭제하시기 바랍니다.
         </p>
       </div>
-      {
-        userInfo.kakao === 0
-        ? (
-            <div className="withdrawalwithPassword">
-              <form>
-                <input
-                  className="inputWithdrawal"
-                  name="password"
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  required
-                  value={inputValue}
-                  onChange={inputHandler}
-                  onFocus={() => setMessage("")}
-                />
-                {message === "" ? (
-                  <p>안전한 사용을 위해 비밀번호를 한번 입력해주세요</p>
-                ) : (
-                  <p className="c_e30052">{message}</p>
-                )}
-                <p className="lastCheck">
-                  유의 사항을 모두 확인하였으며, 이에 동의합니다.
-                </p>
-                <input name="checkbox" type="checkbox" required />
-              </form>
-              <button
-                className="btnWithdrawalCheck"
-                onClick={withdrawalRequestHandler}
-              >
-                확인
-              </button>
-            </div>
-        )
-        :(
-          <div className="withdrawalForKakao">
+      {userInfo.kakao === 0 ? (
+        <div className="withdrawalwithPassword">
+          <form>
+            <input
+              className="inputWithdrawal"
+              name="password"
+              type="password"
+              placeholder="비밀번호 확인"
+              required
+              value={inputValue}
+              onChange={inputHandler}
+              onFocus={() => setMessage("")}
+            />
+            {message === "" ? (
+              <p>안전한 사용을 위해 비밀번호를 입력해주세요</p>
+            ) : (
+              <p className="c_e30052">{message}</p>
+            )}
             <p className="lastCheck">
               유의 사항을 모두 확인하였으며, 이에 동의합니다.
             </p>
-            <form>
-              <input name="checkbox" type="checkbox" required />
-            </form>
-            <button
-              className="btnWithdrawalCheck"
-              onClick={kakaoWithdrawalRequestHandler}
-            >
-              확인
-            </button>
-          </div>
-        )
-      }
+            <input name="checkbox" type="checkbox" required />
+          </form>
+          <button
+            className="btnWithdrawalCheck"
+            onClick={withdrawalRequestHandler}
+          >
+            확인
+          </button>
+        </div>
+      ) : (
+        <div className="withdrawalForKakao">
+          <p className="lastCheck">
+            유의 사항을 모두 확인하였으며, 이에 동의합니다.
+          </p>
+          <form>
+            <input name="checkbox" type="checkbox" required />
+          </form>
+          <button
+            className="btnWithdrawalCheck"
+            onClick={kakaoWithdrawalRequestHandler}
+          >
+            확인
+          </button>
+        </div>
+      )}
     </div>
   );
 }

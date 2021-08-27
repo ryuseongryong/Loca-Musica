@@ -69,7 +69,10 @@ function Main() {
       setTimeout(() => {
         setIsLoading(false);
       }, 500);
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   // 해시태그 클릭시
@@ -93,8 +96,9 @@ function Main() {
         }, 500);
         setSearchHashtagMusical(res.data.data);
         setHiddenCategory(false); // 768px이하 화면에서 카테고리 클릭시 카테고리 div 안보이도록 설정
-        document.querySelector('.main-container').scroll(0, 0);
-        // window.scrollTo(0, 0); // 최상단 이동
+        // document.querySelector('.main-container').scroll(0, 0);
+        window.scrollTo(0, 0); // 최상단 이동
+        setHashtagDropDown(false);
       })
       .catch((err) => {
         console.log(err);
@@ -118,6 +122,7 @@ function Main() {
         setAllMusical(res.data.data.allMusicalsData); // all musical 갱신
         setSearchHashtagMusical(0); // 해시태그 클릭 안한 상태로 변경
         setClickHashtag(''); // 클릭한 해시태그 초기화
+        document.querySelector('.main-container').scroll(0, 0); // 스크롤이 생긴 태그 지정후 scroll()함수 이용하여 맨위 이동
       })
       .catch((err) => {
         console.log(err);
@@ -229,216 +234,224 @@ function Main() {
   }
 
   return (
-    <div className="main-wrap">
-      {/* main 대신 musical로 변경 */}
-      <div className='main-container'>
-        <div className="main-section1">
-          <div className="main-sidebar-genre-div">
-            <p className="main-sidebar-genre-info">장르</p>
-            <ul className="main-sidebar-genreList">
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                드라마
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                로맨스
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                판타지
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                코미디
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                역사
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                스릴러
-              </li>
-              <li className="main-sidebar-genre" onClick={searchHashtag}>
-                가족
-              </li>
-            </ul>
-          </div>
-          <div className="main-sidebar-withPeople-div">
-            <p className="main-sidebar-withPeople-info">누구와 함께</p>
-            <ul className="main-sidebar-withPeopleList">
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                혼자
-              </li>
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                연인과함께
-              </li>
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                가족과함께
-              </li>
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                친구와함께
-              </li>
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                아이와함께
-              </li>
-              <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                동료와함께
-              </li>
-            </ul>
-          </div>
-          <div className="main-sidebar-hashtag-div">
-            <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-              {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('noHidden')} />
-                : <CgChevronRight size='22' onClick={() => showHashtagForIcon('noHidden')} />}
-            </p>
-            <input type='hidden' value='noHidden' />
-            <ul className="main-sidebar-hashtagList noShow-wide">
-              {allHashtag.map((el, index) => (
-                <li
-                  className="main-sidebar-hashtag"
-                  onClick={searchHashtag}
-                  key={index}
-                >
-                  {el.name}
-                </li>
-              ))}
-            </ul>
-          </div>
+    <>
+      {isLoading ?
+        // 로딩중
+        <div className='main-section2-loading'>
+          <Loader />
         </div>
-        {/* 768px이하 화면에서 카테고리 화면 */}
-        {hiddenCategory ?
-          <div className='main-hidden-category-div'>
-            <div className="main-sidebar-genre-div">
-              <p className="main-sidebar-genre-info">장르</p>
-              <ul className="main-sidebar-genreList">
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  드라마
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  로맨스
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  판타지
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  코미디
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  역사
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  스릴러
-                </li>
-                <li className="main-sidebar-genre" onClick={searchHashtag}>
-                  가족
-                </li>
-              </ul>
-            </div>
-            <div className="main-sidebar-withPeople-div">
-              <p className="main-sidebar-withPeople-info">누구와 함께</p>
-              <ul className="main-sidebar-withPeopleList">
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  혼자
-                </li>
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  연인과함께
-                </li>
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  가족과함께
-                </li>
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  친구와함께
-                </li>
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  아이와함께
-                </li>
-                <li className="main-sidebar-withPeople" onClick={searchHashtag}>
-                  동료와함께
-                </li>
-              </ul>
-            </div>
-            <div className="main-sidebar-hashtag-div">
-              <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-                {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('hidden')} />
-                  : <CgChevronRight size='22' onClick={() => showHashtagForIcon('hidden')} />}
-              </p>
-              <input type='hidden' value='hidden' />
-              <ul className="main-sidebar-hashtagList noShow">
-                {allHashtag.map((el, index) => (
-                  <li
-                    className="main-sidebar-hashtag"
-                    onClick={searchHashtag}
-                    key={index}
-                  >
-                    {el.name}
+        :
+        <div className="main-wrap">
+          {/* main 대신 musical로 변경 */}
+          <div className='main-container'>
+            <div className="main-section1">
+              <div className="main-sidebar-genre-div">
+                <p className="main-sidebar-genre-info">장르</p>
+                <ul className="main-sidebar-genreList">
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    드라마
                   </li>
-                ))}
-              </ul>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    로맨스
+                  </li>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    판타지
+                  </li>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    코미디
+                  </li>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    역사
+                  </li>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    스릴러
+                  </li>
+                  <li className="main-sidebar-genre" onClick={searchHashtag}>
+                    가족
+                  </li>
+                </ul>
+              </div>
+              <div className="main-sidebar-withPeople-div">
+                <p className="main-sidebar-withPeople-info">누구와 함께</p>
+                <ul className="main-sidebar-withPeopleList">
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    혼자
+                  </li>
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    연인과함께
+                  </li>
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    가족과함께
+                  </li>
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    친구와함께
+                  </li>
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    아이와함께
+                  </li>
+                  <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                    동료와함께
+                  </li>
+                </ul>
+              </div>
+              <div className="main-sidebar-hashtag-div">
+                <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
+                  {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('noHidden')} />
+                    : <CgChevronRight size='22' onClick={() => showHashtagForIcon('noHidden')} />}
+                </p>
+                <input type='hidden' value='noHidden' />
+                {/* 만약 해시태그는 클릭해야 보이지만 해시태그 리스트의 height는 유지하고 싶을 경우 noShow-wide className사용 */}
+                {/* noShow / noShow-wide : 둘 다 해시태그 리스트가 클릭 전까지는 안보이지만 noShow-wide는 높이는 유지한다 */}
+                {/* <ul className="main-sidebar-hashtagList noShow-wide"> */}
+                <ul className="main-sidebar-hashtagList noShow">
+                  {allHashtag.map((el, index) => (
+                    <li
+                      className="main-sidebar-hashtag"
+                      onClick={searchHashtag}
+                      key={index}
+                    >
+                      {el.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-          : ''}
-        {isLoading ?
-          // 로딩중
-          <div className='main-section2-loading'>
-            <Loader />
-          </div>
-          :
-          // 로딩이 끝난 후
-          <div className='main-section2'>
-            <div className='main-hidden-category-info'>
-              <div className='main-hidden-category-info-left' onClick={showHiddenCategory}>카테고리
-                {hiddenCategory ? <CgChevronDown size='22' onClick={() => showHiddenCategory()} />
-                  : <CgChevronRight size='22' onClick={() => showHiddenCategory()} />}
+            {/* 768px이하 화면에서 카테고리 화면 */}
+            {hiddenCategory ?
+              <div className='main-hidden-category-div'>
+                <div className="main-sidebar-genre-div">
+                  <p className="main-sidebar-genre-info">장르</p>
+                  <ul className="main-sidebar-genreList">
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      드라마
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      로맨스
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      판타지
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      코미디
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      역사
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      스릴러
+                    </li>
+                    <li className="main-sidebar-genre" onClick={searchHashtag}>
+                      가족
+                    </li>
+                  </ul>
+                </div>
+                <div className="main-sidebar-withPeople-div">
+                  <p className="main-sidebar-withPeople-info">누구와 함께</p>
+                  <ul className="main-sidebar-withPeopleList">
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      혼자
+                    </li>
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      연인과함께
+                    </li>
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      가족과함께
+                    </li>
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      친구와함께
+                    </li>
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      아이와함께
+                    </li>
+                    <li className="main-sidebar-withPeople" onClick={searchHashtag}>
+                      동료와함께
+                    </li>
+                  </ul>
+                </div>
+                <div className="main-sidebar-hashtag-div">
+                  <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
+                    {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('hidden')} />
+                      : <CgChevronRight size='22' onClick={() => showHashtagForIcon('hidden')} />}
+                  </p>
+                  <input type='hidden' value='hidden' />
+                  <ul className="main-sidebar-hashtagList noShow">
+                    {allHashtag.map((el, index) => (
+                      <li
+                        className="main-sidebar-hashtag"
+                        onClick={searchHashtag}
+                        key={index}
+                      >
+                        {el.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              : ''}
+            <div className='main-section2'>
+              <div className='main-hidden-category-info'>
+                <div className='main-hidden-category-info-left' onClick={showHiddenCategory}>카테고리
+                  {hiddenCategory ? <CgChevronDown size='22' onClick={() => showHiddenCategory()} />
+                    : <CgChevronRight size='22' onClick={() => showHiddenCategory()} />}
+                </div>
+                {searchHashtagMusical === 0 ?
+                  <div className='main-hidden-category-info-right'>분류 : 모든 뮤지컬</div>
+                  :
+                  <div className='main-hidden-category-info-right'>분류 : {clickHashtag} 검색결과</div>
+                }
               </div>
               {searchHashtagMusical === 0 ?
-                <div className='main-hidden-category-info-right'>분류 : 모든 뮤지컬</div>
+                <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
                 :
-                <div className='main-hidden-category-info-right'>분류 : {clickHashtag} 검색결과</div>
+                <div className='main-musicalList-info'>분류 : {clickHashtag} 검색결과</div>
               }
-            </div>
-            {searchHashtagMusical === 0 ?
-              <div className='main-musicalList-info'>분류 : 모든 뮤지컬</div>
-              :
-              <div className='main-musicalList-info'>분류 : {clickHashtag} 검색결과</div>
-            }
 
-            <ul className='main-musicalList'>
-              {searchHashtagMusical === 0 ?
-                // 해시태그 클릭을 하지 않는 상태(초기상태) 
-                allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
+              <ul className='main-musicalList'>
+                {searchHashtagMusical === 0 ?
+                  // 해시태그 클릭을 하지 않는 상태(초기상태) 
+                  allMusical.length === 0 ? <li className='main-noSearch'>등록된 뮤지컬이 없습니다.</li>
+                    :
+                    allMusical.map((el, index) =>
+                      // <li className={`main-musical-${randomHeight()}`} key={index}>
+                      <li className={`main-musical`} key={index}>
+                        <img className='main-musical-image' src={el.thumbnail}
+                          alt='main-musical-post' onClick={gotoDetail} />
+                        <input type='hidden' value={el.title} />
+                      </li>)
                   :
-                  allMusical.map((el, index) =>
-                    // <li className={`main-musical-${randomHeight()}`} key={index}>
-                    <li className={`main-musical`} key={index}>
-                      <img className='main-musical-image' src={el.thumbnail}
-                        alt='main-musical-post' onClick={gotoDetail} />
-                      <input type='hidden' value={el.title} />
-                    </li>)
-                :
-                // 해시태그를 클릭한 상태
-                searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
+                  // 해시태그를 클릭한 상태
+                  searchHashtagMusical.length === 0 ? <li className='main-noSearch'>검색결과가 없습니다.</li>
+                    :
+                    searchHashtagMusical.map((el, index) =>
+                      // <li className={`main-musical-${randomHeight()}`} key={index}>
+                      <li className={`main-musical`} key={index}>
+                        <img className='main-musical-image' src={el.thumbnail}
+                          alt='main-musical-post' onClick={gotoDetail} />
+                        <input type='hidden' value={el.title} />
+                      </li>)
+                }
+                {/* 758px ~ 376px에서 사용할 layout용, left로 정렬되기 위해서 지정 / 1~3개가 있을때 중앙에 배치되는 것을 방지 */}
+                <li className='filling-empty-space'></li>
+                <li className='filling-empty-space'></li>
+                <li className='filling-empty-space'></li>
+              </ul>
+              <div className='back-allMusical-div'>
+                {/* 현재 클릭한 해시태그가 있는 경우 모든 뮤지컬 조회 버튼이 출력되도록 설정 */}
+                {clickHashtag === '' ?
+                  ''
                   :
-                  searchHashtagMusical.map((el, index) =>
-                    // <li className={`main-musical-${randomHeight()}`} key={index}>
-                    <li className={`main-musical`} key={index}>
-                      <img className='main-musical-image' src={el.thumbnail}
-                        alt='main-musical-post' onClick={gotoDetail} />
-                      <input type='hidden' value={el.title} />
-                    </li>)
-              }
-            </ul>
-            <div className='back-allMusical-div'>
-              {/* 현재 클릭한 해시태그가 있는 경우 모든 뮤지컬 조회 버튼이 출력되도록 설정 */}
-              {clickHashtag === '' ?
-                ''
-                :
-                <button className='back-allMusical-btn' onClick={backToAllMusical}>모든 뮤지컬 조회</button>
-              }
+                  <button className='back-allMusical-btn' onClick={backToAllMusical}>모든 뮤지컬 조회</button>
+                }
+              </div>
             </div>
+            {/* <div className='main-section3'>
+            </div> */}
           </div>
-        }
-        <div className='main-section3'>
           <button className='main-top-btn' onClick={gotoTop}><BiArrowToTop className='main-top-icon' /></button>
+          <Footer className='main-footer' />
         </div>
-      </div>
-      <Footer />
-    </div>
+      }
+    </>
   );
 }
 
