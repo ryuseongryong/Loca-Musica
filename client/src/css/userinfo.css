@@ -74,8 +74,9 @@
 
 /* 북마크리스트 관련 css */
 .bookmarkWrap {
-  max-width: 1120px;
+  max-width: 1160px;
   margin: 100px auto;
+  padding: 0 20px;
 }
 .bookmarkText {
   font-size: 1.75rem;
@@ -84,8 +85,8 @@
 .bookmarksDataWrap {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1280px;
+  justify-content: left;
+  max-width: 1120px;
   height: 100%;
   margin: 0 auto;
 }
@@ -94,6 +95,9 @@
   font-size: 1.2rem;
   color: #4d4d4d;
 }
+/* .bookmarkImgWrap {
+  float: left;
+} */
 .bookmarkimg {
   width: 200px;
   height: 300px;
@@ -245,11 +249,24 @@
     margin: 10px 0;
   }
   .bookmarkimg {
-    max-width: 180px;
+    max-width: 170px;
     height: 100%;
-    margin: 10px 0;
+    margin: 10px 5px;
     border-radius: 10px;
     cursor: pointer;
     float: left;
+  }
+
+  /* 회원탈퇴 */
+  .withdrawalModalWrap {
+    color: black;
+    max-width: 350px;
+    height: 460px;
+    padding: 25px;
+    bottom: 200px;
+    left: calc(50% - 175px);
+  }
+  .withdrawalInfo > p {
+    padding: 0 10px;
   }
 }

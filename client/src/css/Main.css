@@ -1,10 +1,10 @@
 .main-wrap {
-	margin-top: 150px;
-	width: 100%;
-	/* footer조절 */
-	/* height: calc(100vh - 5rem); */
-	height: 100%;
-	background-color: black;
+  margin-top: 150px;
+  width: 100%;
+  /* footer조절 */
+  /* height: calc(100vh - 5rem); */
+  height: 100%;
+  background-color: black;
 }
 
 .main-container {
@@ -37,13 +37,13 @@
 }
 
 .main-section2-loading {
-	flex: 4;
-	/* border: 1px solid red; */
-	/* display: flex;
+  flex: 4;
+  /* border: 1px solid red; */
+  /* display: flex;
 	flex-direction: column;
 	align-items: center; */
-	margin: 0 50px;
-	padding-top: 200px;
+  margin: 0 50px;
+  padding-top: 200px;
 }
 
 .main-section3 {
@@ -54,89 +54,88 @@
 
 /* sidebar */
 .main-sidebar-genre-info {
-	font-size: 25px;
-	font-weight: bold;
-	margin-bottom: 10px;
-	text-align: left;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .main-sidebar-genreList {
-	list-style: none;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	margin-bottom: 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 .main-sidebar-genre {
-	margin: 5px 0;
-	cursor: pointer;
+  margin: 5px 0;
+  cursor: pointer;
 }
 
 .main-sidebar-withPeople-info {
-	font-size: 25px;
-	font-weight: bold;
-	margin-bottom: 10px;
-	text-align: left;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .main-sidebar-withPeopleList {
-	list-style: none;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	margin-bottom: 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 .main-sidebar-withPeople {
-	margin: 5px 0;
-	cursor: pointer;
+  margin: 5px 0;
+  cursor: pointer;
 }
 
 .main-sidebar-hashtag-info {
-	font-size: 25px;
-	font-weight: bold;
-	margin-bottom: 10px;
-	/* text-align: left; */
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	cursor: pointer;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  /* text-align: left; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
 }
 
 .main-sidebar-hashtagList {
-	list-style: none;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .main-sidebar-hashtag {
-	margin: 5px 0;
-	cursor: pointer;
+  margin: 5px 0;
+  cursor: pointer;
 }
 
 /* musical list */
 .main-musicalList-info {
-	/* padding-left: 20px; */
-	padding-top: 20px;
-	/* margin-bottom: 20px; */
-	font-size: 28px;
-	font-weight: bold;
+  /* padding-left: 20px; */
+  padding-top: 20px;
+  /* margin-bottom: 20px; */
+  font-size: 28px;
+  font-weight: bold;
 }
 
 /*! 같은 높이를 가진 태그 정렬  */
 /* ul */
 .main-musicalList {
-	width: 100%;
-	margin-top: 35px;
-	list-style: none;
-	display: flex;
-	justify-content: left;
-	align-items: center;
-	flex-wrap: wrap;
+  width: 100%;
+  margin-top: 35px;
+  list-style: none;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
 }
-
 
 /* li, li 클래스명 변경 필요 */
 .main-musical {
@@ -151,23 +150,22 @@
 	margin-right: 1rem;
 }
 
-
 /* li > img  */
 .main-musical-image {
-	height: 100%;
-	width: 100%;
-	border-radius: 10px;
-	cursor: pointer;
-} 
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+}
 /*! css end */
 
 /*! 서로 다른 높이를 가진 태그 정렬, 단 높이를 정해야 한다. */
 /* ul */
-	/* column wrap을 사용하면 서로 다른 높이를 가진 태그를 정렬할 수 있다. */
-	/* 높이가 고정되어 있음, 고정된 높이가 초과되면 가로로 생성됨 */
-	/* 1. 세로로 먼저 정렬 2. 해당 높이를 초과하면 가로애 새로 추가후 이 후 세로로 정렬 */
-	/* 높이가 고정되어 있기 때문에 등록할 뮤지컬의 수를 지정해야 한다(더 추가할 경우 가로로 더 추가되어서 css 이상해짐 */
-	/* 세로에 추가할 수 있는 길이 설정 */
+/* column wrap을 사용하면 서로 다른 높이를 가진 태그를 정렬할 수 있다. */
+/* 높이가 고정되어 있음, 고정된 높이가 초과되면 가로로 생성됨 */
+/* 1. 세로로 먼저 정렬 2. 해당 높이를 초과하면 가로애 새로 추가후 이 후 세로로 정렬 */
+/* 높이가 고정되어 있기 때문에 등록할 뮤지컬의 수를 지정해야 한다(더 추가할 경우 가로로 더 추가되어서 css 이상해짐 */
+/* 세로에 추가할 수 있는 길이 설정 */
 /* .main-musicalList {
 	margin-top: 35px;
 	list-style: none;
@@ -215,35 +213,34 @@
 
 /*! css end  */
 
-
 .back-allMusical-div {
-	margin: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .back-allMusical-btn {
-	height: 40px;
-	width: 150px;
+  height: 40px;
+  width: 150px;
 }
 
 .main-noSearch {
-	width: 202px;
-	height: 297px;
-	border-radius: 10px;
-	margin: 5px;
-	/* 정렬 */
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	/* border gradient */
-	border: double 2px transparent;
-	background-image: linear-gradient(black, black),
-	linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
-	background-origin: border-box;
-	background-clip: content-box, border-box;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 202px;
+  height: 297px;
+  border-radius: 10px;
+  margin: 5px;
+  /* 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border gradient */
+  border: double 2px transparent;
+  background-image: linear-gradient(black, black),
+    linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .main-top-btn {
@@ -256,50 +253,50 @@
 }
 
 .main-top-btn:hover {
-	background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
 }
 
 .main-top-icon {
-	font-size: 27px;
+  font-size: 27px;
 }
 
 .noShow {
-	height: 0px;
-	visibility: hidden;
-	opacity: 0;
-	transition: opacity 600ms, visibility 600ms;	
-	overflow: hidden;
-	/* display: none; */
+  height: 0px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 600ms, visibility 600ms;
+  overflow: hidden;
+  /* display: none; */
 }
 
 .noShow-wide {
-	visibility: hidden;
-	opacity: 0;
-	transition: opacity 600ms, visibility 600ms;	
-	overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 600ms, visibility 600ms;
+  overflow: hidden;
 }
 
 .show {
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 600ms, visibility 600ms;	
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 600ms, visibility 600ms;
 }
 
 .show-wide {
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 600ms, visibility 600ms;	
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 600ms, visibility 600ms;
 }
 
 .main-hidden-category-info {
-	display: none;
-	width: 100%;
-	justify-content: space-between;
-	align-items: center;
+  display: none;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .main-hidden-category-div {
-	display: none;
+  display: none;
 }
 
 .main-footer {
