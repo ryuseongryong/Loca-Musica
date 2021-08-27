@@ -1,11 +1,12 @@
 /*eslint-disable*/
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { notify } from '../actions/index';
-import ChoiceModal from './choiceModal';
-import WordCloud1 from './wordCloud';
+
+import axios from "axios";
+import { useEffect, useState, useMemo, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { notify } from "../actions/index";
+import ChoiceModal from "./choiceModal";
+import WordCloud1 from "./wordCloud";
 
 function PerformanceTag({ isSignin, userInfo }) {
   //? 변수
@@ -23,6 +24,8 @@ function PerformanceTag({ isSignin, userInfo }) {
   const [isModal, setIsModal] = useState(false);
   const [delta, setDelta] = useState(Date.now());
   const [isUpdate, setIsUpdate] = useState(false);
+
+  // const memoizedHashtagsData = useMemo(() => hashtagsData);
 
   //? 사용자가 해시태그에 공감버튼을 눌렀는지 안 눌렀는지 확인하기 위한 데이터
   const checkHashtagUser = (hashtag, email) => {
@@ -188,6 +191,8 @@ function PerformanceTag({ isSignin, userInfo }) {
         });
     }
   };
+
+  // const memoizedControlLikeRequestHandler = useCallback((e)=>{controlLikeRequestHandler(e)}, [e])
 
   return (
     <div>

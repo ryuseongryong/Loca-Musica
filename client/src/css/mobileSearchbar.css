@@ -19,7 +19,7 @@
 }
 
 .m-searchbar-div {
-  margin: 20px auto 20px auto;
+  margin: 30px auto 20px auto;
   width: 90%;
   background-color: #484848;
   border-radius: 20px;
@@ -69,3 +69,43 @@
 .m-searchbar-result-title {
   margin-left: 15px;
 }
+
+.m-search-history-div {
+  margin: 30px auto 20px auto;
+  width: 90%;
+}
+
+.m-search-history-title-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.m-search-history-title-span-1 {
+  font-weight: 700;
+}
+
+.m-search-history-title-span-2{
+  font-size: 14px;
+  color: #32e6ff;
+  margin-right: 5px;
+}
+
+.m-search-history-li {
+  margin: 15px 0;
+}
+
+.m-search-history-li-span {
+  margin-left: 7px;
+}
+
+.AiOutlineHistory {
+  vertical-align: -2px;
+}
+
+.m-search-history-li-span-close {
+  margin-right: 6px;
+  float: right;
+}
+

@@ -5,10 +5,10 @@ import "../css/Main.css";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { storeAllMusicalInfo } from '../actions/index';
-import { AiOutlineVerticalAlignTop } from "react-icons/ai";
 import Footer from "../components/footer";
 import { CgChevronRight } from "react-icons/cg";
 import { CgChevronDown } from "react-icons/cg";
+import { BiArrowToTop } from "react-icons/bi";
 
 
 function Main() {
@@ -386,7 +386,7 @@ function Main() {
           </div>
         }
         <div className='main-section3'>
-          <button className='main-top-btn' onClick={gotoTop}><AiOutlineVerticalAlignTop className='main-top-icon' /></button>
+          <button className='main-top-btn' onClick={gotoTop}><BiArrowToTop className='main-top-icon' /></button>
         </div>
       </div>
       <Footer />

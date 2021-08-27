@@ -7,19 +7,23 @@ import { useSelector } from 'react-redux';
 
 import * as Hangul from 'korean-regexp';
 import { IoChevronBackSharp } from 'react-icons/io5';
-import { GoSearch } from 'react-icons/go';
+import { AiOutlineHistory } from 'react-icons/ai';
+// import {ReactComponent as TrashIcon} from '../images/delete_black_24dp_fill.svg';
 
 const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
   // Redux State
   const allMusicalData = useSelector((state) => {
     let data = state.allMusicalDataReducer.arrAllMusicalData;
-    //console.log('Data from redux store: ', data);
     return data;
   });
 
   // Local State
   const [str, setStr] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const [arrSearchHistory, setArrSearchHistory] = useState(
+    JSON.parse(localStorage.getItem('searchHistory')) || []
+  );
+
   const history = useHistory();
 
   useEffect(() => {
@@ -29,6 +33,10 @@ const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
       setSearchResult([]);
     }
   }, [str]);
+
+  useEffect(() => {
+    localStorage.setItem('searchHistory', JSON.stringify(arrSearchHistory));
+  }, [arrSearchHistory]);
 
   function filterResults(searchValue) {
     if (!searchValue) return;
@@ -40,6 +48,15 @@ const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
     setSearchResult(filtered);
   }
 
+  function handleDeleteHistory(title) {
+    let arr = arrSearchHistory.filter((item) => item !== title);
+    setArrSearchHistory([...arr]);
+  }
+
+  function handleClearHistory() {
+    setArrSearchHistory([]);
+  }
+
   function handleChange(e) {
     setStr(e.target.value);
   }
@@ -49,7 +66,6 @@ const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
   }
 
   function handleClickSearchResult(title) {
-    setStr('');
     const url = new URL(window.location.href);
 
     // 현재 /musical/:title 페이지에 있다면
@@ -66,6 +82,16 @@ const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
     // 아니라면
     else {
       history.push(`/musical/${title}`);
+    }
+
+    setStr('');
+
+    let idx = arrSearchHistory.indexOf(title);
+    if (idx === -1) {
+      setArrSearchHistory([title, ...arrSearchHistory]);
+    } else {
+      let arr = arrSearchHistory.filter((item) => item !== title);
+      setArrSearchHistory([title, ...arr]);
     }
   }
 
@@ -88,6 +114,38 @@ const MobileSearchbar = function ({ setIsMobileSearchbarOpen }) {
           ></input>
         </div>
       </div>
+      {!str ? (
+        <div className='m-search-history-div'>
+          <div className="m-search-history-title-div">
+            <span className='m-search-history-title-span-1'>최근 검색어</span>
+            {/* <TrashIcon className="m-search-history-trash-icon" fill={"#fff"}/> */}
+            <span className='m-search-history-title-span-2' onClick={handleClearHistory}>전체삭제</span>
+          </div>
+          <ol>
+            {arrSearchHistory.length
+              ? arrSearchHistory.map((title, idx) => {
+                  return (
+                    <li key={idx} className='m-search-history-li'>
+                      <AiOutlineHistory className='AiOutlineHistory' />
+                      <span
+                        className='m-search-history-li-span'
+                        onClick={() => handleClickSearchResult(title)}
+                      >
+                        {title}
+                      </span>
+                      <span
+                        className='m-search-history-li-span-close'
+                        onClick={() => handleDeleteHistory(title)}
+                      >
+                        ✕
+                      </span>
+                    </li>
+                  );
+                })
+              : null}
+          </ol>
+        </div>
+      ) : null}
       {searchResult.length ? (
         <ol className='m-searchbar-result-ol'>
           {searchResult.map((item, idx) => {

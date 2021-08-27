@@ -1,10 +1,16 @@
 // import { TagCloud } from 'react-tagcloud'
 import WordCloud from 'react-d3-cloud';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import '../css/wordcloud.css';
 let count = 0;
 function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
   const [data, setData] = useState([]);
+  const memoizedData = useMemo(() => {
+    let data = makeWordcloudData(hashtagsData)
+    setData(data);
+    return data;
+  }, [hashtagsData]);
+  
   let fill = getRandomColor();
 
   const windowWidth = window.innerWidth; // 현재 화면의 width
@@ -13,8 +19,8 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
 
   useEffect(() => {
     count++;
-    // console.log('Count: ', count);
-    setData(makeWordcloudData(hashtagsData));
+    console.log('Render Count: ', count);
+    // setData(makeWordcloudData(hashtagsData));
   }, [hashtagsData]);
 
   function makeWordcloudData(data) {
@@ -82,7 +88,7 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
     <div className="wordcloud-container">
       <WordCloud
         className="wordcloud"
-        data={data}
+        data={memoizedData}
         width={wordCloudWidth()}
         height={wordCloudHeight}
         fontSizeMapper={fontSizeMapper}
