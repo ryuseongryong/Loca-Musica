@@ -1,16 +1,17 @@
 /*eslint-disable*/
 
-import "../css/detail.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { rememberPathname } from "../actions/index";
-import PerformanceInfo from "../components/performanceInfo";
-import PerformanceTag from "../components/performanceTag";
-import Footer from "../components/footer";
-import Loader from "../components/loader";
-import { useHistory } from "react-router-dom"; // 페이지 이동
-import TopButton from "../components/topButton";
+import '../css/detail.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { rememberPathname, setIsModal } from '../actions/index';
+import PerformanceInfo from '../components/performanceInfo';
+import PerformanceTag from '../components/performanceTag';
+import Footer from '../components/footer';
+import Loader from '../components/loader';
+import { useHistory } from 'react-router-dom'; // 페이지 이동
+import TopButton from '../components/topButton';
+import ChoiceModal from '../components/choiceModal';
 
 function Detail() {
   // 상태관리
@@ -25,17 +26,18 @@ function Detail() {
 
   // 현재페이지에서만 관리되는 state
   const [performanceInfo, setPerformanceInfo] = useState({
-    id: "",
-    code: "",
-    title: "",
-    thumbnail: "",
-    contents: "",
-    state: "",
-    actors: "",
+    id: '',
+    code: '',
+    title: '',
+    thumbnail: '',
+    contents: '',
+    state: '',
+    actors: '',
     numbersData: [],
     hashtagsData: [],
   });
   const [isLoading, setIsLoading] = useState(true);
+  // const [isModal, setIsModal] = useState(false);
 
   // const _url = new URL(window.location.href)
   // const [url, setUrl] = useState(_url);
@@ -43,6 +45,8 @@ function Detail() {
 
   // 작품정보 가져오기
   useEffect(() => {
+    // dispatch(setIsModal(false));
+
     // 첫 방문 시에 url에서 작품 제목을 받아오기
     const url = new URL(window.location.href);
     const title = decodeURI(url.pathname.slice(9));
@@ -59,7 +63,7 @@ function Detail() {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log("작품정보를 불러오지 못한 이유는?", err);
+        console.log('작품정보를 불러오지 못한 이유는?', err);
       });
 
     // 첫 방문 시에 url에서 pathname을 받아와서 redux상태 관리에 사용
@@ -82,7 +86,7 @@ function Detail() {
     };
 
     axios({
-      method: "get",
+      method: 'get',
       url: `${process.env.REACT_APP_END_POINT}/musical/${performanceInfo.title}`,
       withCredentials: true,
     })
@@ -90,7 +94,7 @@ function Detail() {
         sendData.numbersData = res.data.data.numbersData;
         sendData.hashtagsData = res.data.data.hashtagsData; // 해시태그 변동성 때문에 최신 해시태그 값을 가져옴(추가,삭제)
         history.push({
-          pathname: "/adminEdit", // 게시글 변경 페이지 이동
+          pathname: '/adminEdit', // 게시글 변경 페이지 이동
           props: sendData, // 게시글 상세 정보 전달
         });
       })
@@ -102,12 +106,12 @@ function Detail() {
   //! Delete Musical [code start]
   const adminDeleteMusical = (event) => {
     axios({
-      method: "delete",
+      method: 'delete',
       url: `${process.env.REACT_APP_END_POINT}/admin/delete/${performanceInfo.title}`,
       withCredentials: true,
     }).then((res) => {
-      alert("게시글이 삭제되었습니다!");
-      history.push("/musical/main"); // 삭제후 메인 이동
+      alert('게시글이 삭제되었습니다!');
+      history.push('/musical/main'); // 삭제후 메인 이동
     });
   };
   //! Delete Musical [code end]
@@ -116,28 +120,32 @@ function Detail() {
   return (
     <div id="detail">
       {isLoading ? (
-        <div className="detailPageLoader">
+        <div className='detailPageLoader'>
           <Loader />
         </div>
       ) : (
-        <div className="detailPageWrap">
-          <div id="detailPage">
+        <div className='detailPageWrap'>
+          <div id='detailPage'>
             {userInfo.admin === 1 ? (
-              <div className="adminBtnWrap">
+              <div className='adminBtnWrap'>
                 <button onClick={adminEditMusical}>수정</button>
                 <button onClick={adminDeleteMusical}>삭제</button>
               </div>
             ) : null}
-            <div className="pfInfoContainer">
+            <div className='pfInfoContainer'>
               <PerformanceInfo
                 performanceInfo={performanceInfo}
                 isSignin={isSignin}
               />
-              <PerformanceTag userInfo={userInfo} isSignin={isSignin} />
+              <PerformanceTag
+                userInfo={userInfo}
+                isSignin={isSignin}
+              />
             </div>
           </div>
           <TopButton />
           <Footer />
+          {/* <ChoiceModal />  */}
         </div>
       )}
     </div>

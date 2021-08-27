@@ -1,10 +1,9 @@
 /*eslint-disable*/
-
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ImHeart, ImCheckmark } from "react-icons/im";
 import { useState, useEffect } from "react";
-import { addBookmark, removeBookmark, notify } from "../actions/index";
+import { addBookmark, removeBookmark, notify, setIsModal } from "../actions/index";
 
 import ChoiceModal from "./choiceModal";
 
@@ -28,6 +27,7 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
   const controlBookmark = (event) => {
     if (!isSignin) {
       setIsModal(true);
+      //dispatch(setIsModal(true));
     } else if (isSignin) {
       if (!checkBookmarksData(title)) {
         axios
@@ -107,7 +107,7 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
             )}
             {checkBookmarksData(title) ? "북마크 추가됨" : "북마크 추가"}
           </button>
-          {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null}
+          <ChoiceModal isModal={isModal} setIsModal={setIsModal} />
         </div>
       </div>
       <div className="pfNumberWrap">

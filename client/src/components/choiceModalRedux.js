@@ -4,7 +4,7 @@ import {setIsModal} from '../actions/index'
 import { Link } from 'react-router-dom';
 import { CgClose } from 'react-icons/cg';
 
-function ChoiceModal({ isModal, setIsModal }) {
+function ChoiceModalRedux({ isModal, setIsModal }) {
 
   // const dispatch = useDispatch();
   // // Redux state
@@ -35,4 +35,4 @@ function ChoiceModal({ isModal, setIsModal }) {
   );
 }
 
-export default ChoiceModal;
+export default ChoiceModalRedux;

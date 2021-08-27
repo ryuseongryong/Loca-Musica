@@ -4,6 +4,7 @@ import bookmarksReducer from "./bookMarksReducer";
 import notificationReducer from "./notificationReducer";
 import pathnameReducer from "./pathnameReducer";
 import allMusicalDataReducer from "./allMusicalDataReducer";
+import isModalReducer from "./isModalReducer";
 
 // 필요한 reducer를 import해온다.
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   notificationReducer,
   pathnameReducer,
   allMusicalDataReducer,
+  isModalReducer,
 });
 
 export default rootReducer;

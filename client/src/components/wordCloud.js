@@ -1,10 +1,21 @@
 // import { TagCloud } from 'react-tagcloud'
 import WordCloud from 'react-d3-cloud';
+import React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import '../css/wordcloud.css';
+import _ from "lodash";
+import ChoiceModal from "./choiceModal";
+
+
 let count = 0;
-function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
+function WordCloud1({ 
+  isSignin,
+  controlLikeRequestHandler, 
+  hashtagsData 
+}) {
   const [data, setData] = useState([]);
+  const [isModal, setIsModal] = useState(false);
+
   const memoizedData = useMemo(() => {
     let data = makeWordcloudData(hashtagsData)
     setData(data);
@@ -56,10 +67,21 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
   }
 
   function onWordClick(event) {
+    event.preventDefault();
+    if (!isSignin) {
+      //setIsModal(true);
+      setIsModal(true); // 로그인을 해야 작성가능(로그인 모달창이 열림)
+      return;
+    }
+
     const style = event.target.style;
     style.fill = fill;
-    controlLikeRequestHandler(event);
-    setData(makeWordcloudData(hashtagsData));
+
+    let hashtag = event.target.textContent;
+    //console.log('hashtag: ', hashtag);
+
+    controlLikeRequestHandler(hashtag);
+    // setData(makeWordcloudData(hashtagsData));
   }
 
   function onWordMouseOver(event) {
@@ -85,20 +107,29 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
   }
 
   return (
-    <div className="wordcloud-container">
-      <WordCloud
-        className="wordcloud"
-        data={memoizedData}
-        width={wordCloudWidth()}
-        height={wordCloudHeight}
-        fontSizeMapper={fontSizeMapper}
-        font={'Montserrat'}
-        onWordClick={onWordClick}
-        onWordMouseOver={onWordMouseOver}
-        onWordMouseOut={onWordMouseOut}
-      />
-    </div>
+    <>
+      <div className="wordcloud-container">
+        <WordCloud
+          className="wordcloud"
+          data={memoizedData}
+          width={wordCloudWidth()}
+          height={wordCloudHeight}
+          fontSizeMapper={fontSizeMapper}
+          font={'Montserrat'}
+          onWordClick={onWordClick}
+          onWordMouseOver={onWordMouseOver}
+          onWordMouseOut={onWordMouseOut}
+        />
+      </div>
+      {isModal ? <ChoiceModal isModal={isModal} setIsModal={setIsModal} /> : null}
+    </>
   );
 }
 
-export default WordCloud1;
+// export default React.memo(WordCloud1, (prev, next) => {
+//     if (!_.isEqual(prev, next)) {
+//       return true;
+//     }
+//     return false;
+// });
+export default React.memo(WordCloud1);

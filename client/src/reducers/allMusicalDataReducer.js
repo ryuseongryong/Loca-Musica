@@ -2,7 +2,7 @@
 import { initialState } from "./initialState";
 import { STORE_ALL_MUISCAL_DATA } from "../actions/index";
 
-const allMusicalDataReducer = (state = initialState, action) => {
+const allMusicalDataReducer = (state = initialState.arrAllMusicalData, action) => {
   switch (action.type) {
     case STORE_ALL_MUISCAL_DATA:
       return Object.assign({}, state, {

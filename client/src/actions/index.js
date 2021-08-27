@@ -2,6 +2,7 @@
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
 export const UPDATE_USERINFO = "UPDATE_USERINFO";
+export const IS_MODAL = "IS_MODAL";
 
 // Bookmark 관리와 관련된 action
 export const ADD_BOOKMARK = "ADD_BOOKMARK";
@@ -75,6 +76,15 @@ export const updateUserInfo = (data) => {
     },
   };
 };
+
+// 회원기능 클릭시 모달
+export const setIsModal = (bool) => {
+  return{
+    type: IS_MODAL,
+    payload: bool,
+  }
+}
+
 
 // pathname 저장 액션
 export const rememberPathname = (pathname) => {
