@@ -226,7 +226,7 @@
 
 /* 추천 결과 info */
 .search-result-info {
-  font-size: 20px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   letter-spacing: -0.015em;
@@ -290,9 +290,9 @@
 
 /* 다시 추천 버튼 */
 .search-replay-btn {
-  width: 167px;
-  height: 47px;
-  font-size: 18px;
+  width: 200px;
+  height: 40px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -356,10 +356,7 @@
 
   /*! 추천 받기 전 */
   .search-container {
-  display: table;
-  margin-top: 80px;
-  width: 100%;
-  /* footer조절 */
+  margin-top: 52px;
   height: 100vh;
   }
 
@@ -377,7 +374,7 @@
   }
   .search-info {
   text-align: center;
-  width: 50%;
+  width: 100%;
   }
   /* 선택하라는 문구 */
   .search-section2-top {
@@ -387,6 +384,7 @@
   flex: 1;
   padding-bottom: 0;
   margin-top: 20px;
+  margin-bottom: 20px;
   }
   /* 장르 카테고리 div */
   .search-category1 {
@@ -405,7 +403,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: xx-large;
+  font-size: x-large;
   margin-bottom: 20px;
   }
 
@@ -434,7 +432,7 @@
   }
 
   .category-text {
-  font-size: x-large;
+  font-size: large;
   cursor: pointer;
   }
 
@@ -468,7 +466,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  font-size: xx-large;
+  font-size: x-large;
   padding-top: 0;
   margin-bottom: 20px;
   }
@@ -503,8 +501,8 @@
   .hashtag {
   height: 50px;
   flex: 0 1 30%;
-  margin-bottom: 15px;
-  margin-right: 15px;
+  margin-bottom: 10px;
+  margin-right: 10px;
   /* margin-right: 10px; */
   }
 
@@ -555,23 +553,12 @@
   .search-result-musical {
   /* width: 202px; */
   flex: 0 1 50%;
-  height: 420px;
+  height: 34rem;
   /* flex: 0 1 24%; */
   /* border:1px solid; */
   margin: 40px;
   cursor: pointer;
   border-radius: 10px;
-  /* 정렬 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* border gradient */
-  border: double 2px transparent;
-  background-image: linear-gradient(black, black),
-  linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
   .search-section2-bottom {
@@ -594,6 +581,106 @@
     font-size: x-large;
     font-weight: 0;
     border-radius: 10rem;
+  }
+
+}
+
+@media screen and (max-width: 375px) {
+  .search-info {
+    font-size: large;
+    width: 80%;
+    }
+  .selected-category {
+    flex : 0 1 28%;    
+    height: 50px;
+    padding-left: 0;
+    padding-right: 0;
+    background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+    border-radius: 100rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+  
+    margin-bottom: 1rem;
+    }
+
+  .hashtags-list {
+    padding-left: 0rem;
+  }
+
+   .hashtag {
+    height: 50px;
+    flex: 0 1 30%;
+    margin-bottom: 6px;
+    margin-left: 6px;
+    margin-right: 0px;
+    } 
+
+  .search-right-category {
+    padding-left: 1rem;
+  }
+
+  /* 선택안된 카테고리 or 해시태그 */
+  .category {
+    flex : 0 1 28%;
+    /* width: 30%; */
+    height: 50px;
+    margin-bottom: 1rem;
+
+    }
+
+  .category-text {
+    font-size: 1rem
+    }
+
+  .recommend-result-btn {
+    width: 190px;
+    height: 50px;
+    border-radius: 10rem;
+    line-height: 45px;
+    font-size: large;
+  }
+  /*! 추천 이후  */
+    .search-result-info {
+      font-size: 21px;
+      margin-bottom: 0;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    /* 추천 결과 li */
+  .search-result-musical {
+    /* width: 202px; */
+    flex: 0 1 67%;
+    height: 23rem;
+    /* flex: 0 1 24%; */
+    /* border:1px solid; */
+    margin: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    }
+
+    .search-result-musical-image {
+      width: 98%;
+      height: 98%;
+      border-radius: 10px;
+      /* border: 1px solid red; */
+    }
+
+    .search-replay-btn {
+      width: 200px;
+      height: 50px;
+      font-size: large;
+      font-weight: 0;
+      border-radius: 10rem;
+    }
+
+    /*! 알림창  */
+  .notification-container, .top-right {
+    width: 250px;
+    height: 100px;
   }
 
 }

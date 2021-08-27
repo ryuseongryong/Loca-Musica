@@ -68,7 +68,7 @@ function Search() {
 
         // 만약 유저 해시태크를 1개도 지정하지 않고 추천 받으려는 경우 추천안됨(최소 1개 이상)
         if (recommendUserHashtag.length === 0) {
-            dispatch(notify('1개 이상의 카테고리 또는 해시태그를 선택해 주세요.')); // 알림 메시지
+            dispatch(notify('취향에 따라 1개 이상 선택해 주세요.')); // 알림 메시지
         }
         // 1개 이상의 해시태그 지정시 추천 받음 
         else {
