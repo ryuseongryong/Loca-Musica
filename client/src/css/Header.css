@@ -40,7 +40,7 @@
   /* flex: 3;
   display: flex;
   justify-content: center; */
-  max-width: 314px;
+  /* max-width: 314px; */
   margin: 20px 0;
   /* border: 1px red solid; */
 }
@@ -222,6 +222,36 @@
 }
 
 /* 반응형 css */
+@media screen and (max-width: 1080px) {
+  .header-main {
+    width: 100%;
+    padding: 0 25px;
+    /* border: 1px solid blue; */
+  }
+  .logo {
+    font-size: 1.625rem;
+    width: 170px;
+  }
+  .recommend-musical-button {
+    width: 128px;
+    height: 46px;
+    text-align: center;
+    line-height: 42px;
+    margin: 17px 0;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .admin-musical-post-button,
+  .mypage-button,
+  .signin-button,
+  .signup-button,
+  .signout-button {
+    width: 86px;
+    font-size: 0.75rem;
+    margin: 20px 0 20px 8px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   /* .header-main {
     height: 100vh;
@@ -288,6 +318,9 @@
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.81);
     backdrop-filter: blur(1.5px);
+    transition: transform 0.6s ease-in-out;
+    animation: toast-in-right 0.6s;
+    transition: 0.3s ease;
   }
   /* 마이페이지 이동 및 close 공간 */
   .mobileRightTop {
@@ -326,5 +359,12 @@
   .btnMobileMember {
     text-align: right;
     margin: 12px 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header-main {
+    padding: 0;
+    /* border: 1px solid blue; */
   }
 }
