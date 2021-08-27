@@ -17,4 +17,6 @@ export const initialState = {
 
   // 웹사이트에 최초 접속시 모든 뮤지컬 정보(해시태그 정보는 제외)
   arrAllMusicalData: [],
+
+  isModal: false,
 };

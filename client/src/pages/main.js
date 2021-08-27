@@ -24,6 +24,7 @@ function Main() {
 
 
   useEffect(() => {
+    document.querySelector('.main-container').scroll(0, 0);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_END_POINT}/musical/main`,

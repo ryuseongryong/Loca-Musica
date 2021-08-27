@@ -11,6 +11,10 @@
   justify-content: center;
 }
 
+.hideChoiceModal {
+  display: none;
+}
+
 .choiceModal {
   text-align: right;
   width: 320px;
