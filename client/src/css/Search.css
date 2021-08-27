@@ -4,7 +4,7 @@
   margin-top: 80px;
   width: 100%;
   /* footer조절 */
-  height: calc(100vh - 13rem);
+  height: 100vh
 }
 
 .search-main {
@@ -252,8 +252,8 @@
   list-style: none;
   padding: 5px;
 
-  height: 330px;
-  overflow: auto;
+  /* height: 330px;
+  overflow: auto; */
 }
 
 /* 추천 결과 li */
@@ -262,9 +262,9 @@
   height: 297px;
   /* flex: 0 1 24%; */
   /* border:1px solid; */
-  margin-left: 35px;
-  margin-right: 35px;
-  margin-bottom: 20px;
+  /* margin: 위 오른쪽 아래 왼쪽; */
+  /* marigin : 위+아래(위=아래) 왼쪽+오른쪽(좌=우) */
+  margin: 0 15px 20px;
   cursor: pointer;
   border-radius: 10px;
   /* 정렬 */
@@ -395,7 +395,7 @@
   flex-direction: column;
   /* flex: 1; */
   padding-right: 20px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   }
 
   .search-left {
@@ -413,11 +413,11 @@
   justify-content: flex-start;
   /* align-content: center; */
   flex-wrap: wrap;
-  padding-left: 1.5rem;
+  padding-left: 2.5rem;
   }
   /* 선택안된 카테고리 or 해시태그 */
   .category {
-  flex : 0 1 30%;
+  flex : 0 1 28%;
   /* width: 30%; */
   height: 50px;
   margin-bottom: 1rem;
@@ -432,7 +432,7 @@
   }
 
   .category-text {
-  font-size: large;
+  font-size: 1rem;
   cursor: pointer;
   }
 
@@ -445,7 +445,7 @@
   border-top: 0;
   padding-top: 0;
   padding-right: 20px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   }
 
   .search-hashtags {
@@ -472,7 +472,7 @@
   }
 
   .selected-category {
-  flex : 0 1 30%;    
+  flex : 0 1 28%;    
   height: 50px;
   padding-left: 0;
   padding-right: 0;
@@ -495,7 +495,7 @@
   flex-wrap: wrap;
   list-style: none;
   overflow: auto;
-  padding-left: 3rem;
+  padding-left: 26px;
   }
 
   .hashtag {
@@ -583,6 +583,12 @@
     border-radius: 10rem;
   }
 
+  /*! 알림창  */
+  /* .notification-container, .top-right {
+    width: 250px;
+    height: 100px;
+  } */
+
 }
 
 @media screen and (max-width: 375px) {
@@ -632,7 +638,7 @@
     }
 
   .category-text {
-    font-size: 1rem
+    font-size: 14px;
     }
 
   .recommend-result-btn {
@@ -678,9 +684,9 @@
     }
 
     /*! 알림창  */
-  .notification-container, .top-right {
+  /* .notification-container, .top-right {
     width: 250px;
     height: 100px;
-  }
+  } */
 
 }
