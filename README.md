@@ -26,8 +26,8 @@ landing page
 
 ⇒ ***[LOCA MUSICA에서 찾아보기](https://loca-musica.com/)***
 
-#### [EveryReview 배포 링크](https://loca-musica.com)
-#### [EveryReview GitHub 링크](https://github.com/codestates/Loca-Musica)
+#### [LOCA MUSICA 배포 링크](https://loca-musica.com)
+#### [LOCA MUSICA GitHub 링크](https://github.com/codestates/Loca-Musica)
 
 # 💻 Tech Stack
 <img width="700" alt="CloudCraft Stack" src="https://user-images.githubusercontent.com/58920833/130772316-c3ac8b32-269a-432f-88c1-d72191fae9ee.png">
