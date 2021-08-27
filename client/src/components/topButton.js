@@ -1,4 +1,4 @@
-import { AiOutlineVerticalAlignTop } from "react-icons/ai";
+import { BiArrowToTop } from "react-icons/bi";
 import "../css/TopButton.css";
 
 
@@ -10,6 +10,6 @@ export default function TopButton() {
 	}
 
 	return (
-		<button className='top-btn' onClick={gotoTop}><AiOutlineVerticalAlignTop className='top-btn-icon' /></button>
+		<button className='top-btn' onClick={gotoTop}><BiArrowToTop className='top-btn-icon' /></button>
 	);
 }

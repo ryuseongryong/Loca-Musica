@@ -46,8 +46,8 @@ function Detail() {
     // 첫 방문 시에 url에서 작품 제목을 받아오기
     const url = new URL(window.location.href);
     const title = decodeURI(url.pathname.slice(9));
-    console.log("url: ", url, "title: ", title);
-    console.log("useEffect 가 실행되었습니다.");
+    // console.log("url: ", url, "title: ", title);
+    // console.log("useEffect 가 실행되었습니다.");
     axios
       .get(`${process.env.REACT_APP_END_POINT}/musical/${title}`, {
         withCredentials: true,

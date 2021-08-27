@@ -128,8 +128,8 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
         <div className="pfNumberList">
           {performanceInfo.numbersData.map((el, index) => {
             return (
-              <div className="numberVideoWrap">
-                <div className="iframbox" key={index}>
+              <div className="numberVideoWrap" key={index}>
+                <div className="iframbox">
                   {el.videoId ? (
                     <iframe
                       src={el.videoId}
