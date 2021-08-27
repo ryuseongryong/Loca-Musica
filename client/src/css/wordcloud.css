@@ -6,8 +6,9 @@
 }
 
 .wordcloud {
-  /* width: inherit;
-  height: inherit; */
+  width: 768px;
+  height: 100%;
+  overflow: visible;
   /* height: 1000px; */
   margin: auto;
   padding: auto;
