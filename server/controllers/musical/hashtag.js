@@ -714,13 +714,14 @@ module.exports = {
         [title]
       );
       if (musicalData.length === 0) {
-        return res.status(404).send({ message: 'not found' });
+        return res.status(404).send({ message: 'not found1' });
       }
       const userId = accessTokenData.id;
       const musicalId = musicalData[0].id;
 
       //! hashtag 등록
-      // 동일한 사용자의 동일한 해시태그 중복등록은 클라이언트에서 막아줌
+      // 동일한 사용자의 동일한 해시태그 중복등록
+
       // 이미 등록된 hashtag 인지 검색
       const [existedHashtagData] = await connection.execute(
         `SELECT * from hashtags WHERE name = ?`,
@@ -731,6 +732,15 @@ module.exports = {
       // 이미 등록된 hashtag 라면 totalLikeCount + 1
       if (existedHashtagData.length !== 0) {
         const hashtagId = existedHashtagData[0].id;
+
+        const [alreadyExistedUser] = await connection.execute(
+          `SELECT * FROM user_hashtag INNER JOIN musical_hashtag ON musical_hashtag.id = user_hashtag.musical_hashtag_id WHERE user_hashtag.user_id = ? AND musical_hashtag.musical_id = ? AND musical_hashtag.hashtag_id = ?`,
+          [userId, musicalId, hashtagId]
+        );
+        if (alreadyExistedUser.length !== 0) {
+          return res.status(409).send({ message: 'double enter' });
+        }
+
         const [existedMusicalHashtag] = await connection.execute(
           `SELECT * FROM musical_hashtag WHERE hashtag_id = ? AND musical_id = ?`,
           [hashtagId, musicalId]
@@ -772,6 +782,10 @@ module.exports = {
           [hashtagId, musicalId]
         );
 
+        if (musicalHashtagIdData.length === 0) {
+          return res.status(500).send({ message: 'internal server error(DB)' });
+        }
+
         const musicalHashtagId = musicalHashtagIdData[0].id;
 
         await connection.execute(
@@ -787,6 +801,14 @@ module.exports = {
         );
 
         const hashtagId = insertNew.insertId;
+
+        const [alreadyExistedUser] = await connection.execute(
+          `SELECT * FROM user_hashtag INNER JOIN musical_hashtag ON musical_hashtag.id = user_hashtag.musical_hashtag_id WHERE user_hashtag.user_id = ? AND musical_hashtag.musical_id = ? AND musical_hashtag.hashtag_id = ?`,
+          [userId, musicalId, hashtagId]
+        );
+        if (alreadyExistedUser.length !== 0) {
+          return res.status(409).send({ message: 'double enter' });
+        }
         // musical_hashtag 등록(musical 에 hashtag 부여)
         await connection.execute(
           `INSERT IGNORE INTO musical_hashtag (hashtag_id, musical_id) VALUES (?, ?)`,
@@ -799,7 +821,7 @@ module.exports = {
           [hashtagId, musicalId]
         );
         if (musicalHashtagIdData.length === 0) {
-          return res.status(404).send({ message: 'not found' });
+          return res.status(404).send({ message: 'double enter' });
         }
 
         const musicalHashtagId = musicalHashtagIdData[0].id;
@@ -809,6 +831,7 @@ module.exports = {
           [userId, musicalHashtagId]
         );
       }
+      await connection.commit();
       const [updatedHashtagData] = await connection.execute(
         `SELECT * FROM hashtags WHERE name = ?`,
         [hashtag]
@@ -867,6 +890,19 @@ module.exports = {
         return acc;
       }, []);
 
+      // console.log(
+      //   'updatedHashtagData: ',
+      //   updatedHashtagData,
+      //   '\n',
+      //   'userHashtagUpdatedData: ',
+      //   userHashtagUpdatedData,
+      //   '\n',
+      //   'hashtagsData: ',
+      //   hashtagsData,
+      //   '\n',
+      //   'userHashtag: ',
+      //   userHashtag
+      // );
       await connection.commit();
       res.status(201).json({
         data: {
@@ -969,28 +1005,28 @@ module.exports = {
         [musicalHashtagId]
       );
       // hashtags의 musicalCount -1
+      if (checkHashtagUser === 0)
+        if (
+          checkHashtagUser.length <= 1 &&
+          checkHashtagUser[0].user_id === userId
+        ) {
+          // console.log(checkHashtagUser, checkHashtagUser[0].user_id === userId);
 
-      console.log(checkHashtagUser, checkHashtagUser[0].user_id === userId);
-
-      if (
-        checkHashtagUser.length <= 1 &&
-        checkHashtagUser[0].user_id === userId
-      ) {
-        const [deleteResultMusicalHashtag] = await connection.execute(
-          `DELETE FROM musical_hashtag WHERE id = ? AND likeCount = 0`,
-          [musicalHashtagId]
-        );
-
-        if (deleteResultMusicalHashtag.affectedRows === 1) {
-          await connection.execute(
-            `UPDATE hashtags SET musicalCount = musicalCount - 1 WHERE id = ?`,
-            [hashtagId]
+          const [deleteResultMusicalHashtag] = await connection.execute(
+            `DELETE FROM musical_hashtag WHERE id = ? AND likeCount = 0`,
+            [musicalHashtagId]
           );
-        } else if (deleteResultMusicalHashtag.affectedRows > 1) {
-          await connection.rollback();
-          res.status(500).send({ message: 'internal server error' });
+
+          if (deleteResultMusicalHashtag.affectedRows === 1) {
+            await connection.execute(
+              `UPDATE hashtags SET musicalCount = musicalCount - 1 WHERE id = ?`,
+              [hashtagId]
+            );
+          } else if (deleteResultMusicalHashtag.affectedRows > 1) {
+            await connection.rollback();
+            res.status(500).send({ message: 'internal server error' });
+          }
         }
-      }
 
       // 3단계
       // hashtags의 totalLikeCount가 0 또는 musicalCount가 0인 경우 hashtags에서 삭제(1보다 작은 경우)

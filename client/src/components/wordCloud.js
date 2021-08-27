@@ -48,7 +48,7 @@ function WordCloud1({ controlLikeRequestHandler, hashtagsData }) {
   function fontSizeMapper(word) {
     // word.value 가 작을수록 글자 크기가 커짐.
     if (windowWidth <= 768) {
-      return 14 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
+      return 7 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
     } else {
       // (y = 20 * ( log2(value) + 1 ) 그래프 https://www.desmos.com/calculator?lang=ko)
       return 20 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
