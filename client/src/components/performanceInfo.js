@@ -87,19 +87,6 @@ function PerformanceInfo({ performanceInfo, isSignin }) {
           <li>
             <p className="pfStoryItem">줄거리</p>
             <div className="pfStory">{performanceInfo.contents}</div>
-            {/* <div className="pfStory">
-              불러 이상 풀이 부패뿐이다. 열매를 귀는 투명하되 주는 쓸쓸하랴?
-              청춘의 끝에 인간이 방황하였으며, 아름답고 예가 영락과 주는 그것을
-              봄바람이다. 때에, 청춘의 붙잡아 인간은 만물은 방황하여도, 심장은
-              가는 위하여 아니다. 유소년에게서 위하여, 우리는 우리의 관현악이며,
-              그들의 청춘을 발휘하기 그러므로 운다. 피는 고행을 풍부하게 가슴이
-              예가 눈에 것이다.보라, 것이다. 바이며, 있는 쓸쓸한 이상이 가는
-              용감하고 청춘의 실로 새가 말이다. 끝까지 풍부하게 착목한는
-              방지하는 없으면 피고 것은 불러 것이다. 긴지라 광야에서 구하지
-              있다. 그들의 거선의 구할 어디 용기가 긴지라 심장은 봄바람이다.
-              장식하는 할지니, 꽃이 힘차게 생명을 품에 이것을 봄바람이다. 싶이
-              귀는 대한 할지라도 일월과 이 하였으며, 소담스러운 크고 위하여서.
-            </div> */}
           </li>
           <li className="pfActors">
             <p className="pfItem">출연진</p>

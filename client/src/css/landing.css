@@ -7,8 +7,8 @@
 
 #landing {
   text-align: center;
-  /* background: url("../images/97469997.png") no-repeat center;
-  background-size: cover; */
+  background: url("../images/97469997.png") no-repeat center;
+  background-size: cover;
 }
 
 .btnLanding {
@@ -25,11 +25,11 @@
 .btnLandingWrap {
   display: flex;
   justify-content: space-between;
-  width: 400px;
+  width: 380px;
   margin: 0 auto;
   position: fixed;
   bottom: 200px;
-  left: calc(50% - 200px);
+  left: calc(50% - 190px);
 }
 .btnLandingTwins {
   font-size: 1rem;
@@ -42,19 +42,81 @@
   max-width: 1280px;
   height: calc(100vh - 270px);
   margin: 0 auto;
-  padding: 200px 0;
+  padding: 150px 0;
   /* border: 1px solid red; */
 }
 .landingCarousel {
   padding: 0 0 30px;
 }
 
-.landingTextWrap > p {
-  font-size: 1.5rem;
+.landingTextWrap p {
+  font-size: 1.25rem;
   margin: 20px 0;
+}
+.landingPtagWrap,
+.landingPtagWrapFirst {
+  display: flex;
+  justify-content: center;
+  /* margin: 0 0 10px 0; */
 }
 
 .landingIcon {
   height: 50px;
   margin: 100px auto 0;
+}
+
+@media screen and (max-width: 768px) {
+  .landingTextWrap {
+    max-width: 768px;
+    padding: 200px 0;
+    /* border: 1px solid red; */
+  }
+  .landingPtagWrapFirst {
+    display: block;
+    margin: 0 0 20px 0;
+  }
+  .landingPtagWrap {
+    margin: 0 0 20px 0;
+  }
+  .landingPtagWrap > p,
+  .landingPtagWrapFirst > p {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .landingTextWrap > p {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    margin: 20px 10px;
+    padding: 0 40px;
+  }
+
+  .btnLandingWrap {
+    width: 290px;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 200px;
+    left: calc(50% - 145px);
+  }
+  .btnLandingTwins {
+    font-size: 1rem;
+    width: 140px;
+    height: 50px;
+    margin: 0 auto;
+    background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .landingTextWrap {
+    max-width: 500px;
+    padding: 150px 0;
+    /* border: 1px solid red; */
+  }
+  .landingPtagWrap,
+  .landingPtagWrapFirst {
+    display: block;
+    margin: 0 0 36px 0;
+  }
 }

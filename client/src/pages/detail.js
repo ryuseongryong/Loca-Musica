@@ -114,7 +114,7 @@ function Detail() {
 
   // 핸들러함수
   return (
-    <>
+    <div id="detail">
       {isLoading ? (
         <div className="detailPageLoader">
           <Loader />
@@ -140,7 +140,7 @@ function Detail() {
           <Footer />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

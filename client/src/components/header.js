@@ -1,15 +1,16 @@
-import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import '../css/Header.css';
-import { signout, notify, rememberPathname } from '../actions/index';
-import { CgChevronRight } from 'react-icons/cg';
-import { BiSearchAlt2, BiMenu } from 'react-icons/bi';
-import { IoMdClose } from 'react-icons/io';
+import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import "../css/Header.css";
+import { signout, notify, rememberPathname } from "../actions/index";
+import { CgChevronRight } from "react-icons/cg";
+import { BiSearchAlt2, BiMenu } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 
-import Searchbar from './searchbar';
-import MobileSearchbar from './mobileSearchbar';
-import { useState } from 'react';
+import Searchbar from "./searchbar";
+import MobileSearchbar from "./mobileSearchbar";
+import { useState } from "react";
+import dummyProfile from "../images/dummyProfile.png";
 
 function Header() {
   let history = useHistory();
@@ -41,11 +42,11 @@ function Header() {
 
       .then((res) => {
         // dispatch(notify("로그아웃 되었습니다"));
-        console.log('로그아웃 되었습니다');
-        dispatch(rememberPathname('/musical/main'));
+        console.log("로그아웃 되었습니다");
+        dispatch(rememberPathname("/musical/main"));
       })
       .then((res) => {
-        history.push('/musical/main');
+        history.push("/musical/main");
       })
       .catch((err) => {
         console.log(err);
@@ -60,10 +61,10 @@ function Header() {
     // window.location.reload();
     const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
-    if (url.pathname.includes('/search')) {
-      if (url.host === 'localhost:3000') {
+    if (url.pathname.includes("/search")) {
+      if (url.host === "localhost:3000") {
         window.location.assign(`http://localhost:3000/search`);
-      } else if (url.host === 'loca-musica.com') {
+      } else if (url.host === "loca-musica.com") {
         window.location.assign(`https://loca-musica.com/search`);
       }
     } else {
@@ -76,10 +77,10 @@ function Header() {
   const gotoMain = (event) => {
     const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
-    if (url.pathname.includes('/musical/main')) {
-      if (url.host === 'localhost:3000') {
+    if (url.pathname.includes("/musical/main")) {
+      if (url.host === "localhost:3000") {
         window.location.assign(`http://localhost:3000/musical/main`);
-      } else if (url.host === 'loca-musica.com') {
+      } else if (url.host === "loca-musica.com") {
         window.location.assign(`https://loca-musica.com/musical/main`);
       }
     } else {
@@ -98,129 +99,126 @@ function Header() {
 
   return (
     <div>
-      <div className='header-main'>
-        <div className='headerLeftSide'>
-          <div className='header-logo'>
-            <div className='logo' onClick={gotoMain}>
+      <div className="header-main">
+        <div className="headerLeftSide">
+          <div className="header-logo">
+            <div className="logo" onClick={gotoMain}>
               Loca Musica
             </div>
           </div>
-          <div className='header-section1'>
+          <div className="header-section1">
             {/* <Link to="/search" className="header-link-router"> */}
-            <div className='recommend-musical-button' onClick={goRecommend}>
-              뮤지컬 추천 &nbsp;
-              <CgChevronRight size='24' />
+            <div className="recommend-musical-button" onClick={goRecommend}>
+              뮤지컬 추천
+              <CgChevronRight size="22" />
               {/* <FiChevronRight className='header-search-btn-icon' /> */}
             </div>
             {/* </Link> */}
           </div>
-          {/* <div className="header-section2">
-        {userInfo.admin === 1 ? (
-          <Link to="/admin" className="header-link-router">
-            <div className="admin-musical-post-button">작품 등록</div>
-          </Link>
-        ) : null}
-      </div> */}
         </div>
-        <div className='headerRightSide'>
-          <div className='header-section3'>
+        <div className="headerRightSide">
+          <div className="header-section3">
             <Searchbar />
           </div>
           {/* 로그인 상태에 따라 보이는 버튼이 달라지도록 설정 */}
-          <div className='header-section4'>
+          <div className="header-section4">
             {!isSignin ? (
-              <Link to='/user/signin' className='header-link-router'>
-                <div className='signin-button'>로그인</div>
+              <Link to="/user/signin" className="header-link-router">
+                <div className="signin-button">로그인</div>
               </Link>
             ) : userInfo.admin === 1 ? (
-              <Link to='/admin' className='header-link-router'>
-                <div className='admin-musical-post-button'>작품 등록</div>
+              <Link to="/admin" className="header-link-router">
+                <div className="admin-musical-post-button">작품 등록</div>
               </Link>
             ) : (
-              <Link to='/user/info' className='header-link-router'>
-                <div className='signin-button'>마이페이지</div>
+              <Link to="/user/info" className="header-link-router">
+                <div className="signin-button">마이페이지</div>
               </Link>
             )}
-
-            {/* {isSignin ? (
-          <Link to="/user/info" className="header-link-router">
-            <div className="signin-button">마이페이지</div>
-          </Link>
-        ) : (
-          <Link to="/user/signin" className="header-link-router">
-            <div className="signin-button">로그인</div>
-          </Link>
-        )} */}
           </div>
-          <div className='header-section5'>
+          <div className="header-section5">
             {isSignin ? (
-              <div className='signout-button' onClick={signoutRequestHandler}>
+              <div className="signout-button" onClick={signoutRequestHandler}>
                 로그아웃
               </div>
             ) : (
-              <Link to='/user/signup' className='header-link-router'>
-                <div className='signup-button'>회원가입</div>
+              <Link to="/user/signup" className="header-link-router">
+                <div className="signup-button">회원가입</div>
               </Link>
             )}
           </div>
         </div>
-        <div className='mobileRightSideWrap'>
-          <div className='mobileRightSide'>
+        <div className="mobileRightSideWrap">
+          <div className="mobileRightSide">
             <BiSearchAlt2
-              className='mobileSearchIcon'
+              className="mobileSearchIcon"
               onClick={mobileSearchbarOpenHandler}
             />
             <BiMenu
-              className='mobileHeaderIcon'
+              className="mobileHeaderIcon"
               onClick={hiddenMenuOpenHandler}
             />
           </div>
           {isHiddenMeunOpen ? (
-            <div className='mobileRightSideHidden'>
-              <div className='mobileRightTop'>
+            <div className="mobileRightSideHidden">
+              <div className="mobileRightTop">
                 {isSignin ? (
-                  <Link to='/user/info' className='mobileMypage'>
+                  <Link
+                    to="/user/info"
+                    className="mobileMypage"
+                    onClick={hiddenMenuOpenHandler}
+                  >
                     <img
-                      className='imgMobileProfile'
-                      src={userInfo.profile}
-                      alt='사용자 프로필'
+                      className="imgMobileProfile"
+                      src={
+                        userInfo.profile !== null
+                          ? userInfo.profile
+                          : dummyProfile
+                      }
+                      alt="사용자 프로필"
+                      onClick={hiddenMenuOpenHandler}
                     />
-                    <p className='imgMobileText'>{userInfo.username}</p>
+                    <p
+                      className="imgMobileText"
+                      onClick={hiddenMenuOpenHandler}
+                    >
+                      {userInfo.username}
+                    </p>
                   </Link>
                 ) : (
-                  <span id='dummy'></span>
+                  <span id="dummy"></span>
                 )}
-                <span className='btnMobileClose'>
+                <span className="btnMobileClose">
                   <IoMdClose
-                    className='mobileHeaderIcon'
+                    className="mobileHeaderIcon"
                     onClick={hiddenMenuOpenHandler}
                   />
                 </span>
               </div>
-              <div className='mobileRightBottom'>
-                <p className='btnMobileRecommand' onClick={goRecommend}>
+              <div className="mobileRightBottom">
+                <p className="btnMobileRecommand" onClick={goRecommend}>
                   뮤지컬 추천
                 </p>
                 {isSignin ? (
                   <p
-                    className='btnMobileMember'
+                    className="btnMobileMember"
                     onClick={signoutRequestHandler}
                   >
                     로그아웃
                   </p>
                 ) : (
                   <div>
-                    <Link to='/user/signin'>
+                    <Link to="/user/signin">
                       <p
-                        className='btnMobileMember'
+                        className="btnMobileMember"
                         onClick={hiddenMenuOpenHandler}
                       >
                         로그인
                       </p>
                     </Link>
-                    <Link to='/user/signup' className='btnMobileMember'>
+                    <Link to="/user/signup" className="btnMobileMember">
                       <p
-                        className='btnMobileMember'
+                        className="btnMobileMember"
                         onClick={hiddenMenuOpenHandler}
                       >
                         회원가입
