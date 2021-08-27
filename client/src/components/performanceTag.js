@@ -33,7 +33,7 @@ function PerformanceTag({ isSignin, userInfo }) {
   const isDoubleKeyDown = () => {
     setDelta(Date.now());
     let now = Date.now();
-    if (now - delta < 10) {
+    if (now - delta < 1000) {
       console.log('Prevent double keydown!');
       return true;
     }
