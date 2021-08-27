@@ -161,13 +161,23 @@ function Main() {
     else {
       hatagList = document.querySelectorAll('.main-sidebar-hashtagList')[1];
     }
-    // 현재 해시태그 리스트가 안보일 경우 보이도록 설정(클래스명에 noShow가 있으면 제거, 보이도록 show추가)
+    // 현재 해시태그 리스트가 안보일 경우 보이도록 설정(클래스명에 noShow/noShow-wide 가 있으면 제거, 보이도록 show/show-wide추가)
     if (hatagList.classList.contains('noShow')) {
       hatagList.classList.remove('noShow');
       hatagList.classList.add('show');
       setHashtagDropDown(true);
     }
-    // 현재 해시태그 리스트가 보일 경우 안보이도록 설정(클래스명에 noShow 추가, 보이는 show 제거)
+    else if (hatagList.classList.contains('noShow-wide')) {
+      hatagList.classList.remove('noShow-wide');
+      hatagList.classList.add('show-wide');
+      setHashtagDropDown(true);
+    }
+    // 현재 해시태그 리스트가 보일 경우 안보이도록 설정(클래스명에 noShow/noShow-wide 추가, 보이는 show/show-wide 제거)
+    else if (hatagList.classList.contains('show-wide')) {
+      hatagList.classList.remove('show-wide');
+      hatagList.classList.add('noShow-wide');
+      setHashtagDropDown(false);
+    }
     else {
       hatagList.classList.remove('show');
       hatagList.classList.add('noShow');
@@ -181,6 +191,40 @@ function Main() {
       setHashtagDropDown(false); // 만약 해시태그를 보여지고 있는 상태에서 카테고리를 끌 경우 해시태그도 사라지도록 설정(icon변경 목적)
     }
     setHiddenCategory(!hiddenCategory);
+  }
+
+  const showHashtagForIcon = (value) => {
+    let hatagList = '';
+    // 일반 화면에서 해시태그 클릭시 보이도록 일반화면 해시태그 ul선택
+    if (value === 'noHidden') {
+      hatagList = document.querySelectorAll('.main-sidebar-hashtagList')[0];
+    }
+    // 786px이하 화면에서 해시태그 클릭시 보이도록 768px이하 화면 해시태그 ul선택
+    else {
+      hatagList = document.querySelectorAll('.main-sidebar-hashtagList')[1];
+    }
+    // 현재 해시태그 리스트가 안보일 경우 보이도록 설정(클래스명에 noShow/noShow-wide 가 있으면 제거, 보이도록 show/show-wide추가)
+    if (hatagList.classList.contains('noShow')) {
+      hatagList.classList.remove('noShow');
+      hatagList.classList.add('show');
+      setHashtagDropDown(true);
+    }
+    else if (hatagList.classList.contains('noShow-wide')) {
+      hatagList.classList.remove('noShow-wide');
+      hatagList.classList.add('show-wide');
+      setHashtagDropDown(true);
+    }
+    // 현재 해시태그 리스트가 보일 경우 안보이도록 설정(클래스명에 noShow/noShow-wide 추가, 보이는 show/show-wide 제거)
+    else if (hatagList.classList.contains('show-wide')) {
+      hatagList.classList.remove('show-wide');
+      hatagList.classList.add('noShow-wide');
+      setHashtagDropDown(false);
+    }
+    else {
+      hatagList.classList.remove('show');
+      hatagList.classList.add('noShow');
+      setHashtagDropDown(false);
+    }
   }
 
   return (
@@ -239,10 +283,11 @@ function Main() {
           </div>
           <div className="main-sidebar-hashtag-div">
             <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-              {hashtagDropDown ? <CgChevronDown size='22' /> : <CgChevronRight size='22' />}
+              {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('noHidden')} />
+                : <CgChevronRight size='22' onClick={() => showHashtagForIcon('noHidden')} />}
             </p>
             <input type='hidden' value='noHidden' />
-            <ul className="main-sidebar-hashtagList noShow">
+            <ul className="main-sidebar-hashtagList noShow-wide">
               {allHashtag.map((el, index) => (
                 <li
                   className="main-sidebar-hashtag"
@@ -309,7 +354,8 @@ function Main() {
             </div>
             <div className="main-sidebar-hashtag-div">
               <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-                {hashtagDropDown ? <CgChevronDown size='22' /> : <CgChevronRight size='22' />}
+                {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('hidden')} />
+                  : <CgChevronRight size='22' onClick={() => showHashtagForIcon('hidden')} />}
               </p>
               <input type='hidden' value='hidden' />
               <ul className="main-sidebar-hashtagList noShow">
@@ -336,7 +382,8 @@ function Main() {
           <div className='main-section2'>
             <div className='main-hidden-category-info'>
               <div className='main-hidden-category-info-left' onClick={showHiddenCategory}>카테고리
-                {hiddenCategory ? <CgChevronDown size='22' /> : <CgChevronRight size='22' />}
+                {hiddenCategory ? <CgChevronDown size='22' onClick={() => showHiddenCategory()} />
+                  : <CgChevronRight size='22' onClick={() => showHiddenCategory()} />}
               </div>
               {searchHashtagMusical === 0 ?
                 <div className='main-hidden-category-info-right'>분류 : 모든 뮤지컬</div>
