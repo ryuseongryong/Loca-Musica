@@ -464,9 +464,9 @@
 	  (1줄 최대 4개이므로 1~3개 일때 중앙으로 오지않고 저 빈 li 3개와 1~3개가 1줄을 이룰 수 있게 되어서 보일 때는 왼쪽으로 정렬된것 처럼 보임, 실제는 center) */
   .filling-empty-space {
     visibility: visible;
-    max-width: 163px;
+    max-width: 180px;
     height: 0px;
-    width: 163px;
+    width: 180px;
     margin-bottom: 1.5rem;
     margin-right: 10px;
   }

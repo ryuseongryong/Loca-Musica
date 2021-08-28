@@ -440,8 +440,7 @@ function Main() {
                           <input type='hidden' value={el.title} />
                         </li>)
                   }
-                  {/* 758px ~ 376px에서 사용할 layout용, left로 정렬되기 위해서 지정 / 1~3개가 있을때 중앙에 배치되는 것을 방지 */}
-                  <li className='filling-empty-space'></li>
+                  {/* 758px ~ 376px에서 사용할 layout용, left로 정렬되기 위해서 지정 / 1~2개가 있을때 중앙에 배치되는 것을 방지 */}
                   <li className='filling-empty-space'></li>
                   <li className='filling-empty-space'></li>
                 </ul>
