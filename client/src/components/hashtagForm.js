@@ -86,25 +86,27 @@ function HashtagForm({
 
   function handleChange(event) {
     let str = event.target.value;
-
-    if (event.key !== 'Enter' && str.slice(-1) === ' '){
+    if (str.slice(-1) === ' '){
+      // console.log("There is a space in the string@!!!!!")
       str = str.slice(0, str.length - 1)
     }
+    // console.log(str)
+    // if (str.includes(' ')) console.log("str has space")
     setInputValue(str);
   }
 
-  function handleKeydown(event) {
-    if (event.key === ' ') {
-      event.preventDefault();
-      return;
-    }
-    if (event.key !== 'Enter') return;
-    event.preventDefault();
-    // console.log('Enter Pressed!');
-    if (isDoubleKeyDown()) return;
-    setInputValue('');
-    regiesterHashtag();
-  }
+  // function handleKeydown(event) {
+  //   if (event.key === ' ') {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  //   if (event.key !== 'Enter') return;
+  //   event.preventDefault();
+  //   // console.log('Enter Pressed!');
+  //   if (isDoubleKeyDown()) return;
+  //   setInputValue('');
+  //   regiesterHashtag();
+  // }
 
   function handleClick(event) {
     event.preventDefault();
@@ -121,7 +123,7 @@ function HashtagForm({
           placeholder='해시태그는공백없이7자이하로입력해야등록이됩니다!'
           value={inputValue}
           onChange={handleChange}
-          onKeyDown={handleKeydown}
+          // onKeyDown={handleKeydown}
           autoComplete='off'
         />
         <button id='btnHashtag' onClick={handleClick}>
