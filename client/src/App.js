@@ -35,7 +35,7 @@ function App() {
     if (url.pathname !== "/") {
       setIsLanding(false);
     }
-  }, []);
+  }, [isLanding]);
   // console.log(url.pathname);
 
   return (
