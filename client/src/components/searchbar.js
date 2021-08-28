@@ -9,7 +9,7 @@ import * as Hangul from 'korean-regexp';
 let numListStartIdx = -1;
 let numListEndIdx = -1;
 
-const Searchbar = function () {
+function Searchbar() {
   // Redux State
   const allMusicalData = useSelector((state) => {
     let data = state.allMusicalDataReducer.arrAllMusicalData;
@@ -43,8 +43,8 @@ const Searchbar = function () {
   function filterResults(searchValue) {
     if (!searchValue) return;
 
-    const reg = Hangul.getRegExp(searchValue);
-    const filtered = allMusicalData.filter((item) => {
+    let reg = Hangul.getRegExp(searchValue);
+    let filtered = allMusicalData.filter((item) => {
       return reg.test(item.title);
     });
     setSearchResult(filtered);
@@ -81,7 +81,7 @@ const Searchbar = function () {
   function handleClickSearchResult(title) {
     //console.log('Clicked a title: ', title);
     setStr('');
-    const url = new URL(window.location.href);
+    let url = new URL(window.location.href);
     //console.log('current url: ', url);
 
     // 현재 /musical/:title 페이지에 있다면
@@ -106,10 +106,10 @@ const Searchbar = function () {
   function handleKeyDown(event) {
     if (searchResult.length === 0) return;
 
-    const key = event.key;
-    const scrollTop = olElm.current.scrollTop;
-    const scrollHeight = olElm.current.scrollHeight;
-    const liHeight = scrollHeight / searchResult.length;
+    let key = event.key;
+    let scrollTop = olElm.current.scrollTop;
+    let scrollHeight = olElm.current.scrollHeight;
+    let liHeight = scrollHeight / searchResult.length;
     function scrollTo(options) {
       olElm.current.scrollTo(options);
     }

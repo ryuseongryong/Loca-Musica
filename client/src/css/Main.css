@@ -3,7 +3,7 @@
   width: 100%;
   /* footer조절 */
   /* height: calc(100vh - 5rem); */
-  height: 100%;
+  /* height: 100%; */
   background-color: black;
 }
 
@@ -12,8 +12,8 @@
 	width: 100%;
 	margin-bottom: 20px;
 	/* 내용이 없으면 주석 풀어서 footer 아래에 위치하도록 설정 */
-	overflow: auto;
-	height: calc(100vh - 19rem);
+	/* overflow: auto; */
+	/* height: calc(100vh - 19rem); */
 }
 
 .main-section1 {
@@ -29,17 +29,50 @@
 	max-width: 1280px;
 	width: calc(100% - 330px);
 	/* border: 1px solid red; */
+	/* display: flex;
+	  flex-direction: column;
+	  align-items: center; */
+	margin: 0 50px;
+	padding-top: 200px;
+  }
+  
+  .main-section3 {
+	  display: none;
+	  flex: 1;
+	  /* border:  1px solid red; */
+  }
+  
+  /* sidebar */
+  .main-sidebar-genre-info {
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: left;
+  }
+  
+  .main-sidebar-genreList {
+	list-style: none;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	/* margin: 0 50px; */
-	margin-left: 20px;
-}
-
-.main-section2-loading {
-  flex: 4;
-  /* border: 1px solid red; */
-  /* display: flex;
+	margin-bottom: 20px;
+  }
+  
+  .main-sidebar-genre {
+	margin: 5px 0;
+	cursor: pointer;
+  }
+  
+  .main-sidebar-withPeople-info {
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: left;
+  }
+  
+  .main-sidebar-withPeopleList {
+	list-style: none;
+	display: flex;
 	flex-direction: column;
 	align-items: center; */
   margin: 0 50px;
@@ -54,8 +87,8 @@
 
 /* sidebar */
 .main-sidebar-genre-info {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 500;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -74,8 +107,8 @@
 }
 
 .main-sidebar-withPeople-info {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 22px;
+    font-weight: 500;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -94,8 +127,8 @@
 }
 
 .main-sidebar-hashtag-info {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 500;
   margin-bottom: 10px;
   /* text-align: left; */
   display: flex;
@@ -121,8 +154,8 @@
   /* padding-left: 20px; */
   padding-top: 20px;
   /* margin-bottom: 20px; */
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 /*! 같은 높이를 가진 태그 정렬  */
@@ -143,386 +176,450 @@
 	/* flex : 0 1 18%; */
 	width: 224px;
 	height: 360px;
+
 	display: flex;
-	justify-content: flex-end;
-	align-items: flex-end;
-	margin-bottom: 1.5rem;
-	margin-right: 1rem;
-}
-
-/* li > img  */
-.main-musical-image {
-  height: 100%;
-  width: 100%;
-  border-radius: 10px;
-  cursor: pointer;
-}
-/*! css end */
-
-/*! 서로 다른 높이를 가진 태그 정렬, 단 높이를 정해야 한다. */
-/* ul */
-/* column wrap을 사용하면 서로 다른 높이를 가진 태그를 정렬할 수 있다. */
-/* 높이가 고정되어 있음, 고정된 높이가 초과되면 가로로 생성됨 */
-/* 1. 세로로 먼저 정렬 2. 해당 높이를 초과하면 가로애 새로 추가후 이 후 세로로 정렬 */
-/* 높이가 고정되어 있기 때문에 등록할 뮤지컬의 수를 지정해야 한다(더 추가할 경우 가로로 더 추가되어서 css 이상해짐 */
-/* 세로에 추가할 수 있는 길이 설정 */
-/* .main-musicalList {
+	justify-content: flex-start;
+	align-items: center;
+	cursor: pointer;
+  }
+  
+  .main-sidebar-hashtagList {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+  }
+  
+  .main-sidebar-hashtag {
+	margin: 5px 0;
+	cursor: pointer;
+  }
+  
+  /* musical list */
+  .main-musicalList-info {
+	/* padding-left: 20px; */
+	padding-top: 20px;
+	/* margin-bottom: 20px; */
+	font-size: 28px;
+	font-weight: bold;
+  }
+  
+  /*! 같은 높이를 가진 태그 정렬  */
+  /* ul */
+  .main-musicalList {
+	width: 100%;
 	margin-top: 35px;
 	list-style: none;
 	display: flex;
-	flex-flow: column wrap;
-	justify-content: flex-start;
-  	align-items: flex-start;
-	height: 90vh; 
-} */
-
-/* li, li 클래스명 변경 필요 */
-/* .main-musical-one {
-	width: 14%;
-	height: 260px;
-	margin: 10px;
-}
-.main-musical-two {
-	width: 14%;
-	height: 290px;
-	margin: 10px;
-}
-.main-musical-three {
-	width: 14%;
-	height: 320px;
-	margin: 10px;
-}
-.main-musical-four {
-	width: 14%;
-	height: 350px;
-	margin: 10px;
-}
-.main-musical-five {
-	width: 14%;
-	height: 380px;
-	margin: 10px;
-} */
-
-/* li > img */
-/* .main-musical-image {
+	justify-content: left;
+	align-items: center;
+	flex-wrap: wrap;
+  }
+  
+  /* li, li 클래스명 변경 필요 */
+  .main-musical {
+	  /* height: 18rem; */
+	  /* flex : 0 1 18%; */
+	  width: 224px;
+	  height: 360px;
+	  display: flex;
+	  justify-content: flex-end;
+	  align-items: flex-end;
+	  margin-bottom: 1.5rem;
+	  margin-right: 1rem;
+  }
+  
+  /* li > img  */
+  .main-musical-image {
 	height: 100%;
 	width: 100%;
 	border-radius: 10px;
 	cursor: pointer;
-} */
-
-/*! css end  */
-
-.back-allMusical-div {
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.back-allMusical-btn {
-  height: 40px;
-  width: 150px;
-}
-
-.main-noSearch {
-  width: 202px;
-  height: 297px;
-  border-radius: 10px;
-  margin: 5px;
-  /* 정렬 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* border gradient */
-  border: double 2px transparent;
-  background-image: linear-gradient(black, black),
-    linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.main-top-btn {
-	width: 50px;
-	height: 50px;
-	position: fixed;
-	right: 5%;
-	bottom : 20px;
-	z-index: 500;
-}
-
-.main-top-btn:hover {
-  background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
-}
-
-.main-top-icon {
-  font-size: 27px;
-}
-
-.noShow {
-  height: 0px;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 600ms, visibility 600ms;
-  overflow: hidden;
-  /* display: none; */
-}
-
-.noShow-wide {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 600ms, visibility 600ms;
-  overflow: hidden;
-}
-
-.show {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 600ms, visibility 600ms;
-}
-
-.show-wide {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 600ms, visibility 600ms;
-}
-
-.main-hidden-category-info {
-  display: none;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main-hidden-category-div {
-  display: none;
-}
-
-.main-footer {
-
-}
-/* 뮤지컬 li, css layout용, 실제 값은 없음 */
-.filling-empty-space {
+  }
+  /*! css end */
+  
+  /*! 서로 다른 높이를 가진 태그 정렬, 단 높이를 정해야 한다. */
+  /* ul */
+  /* column wrap을 사용하면 서로 다른 높이를 가진 태그를 정렬할 수 있다. */
+  /* 높이가 고정되어 있음, 고정된 높이가 초과되면 가로로 생성됨 */
+  /* 1. 세로로 먼저 정렬 2. 해당 높이를 초과하면 가로애 새로 추가후 이 후 세로로 정렬 */
+  /* 높이가 고정되어 있기 때문에 등록할 뮤지컬의 수를 지정해야 한다(더 추가할 경우 가로로 더 추가되어서 css 이상해짐 */
+  /* 세로에 추가할 수 있는 길이 설정 */
+  /* .main-musicalList {
+	  margin-top: 35px;
+	  list-style: none;
+	  display: flex;
+	  flex-flow: column wrap;
+	  justify-content: flex-start;
+		align-items: flex-start;
+	  height: 90vh; 
+  } */
+  
+  /* li, li 클래스명 변경 필요 */
+  /* .main-musical-one {
+	  width: 14%;
+	  height: 260px;
+	  margin: 10px;
+  }
+  .main-musical-two {
+	  width: 14%;
+	  height: 290px;
+	  margin: 10px;
+  }
+  .main-musical-three {
+	  width: 14%;
+	  height: 320px;
+	  margin: 10px;
+  }
+  .main-musical-four {
+	  width: 14%;
+	  height: 350px;
+	  margin: 10px;
+  }
+  .main-musical-five {
+	  width: 14%;
+	  height: 380px;
+	  margin: 10px;
+  } */
+  
+  /* li > img */
+  /* .main-musical-image {
+	  height: 100%;
+	  width: 100%;
+	  border-radius: 10px;
+	  cursor: pointer;
+  } */
+  
+  /*! css end  */
+  
+  .back-allMusical-div {
+	margin: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  .back-allMusical-btn {
+	height: 40px;
+	width: 150px;
+  }
+  
+  .main-noSearch {
+	width: 202px;
+	height: 297px;
+	border-radius: 10px;
+	margin: 5px;
+	/* 정렬 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* border gradient */
+	border: double 2px transparent;
+	background-image: linear-gradient(black, black),
+	  linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  .main-top-btn {
+	  width: 50px;
+	  height: 50px;
+	  position: fixed;
+	  right: 5%;
+	  bottom : 20px;
+	  z-index: 500;
+  }
+  
+  .main-top-btn:hover {
+	background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  }
+  
+  .main-top-icon {
+	font-size: 27px;
+  }
+  
+  .noShow {
+	height: 0px;
 	visibility: hidden;
-}
-
-/* 반응형 */
-@media screen and (max-width: 768px) {
-	.main-container {
-		/* height: 100%; */
-		height: calc(100vh - 14rem);
-		position: relative;
-	}
-
-	/* footer */
-	/* #footer {
-		position:absolute;
-		bottom:0;
-		z-index: 100;
-	} */
-
-	.main-wrap {
-		margin-top: 80px;
-	}
-
-	.main-section1 {
-		display: none;
-	}
-
-	.main-section2 {
-		/* margin-left: 1rem;
-		margin-right: 1rem; */
-		width: 100%;
-		margin: 0 auto;
-		padding: 0 10px;
-	}
-
-	.main-section3 {
-		display: none;
-	}
-
-	.main-musicalList-info {
-		display: none;
-	}
-
-	/* 카테고리 + 해시태그 보여주는 공간 */
-	.main-hidden-category-div {
-		display: block;
-		width: 300px;
-		height: calc(100vh - 52px);
-		padding: 12px 24px;
-		position: absolute;
-		top: 25px;
-		overflow: auto;
-		background: rgba(0, 0, 0, 0.81);
-		backdrop-filter: blur(4px);
-	}
-	
-	/* info */
-	.main-hidden-category-info {
-		display: flex;
-		padding: 0 14px;
-	}
-	/* info 왼쪽, 오른쪽 */
-	.main-hidden-category-info-left {
-		font-size: large;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.main-hidden-category-info-right {
-		font-size: large;
-	}
-
-	/* 뮤지컬 ul */
-	.main-musicalList {
-		width: 100%;
-		margin-top: 35px;
-		list-style: none;
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		justify-content: center;
-		float: left;
-	}
-
-	/* 뮤지컬 li */
-	.main-musical {
-		/* height: 24rem; */
-		/* flex : 0 1 45%;  */
-		max-width: 163px;
-		height: 230px;
-		width: 163px;
-		display: flex;
-		justify-content: flex-end;
-		align-items: flex-end;
-		margin-bottom: 1.5rem;
-		margin-right: 10px;
-	}
-	/* 뮤지컬 li, 단 내용은 없고 css layout을 왼쪽으로 보이게 하기 위해서 생성한 li, 같은 li가 3개있음 / 758px ~ 376px에서만 사용
-	(1줄 최대 4개이므로 1~3개 일때 중앙으로 오지않고 저 빈 li 3개와 1~3개가 1줄을 이룰 수 있게 되어서 보일 때는 왼쪽으로 정렬된것 처럼 보임, 실제는 center) */
-	.filling-empty-space {
-		visibility: visible;
-		max-width: 163px;
-		height: 0px;
-		width: 163px;
-		margin-bottom: 1.5rem;
-		margin-right: 10px;
-	}
-
-	/* 뮤지컬 li(결과없음) */
-	.main-noSearch {
-		margin-right: 50px;
-		/* height: 24rem; */
-		/* flex : 0 1 40%; */
-		height: 264px;
-		width: 177px;
-		border-radius: 10px;
-		margin: 5px;
-		/* 정렬 */
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: large;
-	}
-
-	/* 모든 뮤지컬 조회 버튼 div */
-	.back-allMusical-div {
-		width: 92%;
-	}
-	/* 모든 뮤지컬 조회 버튼 */
+	opacity: 0;
+	transition: opacity 600ms, visibility 600ms;
+	overflow: hidden;
+	/* display: none; */
+  }
+  
+  .noShow-wide {
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 600ms, visibility 600ms;
+	overflow: hidden;
+  }
+  
+  .show {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 600ms, visibility 600ms;
+  }
+  
+  .show-wide {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 600ms, visibility 600ms;
+  }
+  
+  .main-hidden-category-info {
+	display: none;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  .main-hidden-category-div {
+	display: none;
+  }
+  
+  .main-footer {
+  
+  }
+  /* 뮤지컬 li, css layout용, 실제 값은 없음 */
+  .filling-empty-space {
+	  visibility: hidden;
+  }
+  /* icon 역활을 대신하는 img */
+  .main-right-icon {
+	width: 20px;
+	height: 20px;
+  }
+  .main-right-icon-wide {
+	width: 24px;
+	height: 24px;
+  }
+  .main-down-icon {
+	width: 20px;
+	height: 20px;
+  }
+  
+  /* 반응형 */
+  @media screen and (max-width: 768px) {
+	  .main-container {
+		  /* height: 100%; */
+/* 		  height: calc(100vh - 12rem); */
+		  position: relative;
+	  }
+  
+	  /* footer */
+	  /* #footer {
+		  position:absolute;
+		  bottom:0;
+		  z-index: 100;
+	  } */
+  
+	  .main-wrap {
+		  margin-top: 52px;
+	  }
+  
+	  .main-section1 {
+		  display: none;
+	  }
+  
+	  .main-section2 {
+		  /* margin-left: 1rem;
+		  margin-right: 1rem; */
+		  width: 100%;
+		  margin: 0 auto;
+		  padding: 0 10px;
+	  }
+  
+	  .main-section3 {
+		  display: none;
+	  }
+  
+	  .main-musicalList-info {
+		  display: none;
+	  }
+  
+	  /* 카테고리 + 해시태그 보여주는 공간 */
+	  .main-hidden-category-div {
+		  display: block;
+		  width: 300px;
+		  height: calc(100vh - 52px);
+		  padding: 12px 24px;
+		  position: absolute;
+		  top: 45px;
+		  overflow: auto;
+		  background: rgba(0, 0, 0, 0.81);
+		  backdrop-filter: blur(4px);
+	  }
+	  
+	  /* info */
+	  .main-hidden-category-info {
+		  margin-top: 20px;
+		  display: flex;
+		  padding: 0 14px;
+	  }
+	  /* info 왼쪽, 오른쪽 */
+	  .main-hidden-category-info-left {
+		  font-size: large;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+	  }
+	  .main-hidden-category-info-right {
+		  font-size: large;
+	  }
+  
+	  /* 뮤지컬 ul */
+	  .main-musicalList {
+		  width: 100%;
+		  margin-top: 35px;
+		  list-style: none;
+		  display: flex;
+		  align-items: center;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		  float: left;
+	  }
+  
+	  /* 뮤지컬 li */
+	  .main-musical {
+		  /* height: 24rem; */
+		  /* flex : 0 1 45%;  */
+		  max-width: 163px;
+		  height: 230px;
+		  width: 163px;
+		  display: flex;
+		  justify-content: flex-end;
+		  align-items: flex-end;
+		  margin-bottom: 1.5rem;
+		  margin-right: 10px;
+	  }
+	  /* 뮤지컬 li, 단 내용은 없고 css layout을 왼쪽으로 보이게 하기 위해서 생성한 li, 같은 li가 3개있음 / 758px ~ 376px에서만 사용
+	  (1줄 최대 4개이므로 1~3개 일때 중앙으로 오지않고 저 빈 li 3개와 1~3개가 1줄을 이룰 수 있게 되어서 보일 때는 왼쪽으로 정렬된것 처럼 보임, 실제는 center) */
+	  .filling-empty-space {
+		  visibility: visible;
+		  max-width: 163px;
+		  height: 0px;
+		  width: 163px;
+		  margin-bottom: 1.5rem;
+		  margin-right: 10px;
+	  }
+  
+	  /* 뮤지컬 li(결과없음) */
+	  .main-noSearch {
+		  margin-right: 50px;
+		  /* height: 24rem; */
+		  /* flex : 0 1 40%; */
+		  height: 264px;
+		  width: 177px;
+		  border-radius: 10px;
+		  margin: 5px;
+		  /* 정렬 */
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  font-size: large;
+	  }
+  
+	  /* 모든 뮤지컬 조회 버튼 div */
+	  .back-allMusical-div {
+		  width: 92%;
+	  }
+	  /* 모든 뮤지컬 조회 버튼 */
 	.back-allMusical-btn {
 		height: 60px;
 		width: 240px;
 		font-size: large;
+		margin-bottom:18vh;
 	}
-
-	/* 카테고리 장르 + info */
-	.main-sidebar-genre {
-		font-size: large;
-	}
-	.main-sidebar-genre-info {
-		font-size: x-large;
-	}
-	/* 카테고리 동행자 + info */
-	.main-sidebar-withPeople {
-		font-size: large;
-	}
-	.main-sidebar-withPeople-info {
-		font-size: x-large;
-	}
-	/* 카테고리 해시태그 + info */
-	.main-sidebar-hashtag {
-		font-size: large;
-	}
-	.main-sidebar-hashtag-info {
-		font-size: x-large;
-	}
-
-}
-
-@media screen and (max-width: 375px) {
-	
-	.main-section2 {
-		margin-left: 1rem;
-		margin-right: 1rem;
-	}
-
-	.main-hidden-category-info-left {
-		font-size: 16px;
-	}
-	.main-hidden-category-info-right {
-		font-size: 16px;
-	}
-
-	/* 카테고리 보여주기, 분류 보여주는 공간 */
-	.main-hidden-category-info {
-		height: 2em;
-		justify-content: space-between;
-		align-items: center;
-		padding: 0;
-	}
-
-	/* 카테고리 + 해시태그 보여주는 공간 */
-	.main-hidden-category-div {
-		width: 250px;
-		top: 25px;
-	}
-
-	/* 뮤지컬 ul */
-	.main-musicalList {
-		align-items: center;
-		display: flex;
-		justify-content: space-between;
-		float: left;
-	}
-
-	/* 뮤지컬 li */
-	.main-musical {
-		height: 14rem;
-		flex : 0 1 47%;
-		margin-right: 0;
-	}
-	/* 758px ~ 376px에서 layout에 사용하는 빈 li, 375px에서는 사용하지 않아서 제거 */
-	.filling-empty-space {
-		display: none;
-	}
-
-	/* 뮤지컬 li(결과없음) */
-	.main-noSearch {
-		height: 14rem;
-		flex : 0 1 47%;
-	}
-
-	/* 모든 뮤지컬 조회 버튼 div */
-	.back-allMusical-div{
-		margin-bottom: 2em;
-	}
-	/* 모든 뮤지컬 조회 버튼 */
+  
+	  /* 카테고리 장르 + info */
+	  .main-sidebar-genre {
+		  font-size: large;
+	  }
+	  .main-sidebar-genre-info {
+		  font-size: x-large;
+	  }
+	  /* 카테고리 동행자 + info */
+	  .main-sidebar-withPeople {
+		  font-size: large;
+	  }
+	  .main-sidebar-withPeople-info {
+		  font-size: x-large;
+	  }
+	  /* 카테고리 해시태그 + info */
+	  .main-sidebar-hashtag {
+		  font-size: large;
+	  }
+	  .main-sidebar-hashtag-info {
+		  font-size: x-large;
+	  }
+  
+  }
+  
+  @media screen and (max-width: 375px) {
+	  
+	  .main-section2 {
+		  margin-left: 1rem;
+		  margin-right: 1rem;
+	  }
+  
+	  .main-hidden-category-info-left {
+		  font-size: 16px;
+	  }
+	  .main-hidden-category-info-right {
+		  font-size: 16px;
+	  }
+  
+	  /* 카테고리 보여주기, 분류 보여주는 공간 */
+	  .main-hidden-category-info {
+		  height: 2em;
+		  justify-content: space-between;
+		  align-items: center;
+		  padding: 0;
+	  }
+  
+	  /* 카테고리 + 해시태그 보여주는 공간 */
+	  .main-hidden-category-div {
+		  width: 250px;
+		  top: 45px;
+	  }
+  
+	  /* 뮤지컬 ul */
+	  .main-musicalList {
+		  align-items: center;
+		  display: flex;
+		  justify-content: space-between;
+		  float: left;
+	  }
+  
+	  /* 뮤지컬 li */
+	  .main-musical {
+		  height: 14rem;
+		  flex : 0 1 47%;
+		  margin-right: 0;
+	  }
+	  /* 758px ~ 376px에서 layout에 사용하는 빈 li, 375px에서는 사용하지 않아서 제거 */
+	  .filling-empty-space {
+		  display: none;
+	  }
+  
+	  /* 뮤지컬 li(결과없음) */
+	  .main-noSearch {
+		  height: 14rem;
+		  flex : 0 1 47%;
+	  }
+  
+	  /* 모든 뮤지컬 조회 버튼 div */
+	  .back-allMusical-div{
+		  margin-bottom: 2em;
+	  }
+	  /* 모든 뮤지컬 조회 버튼 */
 	.back-allMusical-btn {
 		height: 50px;
 		width: 200px;
 		font-size: large;
+		margin-bottom:18vh;
 	}
-}
+  }
+  
+

@@ -25,7 +25,7 @@ function WordCloud1({ isSignin, controlLikeRequestHandler, hashtagsData }) {
 
   useEffect(() => {
     count++;
-    console.log('Render Count: ', count);
+    // console.log('Render Count: ', count);
     // setData(makeWordcloudData(hashtagsData));
   }, [hashtagsData]);
 
@@ -69,7 +69,7 @@ function WordCloud1({ isSignin, controlLikeRequestHandler, hashtagsData }) {
       return;
     }
 
-    const style = event.target.style;
+    let style = event.target.style;
     style.fill = fill;
 
     let hashtag = event.target.textContent;
@@ -80,14 +80,14 @@ function WordCloud1({ isSignin, controlLikeRequestHandler, hashtagsData }) {
   }
 
   function onWordMouseOver(event) {
-    const style = event.target.style;
+    let style = event.target.style;
     style.cursor = 'pointer';
     fill = style.fill;
     style.fill = '#fff';
   }
 
   function onWordMouseOut(event) {
-    const style = event.target.style;
+    let style = event.target.style;
     style.textDecoration = 'none';
     style.cursor = 'none';
     style.fill = fill;

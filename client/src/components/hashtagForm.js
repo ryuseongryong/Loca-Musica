@@ -4,15 +4,13 @@ import { useDispatch } from "react-redux";
 import { notify } from "../actions/index";
 import ChoiceModal from "./choiceModal";
 
-const HashtagForm = ({
+function HashtagForm({
   isSignin,
   userInfo,
   hashtagsData,
   sendHashtagRequestHandler,
-}) => {
+}) {
   const email = userInfo.email;
-  // const url = new URL(window.location.href);
-  // const title = decodeURI(url.pathname.slice(9));
   const dispatch = useDispatch();
 
   const [inputValue, setInputValue] = useState('');
@@ -23,21 +21,21 @@ const HashtagForm = ({
     setDelta(Date.now());
     let now = Date.now();
     if (now - delta < 1000) {
-      console.log('Prevent double enter!');
+      // console.log('Prevent double enter!');
       return true;
     }
     return false;
   }
 
   function checkDoubleLike(hashtag, email) {
-    const arrSelectedHashtag = hashtagsData.filter((el) => el.name === hashtag);
+    let arrSelectedHashtag = hashtagsData.filter((el) => el.name === hashtag);
     // 기존에 등록된 해시태그가 아닐경우
     if (arrSelectedHashtag.length === 0) {
       return false;
     } 
     // 기존에 등록된 해시태그일 경우
     else {
-      const isUserLiked = arrSelectedHashtag[0].userInfo
+      let isUserLiked = arrSelectedHashtag[0].userInfo
         .map((el) => el.email)
         .includes(email);
       // 유저가 이미 공감을 했을 경우
@@ -82,20 +80,29 @@ const HashtagForm = ({
       dispatch(notify('이미 공감을 표시한 해시태그입니다'));
       return;
     }
+    setInputValue('');
     sendHashtagRequestHandler(hashtag);
   }
 
   function handleChange(event) {
     let str = event.target.value;
-    if (str.slice(-1) === ' ') return;
+
+    if (event.key !== 'Enter' && str.slice(-1) === ' '){
+      str = str.slice(0, str.length - 1)
+    }
     setInputValue(str);
   }
 
   function handleKeydown(event) {
+    if (event.key === ' ') {
+      event.preventDefault();
+      return;
+    }
     if (event.key !== 'Enter') return;
     event.preventDefault();
-    console.log('Enter Pressed!');
+    // console.log('Enter Pressed!');
     if (isDoubleKeyDown()) return;
+    setInputValue('');
     regiesterHashtag();
   }
 
@@ -111,10 +118,11 @@ const HashtagForm = ({
           id='inputHashtag'
           name='hashtag'
           type='text'
-          placeholder='공백 없이 7자 이하로 입력해 주세요.'
+          placeholder='해시태그는공백없이7자이하로입력해야등록이됩니다!'
           value={inputValue}
           onChange={handleChange}
           onKeyDown={handleKeydown}
+          autoComplete='off'
         />
         <button id='btnHashtag' onClick={handleClick}>
           등록

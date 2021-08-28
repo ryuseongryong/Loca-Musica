@@ -9,6 +9,10 @@ import Footer from "../components/footer";
 import { CgChevronRight } from "react-icons/cg";
 import { CgChevronDown } from "react-icons/cg";
 import { BiArrowToTop } from "react-icons/bi";
+import RightIcon from '../images/right_icon.png'; // 배경이 연함
+import DownIcon from '../images/down_icon.png';
+import RightIconWide from '../images/right_icon_wide.png'; // 배경이 진함
+import DownIconWide from '../images/down_icon_wide.png';
 
 
 function Main() {
@@ -240,6 +244,7 @@ function Main() {
           <Loader />
         </div>
         :
+        <div>
         <div className="main-wrap">
           {/* main 대신 musical로 변경 */}
           <div className='main-container'>
@@ -295,8 +300,10 @@ function Main() {
               </div>
               <div className="main-sidebar-hashtag-div">
                 <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-                  {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('noHidden')} />
-                    : <CgChevronRight size='22' onClick={() => showHashtagForIcon('noHidden')} />}
+                  {hashtagDropDown ? <img src={DownIconWide} alt='icon-image' className="main-down-icon" onClick={() => showHashtagForIcon('noHidden')} />
+                    : <img src={RightIconWide} alt='icon-image' className="main-right-icon-wide" onClick={() => showHashtagForIcon('noHidden')} />}
+                  {/* {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('noHidden')} />
+                    : <CgChevronRight size='22' onClick={() => showHashtagForIcon('noHidden')} />} */}
                 </p>
                 <input type='hidden' value='noHidden' />
                 {/* 만약 해시태그는 클릭해야 보이지만 해시태그 리스트의 height는 유지하고 싶을 경우 noShow-wide className사용 */}
@@ -369,8 +376,10 @@ function Main() {
                 </div>
                 <div className="main-sidebar-hashtag-div">
                   <p className="main-sidebar-hashtag-info" onClick={showHashtag}>해시태그
-                    {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('hidden')} />
-                      : <CgChevronRight size='22' onClick={() => showHashtagForIcon('hidden')} />}
+                    {hashtagDropDown ? <img src={DownIcon} alt='icon-image' className="main-down-icon" onClick={() => showHashtagForIcon('hidden')} />
+                      : <img src={RightIcon} alt='icon-image' className="main-right-icon-wide" onClick={() => showHashtagForIcon('hidden')} />}
+                    {/* {hashtagDropDown ? <CgChevronDown size='22' onClick={() => showHashtagForIcon('hidden')} />
+                      : <CgChevronRight size='22' onClick={() => showHashtagForIcon('hidden')} />} */}
                   </p>
                   <input type='hidden' value='hidden' />
                   <ul className="main-sidebar-hashtagList noShow">
@@ -390,8 +399,10 @@ function Main() {
             <div className='main-section2'>
               <div className='main-hidden-category-info'>
                 <div className='main-hidden-category-info-left' onClick={showHiddenCategory}>카테고리
-                  {hiddenCategory ? <CgChevronDown size='22' onClick={() => showHiddenCategory()} />
-                    : <CgChevronRight size='22' onClick={() => showHiddenCategory()} />}
+                  {/* {hiddenCategory ? <CgChevronDown size='22' onClick={() => showHiddenCategory()} />
+                    : <CgChevronRight size='22' onClick={() => showHiddenCategory()} />} */}
+                  {hiddenCategory ? <img src={DownIconWide} alt='icon-image' className="main-down-icon" onClick={showHiddenCategory} />
+                    : <img src={RightIconWide} alt='icon-image' className="main-right-icon" onClick={showHiddenCategory} />}
                 </div>
                 {searchHashtagMusical === 0 ?
                   <div className='main-hidden-category-info-right'>분류 : 모든 뮤지컬</div>
@@ -447,7 +458,9 @@ function Main() {
             </div> */}
           </div>
           <button className='main-top-btn' onClick={gotoTop}><BiArrowToTop className='main-top-icon' /></button>
-          <Footer className='main-footer' />
+          
+        </div>
+        <Footer className='main-footer' />
         </div>
       }
     </>

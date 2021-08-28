@@ -1,14 +1,14 @@
 /*eslint-disable*/
 
-import '../css/detail.css';
-import axios from 'axios';
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { notify, setIsModal } from '../actions/index';
-import ChoiceModal from './choiceModal';
-import WordCloud1 from './wordCloud';
-import HashtagForm from './hashtagForm';
-// import Auth from './auth';
+import '../css/detail.css'
+import axios from "axios";
+import { useEffect, useState, useMemo, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { notify, setIsModal } from "../actions/index";
+import ChoiceModal from "./choiceModal";
+import WordCloud1 from "./wordCloud";
+import HashtagForm from "./hashtagForm"
+// import WordCloudCover from "./wordCloudCover"
 // import _ from "lodash";
 
 function PerformanceTag({ isSignin, userInfo }) {
@@ -278,8 +278,6 @@ function PerformanceTag({ isSignin, userInfo }) {
     }
   };
 
-  // const memoizedControlLikeRequestHandler = useCallback((e)=>{controlLikeRequestHandler(e)}, [e])
-
   return (
     <div>
       <div className="pfHashtagWrap">
@@ -297,6 +295,7 @@ function PerformanceTag({ isSignin, userInfo }) {
             ))}
           </ul>
         </div> */}
+        {/* {!isSignin ? <WordCloudCover/> : null} */}
         <WordCloud1
           isSignin={isSignin}
           controlLikeRequestHandler={controlLikeRequestHandler}
