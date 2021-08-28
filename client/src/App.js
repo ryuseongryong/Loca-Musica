@@ -27,16 +27,20 @@ function App() {
       userInfo: state.userReducer.userInfo,
     };
   });
+  // Landing page에서만 header를 달리 보이게 함
   const [isLanding, setIsLanding] = useState(false);
-  // useEffect(() => {
-  //   if (isSignin) {
-  //     history.push('/musical/main');
-  //   }
-  // }, [isSignin]);
+  const url = new URL(window.location.href);
+  useEffect(() => {
+    // 경로가 '/'가 아니면 뮤지컬 추천버튼과 뮤지컬 검색창이 보이게 조정
+    if (url.pathname !== "/") {
+      setIsLanding(false);
+    }
+  }, []);
+  // console.log(url.pathname);
 
   return (
     <>
-      <Header isLanding={isLanding} />
+      <Header isLanding={isLanding} setIsLanding={setIsLanding} />
       <Switch>
         <Route exact path="/">
           <Landing setIsLanding={setIsLanding} />
