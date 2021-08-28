@@ -319,7 +319,7 @@ function UserInfo() {
       await s3.putObject(params).promise();
       return fileKey; // promise 객체로 반환하기 때문에 await로 받아야 값을 받을 수 있다.
     } catch (err) {
-      alert(err);
+      // console.log(err);
     }
   };
 
