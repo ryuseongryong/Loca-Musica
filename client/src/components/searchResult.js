@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 import MusicalBaseImage from '../images/musical_baseimage.jpg';
 import Footer from "../components/footer";
+import RightIconWide from '../images/right_icon_wide.png';
 
 
 function Search({
@@ -78,7 +79,7 @@ function Search({
           </div>
           <div className="search-section2-bottom">
             <button className="search-replay-btn" onClick={replayRecommend}>
-              다시 추천받기 &nbsp;{'>'}
+              다시 추천받기 <img src={RightIconWide} alt='icon-image' className="right-icon" />
             </button>
           </div>
         </div>
