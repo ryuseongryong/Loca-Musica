@@ -36,6 +36,7 @@
 }
 .pfItem {
   font-size: 1.25rem;
+  font-weight: 600;
   margin: 0 0 16px 0;
 }
 
@@ -59,6 +60,7 @@
 }
 .pfStoryItem {
   font-size: 1.25rem;
+  font-weight: 600;
   margin: 0 0 16px 0;
   padding-top: 78px;
 }
@@ -127,7 +129,7 @@ iframe {
 }
 
 .numberVideoWrap > p {
-  font-size: 1.25rem;
+  font-size: 1rem;
   margin: 15px 0 0;
 }
 

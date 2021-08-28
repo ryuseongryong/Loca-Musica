@@ -240,6 +240,7 @@ function Main() {
           <Loader />
         </div>
         :
+        <div>
         <div className="main-wrap">
           {/* main 대신 musical로 변경 */}
           <div className='main-container'>
@@ -447,7 +448,9 @@ function Main() {
             </div> */}
           </div>
           <button className='main-top-btn' onClick={gotoTop}><BiArrowToTop className='main-top-icon' /></button>
-          <Footer className='main-footer' />
+          
+        </div>
+        <Footer className='main-footer' />
         </div>
       }
     </>

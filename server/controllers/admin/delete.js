@@ -2,22 +2,25 @@ const { getPool } = require('../../db');
 
 module.exports = {
   delete: async (req, res) => {
-    //const accessTokenData = checkAccessToken(req);
+    const accessTokenData = checkAccessToken(req);
 
     // Access token 이 없거나 유효하지 않은 경우 종료
-    // if (!accessTokenData){
-    //   return res.status(401).send({ message: 'invalid access token' });
-    // }
+    if (!accessTokenData){
+      return res.status(401).send({ message: 'invalid access token' });
+    }
+
+    const {admin} = accessTokenData;
+
+      // Admin 이 아닌 경우 종료
+      if (!admin){
+        return res.status(403).send({message: "not admin"})
+      }
+
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
     
     try {
-      // const {admin} = accessTokenData;
-
-      // Admin 이 아닌 경우 종료
-      // if (!admin){
-      //   return res.status(403).send({message: "not admin"})
-      //}
+      
 
 
       await connection.beginTransaction();

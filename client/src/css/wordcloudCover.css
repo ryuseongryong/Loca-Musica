@@ -1,0 +1,6 @@
+.wordcloud-cover {
+  position:absolute;
+  width: 100%;
+  height: 60vh;
+  border: 1px solid white;
+}

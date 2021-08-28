@@ -1,5 +1,5 @@
 .wordcloud-container {
-  /* border: 1px solid white; */
+  /* border: 1px solid red; */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -20,7 +20,7 @@
   .wordcloud {
     width: 100%;
   }
-  svg {
-    width: 100%;
+  .wordcloud-container > div > svg {
+    width: 100%; 
   }
 }
