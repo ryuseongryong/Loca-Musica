@@ -10,6 +10,7 @@ import Loader from "../components/loader";
 import { useHistory } from "react-router-dom"; // 페이지 이동
 import TopButton from "../components/topButton";
 import ChoiceModal from "../components/choiceModal";
+import { notify } from "../actions/index";
 
 function Detail() {
   // 상태관리
@@ -108,7 +109,7 @@ function Detail() {
       url: `${process.env.REACT_APP_END_POINT}/admin/delete/${performanceInfo.title}`,
       withCredentials: true,
     }).then((res) => {
-      alert("게시글이 삭제되었습니다!");
+      dispatch(notify("게시글이 삭제되었습니다!")); // 알림 메시지
       history.push("/musical/main"); // 삭제후 메인 이동
     });
   };
