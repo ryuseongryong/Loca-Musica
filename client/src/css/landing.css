@@ -2,13 +2,20 @@
   width: 100%;
   height: 100%;
   position: relative;
-  margin-top: 80px;
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 10%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.8) 90%
+    ),
+    url("https://locamusica-musical-thumbnail.s3.ap-northeast-2.amazonaws.com/landingpage.gif")
+      no-repeat center;
+  background-size: cover;
+  /* margin-top: 80px; */
 }
 
 #landing {
   text-align: center;
-  background: url("../images/97469997.png") no-repeat center;
-  background-size: cover;
 }
 
 .btnLanding {
@@ -37,12 +44,13 @@
   height: 50px;
   margin: 0 auto;
   background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .landingTextWrap {
   max-width: 1280px;
-  height: calc(100vh - 270px);
+  height: calc(100vh - 190px);
   margin: 0 auto;
-  padding: 150px 0;
+  padding: 250px 0;
   /* border: 1px solid red; */
 }
 .landingCarousel {
@@ -50,8 +58,9 @@
 }
 
 .landingTextWrap p {
-  font-size: 1.25rem;
+  font-size: 2rem;
   margin: 20px 0;
+  text-shadow: 2px 2px 2px black;
 }
 .landingPtagWrap,
 .landingPtagWrapFirst {
@@ -65,14 +74,23 @@
   margin: 100px auto 0;
 }
 
-@media screen and (max-width: 768px) {
-  .landingTextWrap {
-    max-width: 768px;
-    padding: 200px 0;
-    /* border: 1px solid red; */
+@media screen and (max-width: 1024px) {
+  .landingTextWrap p {
+    font-size: 1.5rem;
   }
   .landingPtagWrapFirst {
     display: block;
+    margin: 0 0 20px 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .landingTextWrap {
+    max-width: 768px;
+    height: calc(100vh - 178px);
+    padding: 280px 0 0;
+    /* border: 1px solid red; */
+  }
+  .landingPtagWrapFirst {
     margin: 0 0 20px 0;
   }
   .landingPtagWrap {

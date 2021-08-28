@@ -12,7 +12,7 @@ import MobileSearchbar from "./mobileSearchbar";
 import { useState } from "react";
 import dummyProfile from "../images/dummyProfile.png";
 
-function Header() {
+function Header({ isLanding, setIsLanding }) {
   let history = useHistory();
   const dispatch = useDispatch();
   const { isSignin, userInfo, pathname } = useSelector((state) => {
@@ -86,6 +86,7 @@ function Header() {
     } else {
       history.push(`/musical/main`);
     }
+    setIsLanding(false);
   };
 
   // mobile header 동작 함수
@@ -97,6 +98,11 @@ function Header() {
     setIsMobileSearchbarOpen(true);
   };
 
+  // header 상태 변경 함수
+  const changeHeaderStateHandler = () => {
+    setIsLanding(false);
+  };
+
   return (
     <div>
       <div className="header-main">
@@ -106,25 +112,32 @@ function Header() {
               Loca Musica
             </div>
           </div>
-          <div className="header-section1">
-            {/* <Link to="/search" className="header-link-router"> */}
-            <div className="recommend-musical-button" onClick={goRecommend}>
-              뮤지컬 추천
-              <CgChevronRight size="22" />
-              {/* <FiChevronRight className='header-search-btn-icon' /> */}
+          {isLanding ? null : (
+            <div className="header-section1">
+              <div className="recommend-musical-button" onClick={goRecommend}>
+                뮤지컬 추천
+                <CgChevronRight size="22" />
+              </div>
             </div>
-            {/* </Link> */}
-          </div>
+          )}
         </div>
         <div className="headerRightSide">
-          <div className="header-section3">
-            <Searchbar />
-          </div>
+          {isLanding ? null : (
+            <div className="header-section3">
+              <Searchbar />
+            </div>
+          )}
+
           {/* 로그인 상태에 따라 보이는 버튼이 달라지도록 설정 */}
           <div className="header-section4">
             {!isSignin ? (
               <Link to="/user/signin" className="header-link-router">
-                <div className="signin-button">로그인</div>
+                <div
+                  className="signin-button"
+                  onClick={changeHeaderStateHandler}
+                >
+                  로그인
+                </div>
               </Link>
             ) : userInfo.admin === 1 ? (
               <Link to="/admin" className="header-link-router">
@@ -143,11 +156,17 @@ function Header() {
               </div>
             ) : (
               <Link to="/user/signup" className="header-link-router">
-                <div className="signup-button">회원가입</div>
+                <div
+                  className="signup-button"
+                  onClick={changeHeaderStateHandler}
+                >
+                  회원가입
+                </div>
               </Link>
             )}
           </div>
         </div>
+        {/* 모바일 버전 Header */}
         <div className="mobileRightSideWrap">
           <div className="mobileRightSide">
             <BiSearchAlt2
@@ -200,12 +219,22 @@ function Header() {
                   뮤지컬 추천
                 </p>
                 {isSignin ? (
-                  <p
-                    className="btnMobileMember"
-                    onClick={signoutRequestHandler}
-                  >
-                    로그아웃
-                  </p>
+                  <div>
+                    <Link to="/user/info">
+                      <p
+                        className="btnMobileMember"
+                        onClick={hiddenMenuOpenHandler}
+                      >
+                        마이페이지
+                      </p>
+                    </Link>
+                    <p
+                      className="btnMobileMember"
+                      onClick={signoutRequestHandler}
+                    >
+                      로그아웃
+                    </p>
+                  </div>
                 ) : (
                   <div>
                     <Link to="/user/signin">
