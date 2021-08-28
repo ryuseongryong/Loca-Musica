@@ -1,11 +1,10 @@
 /*eslint-disable*/
 
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-
-import { signin } from "../actions";
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { signin, notify } from '../actions/index';
 
 function KakaoLogin() {
   let history = useHistory();
@@ -25,21 +24,22 @@ function KakaoLogin() {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log("카카오에 대한 응답", res);
+          console.log('카카오에 대한 응답', res);
           dispatch(signin(res.data.data));
+          dispatch(notify('반갑습니다'));
         })
         .then((res) => {
-          if (pathname !== "/musical/main") {
+          if (pathname !== '/musical/main') {
             history.push(`${pathname.slice(9)}`);
           }
           history.push(`${pathname}`);
         })
         .catch((err) => {
-          console.log("카카오로그인에러", err);
+          console.log('카카오로그인에러', err);
         });
     };
     const url = new URL(window.location.href);
-    const authorizationCode = url.searchParams.get("code");
+    const authorizationCode = url.searchParams.get('code');
     if (authorizationCode) {
       OAuthKakao(authorizationCode);
     }
