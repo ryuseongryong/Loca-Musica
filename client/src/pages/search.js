@@ -9,6 +9,7 @@ import Loader from '../components/loader'
 import Footer from "../components/footer";
 import { notify } from "../actions/index";
 import { useDispatch } from "react-redux";
+import RightIconWide from '../images/right_icon_wide.png'; // 배경이 진함
 
 
 function Search() {
@@ -263,7 +264,7 @@ function Search() {
                                 </div>
                                 <div className='search-section2-bottom'>
                                     <div className='recommend-result-btn' onClick={doRecommend}>
-                                        추천받기 &nbsp;{'>'}
+                                        추천받기 <img src={RightIconWide} alt='icon-image' className="right-icon" />
                                     </div>
                                 </div>
                             </div>
