@@ -1,16 +1,16 @@
-import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import "../css/Header.css";
-import { signout, notify, rememberPathname } from "../actions/index";
-import { CgChevronRight } from "react-icons/cg";
-import { BiSearchAlt2, BiMenu } from "react-icons/bi";
-import { IoMdClose } from "react-icons/io";
+import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import '../css/Header.css';
+import { signout, notify, rememberPathname } from '../actions/index';
+import { CgChevronRight } from 'react-icons/cg';
+import { BiSearchAlt2, BiMenu } from 'react-icons/bi';
+import { IoMdClose } from 'react-icons/io';
 
-import Searchbar from "./searchbar";
-import MobileSearchbar from "./mobileSearchbar";
-import { useState } from "react";
-import dummyProfile from "../images/dummyProfile.png";
+import Searchbar from './searchbar';
+import MobileSearchbar from './mobileSearchbar';
+import { useState } from 'react';
+import dummyProfile from '../images/dummyProfile.png';
 
 function Header({ isLanding, setIsLanding }) {
   let history = useHistory();
@@ -42,13 +42,58 @@ function Header({ isLanding, setIsLanding }) {
 
       .then((res) => {
         // dispatch(notify("로그아웃 되었습니다"));
-        console.log("로그아웃 되었습니다");
-        dispatch(rememberPathname("/musical/main"));
+        console.log('로그아웃 되었습니다');
+        dispatch(rememberPathname('/musical/main'));
       })
       .then((res) => {
-        history.push("/musical/main");
+        history.push('/musical/main');
       })
       .catch((err) => {
+        if (err.response.status === 401) {
+          axios
+            .get(`${process.env.REACT_APP_END_POINT}/user/auth`, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              axios
+                .post(`${process.env.REACT_APP_END_POINT}/user/signout`, null, {
+                  withCredentials: true,
+                })
+                .then((res) => {
+                  dispatch(signout());
+                })
+
+                .then((res) => {
+                  // dispatch(notify("로그아웃 되었습니다"));
+                  console.log('로그아웃 되었습니다');
+                  dispatch(rememberPathname('/musical/main'));
+                })
+                .then((res) => {
+                  history.push('/musical/main');
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => {
+              console.log(err);
+              if (err.response.data.message === 'invalid refresh token') {
+                dispatch(
+                  notify(
+                    '사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요'
+                  )
+                );
+              } else if (err.response.data.message === 'user not found') {
+                dispatch(
+                  notify('사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요')
+                );
+              } else if (
+                err.response.data.message === 'internal server error'
+              ) {
+                dispatch(
+                  notify('서버와의 통신 오류입니다. 다시 로그인해주세요')
+                );
+              }
+            });
+        }
         console.log(err);
       });
     // 모바일화면에서 이동 후 히든메뉴를 닫도록 처리
@@ -61,10 +106,10 @@ function Header({ isLanding, setIsLanding }) {
     // window.location.reload();
     const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
-    if (url.pathname.includes("/search")) {
-      if (url.host === "localhost:3000") {
+    if (url.pathname.includes('/search')) {
+      if (url.host === 'localhost:3000') {
         window.location.assign(`http://localhost:3000/search`);
-      } else if (url.host === "loca-musica.com") {
+      } else if (url.host === 'loca-musica.com') {
         window.location.assign(`https://loca-musica.com/search`);
       }
     } else {
@@ -77,10 +122,10 @@ function Header({ isLanding, setIsLanding }) {
   const gotoMain = (event) => {
     const url = new URL(window.location.href);
     // 같은 url내에서 새로고침 효과
-    if (url.pathname.includes("/musical/main")) {
-      if (url.host === "localhost:3000") {
+    if (url.pathname.includes('/musical/main')) {
+      if (url.host === 'localhost:3000') {
         window.location.assign(`http://localhost:3000/musical/main`);
-      } else if (url.host === "loca-musica.com") {
+      } else if (url.host === 'loca-musica.com') {
         window.location.assign(`https://loca-musica.com/musical/main`);
       }
     } else {
