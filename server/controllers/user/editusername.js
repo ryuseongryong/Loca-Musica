@@ -12,6 +12,9 @@ module.exports = {
     // cookie에 담겨있는 access token을 확인하고
     // access token이 유효하지 않으면 refresh token으로 보낸다.
     const accessTokenData = checkAccessToken(req);
+    if (!accessTokenData) {
+      return res.status(401).send({ message: 'invalid access token' });
+    }
     // access Token을 검증해서 없거나 만료되었으면 클라에서 auth로 req를 보냄
     // 새로운 access Token 발급
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
@@ -22,9 +25,6 @@ module.exports = {
 
     try {
       await connection.beginTransaction();
-      if (!accessTokenData) {
-        return res.status(401).send({ message: 'invalid access token' });
-      }
       //! 사용자 이름은 중복 가능하게 만든다??
       const { id, email, profile, resign, admin, kakao } = accessTokenData;
       const { newUsername } = req.body;

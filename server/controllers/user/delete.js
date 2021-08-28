@@ -13,6 +13,9 @@ module.exports = {
     // cookie에 담겨있는 access token을 확인하고
     // access token이 유효하지 않으면 refresh token으로 보낸다.
     const accessTokenData = checkAccessToken(req);
+    if (!accessTokenData) {
+      return res.status(401).send({ message: 'invalid access token' });
+    }
     // access Token을 검증해서 없거나 만료되었으면 클라에서 auth로 req를 보냄
     // 새로운 access Token 발급
     // ! Refresh Token을 DB에 저장하고, 대조하는 작업 필요한 듯
@@ -22,9 +25,6 @@ module.exports = {
 
     try {
       await connection.beginTransaction();
-      if (!accessTokenData) {
-        res.status(401).send({ message: 'invalid access token' });
-      }
       const { id, email, username, profile, admin, kakao } = accessTokenData;
       const { password } = req.body;
 
@@ -80,7 +80,7 @@ module.exports = {
       const match = await bcrypt.compare(password, userData[0].password);
       // DB에 저장된 비밀번호와 입력한 기존 비밀번호가 일치하는지 검토
       if (!match) {
-        res.status(401).send({ message: 'invalid password' });
+        return res.status(401).send({ message: 'invalid password' });
       }
       // 탈퇴 시 resign의 값을 true로 변경
       await connection.execute(
