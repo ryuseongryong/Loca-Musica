@@ -366,6 +366,10 @@
   height: 20px;
 }
 
+.main-section2-loading {
+  margin-top: 35vh;
+}
+
 /* 반응형 */
 @media screen and (max-width: 768px) {
   .main-container {
