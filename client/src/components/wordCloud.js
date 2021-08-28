@@ -3,7 +3,7 @@ import WordCloud from 'react-d3-cloud';
 import React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import '../css/wordcloud.css';
-import _ from "lodash";
+// import _ from "lodash";
 import ChoiceModal from "./choiceModal";
 
 
@@ -30,7 +30,7 @@ function WordCloud1({
 
   useEffect(() => {
     count++;
-    console.log('Render Count: ', count);
+    // console.log('Render Count: ', count);
     // setData(makeWordcloudData(hashtagsData));
   }, [hashtagsData]);
 
@@ -74,7 +74,7 @@ function WordCloud1({
       return;
     }
 
-    const style = event.target.style;
+    let style = event.target.style;
     style.fill = fill;
 
     let hashtag = event.target.textContent;
@@ -85,14 +85,14 @@ function WordCloud1({
   }
 
   function onWordMouseOver(event) {
-    const style = event.target.style;
+    let style = event.target.style;
     style.cursor = 'pointer';
     fill = style.fill;
     style.fill = '#fff';
   }
 
   function onWordMouseOut(event) {
-    const style = event.target.style;
+    let style = event.target.style;
     style.textDecoration = 'none';
     style.cursor = 'none';
     style.fill = fill;
