@@ -12,7 +12,7 @@ module.exports = {
     const refreshTokenData = checkRefreshToken(req);
     // refreshToken이 없거나 인증이 만료된 경우, 클라이언트에서 재로그인을 유저에게 안내해야 함
     if (!refreshTokenData) {
-      res.status(401).send({ message: 'invalid refresh token' });
+      return res.status(401).send({ message: 'invalid refresh token' });
     }
     const { id, username, email, profile, resign, admin, kakao } =
       refreshTokenData;

@@ -23,7 +23,7 @@ module.exports = {
     try {
       await connection.beginTransaction();
       if (!accessTokenData) {
-        res.status(401).send({ message: 'invalid access token' });
+        return res.status(401).send({ message: 'invalid access token' });
       }
       const { id, email, username, profile, resign, admin, kakao } =
         accessTokenData;

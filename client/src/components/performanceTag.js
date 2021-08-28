@@ -1,13 +1,14 @@
 /*eslint-disable*/
 
-import '../css/detail.css'
-import axios from "axios";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { notify, setIsModal } from "../actions/index";
-import ChoiceModal from "./choiceModal";
-import WordCloud1 from "./wordCloud";
-import HashtagForm from "./hashtagForm"
+import '../css/detail.css';
+import axios from 'axios';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { notify, setIsModal } from '../actions/index';
+import ChoiceModal from './choiceModal';
+import WordCloud1 from './wordCloud';
+import HashtagForm from './hashtagForm';
+// import Auth from './auth';
 // import _ from "lodash";
 
 function PerformanceTag({ isSignin, userInfo }) {
@@ -37,7 +38,6 @@ function PerformanceTag({ isSignin, userInfo }) {
         withCredentials: true,
       })
       .then((res) => {
-
         // console.log('지금응답은?', res.data.data);
         let data = res.data.data.hashtagsData;
 
@@ -73,16 +73,73 @@ function PerformanceTag({ isSignin, userInfo }) {
         dispatch(notify('해시태그가 등록되었습니다'));
       })
       .catch((err) => {
+        if (err.response.status === 401) {
+          axios
+            .get(`${process.env.REACT_APP_END_POINT}/user/auth`, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              axios
+                .post(
+                  `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
+                  { title, hashtag },
+                  { withCredentials: true }
+                )
+                .then((res) => {
+                  // console.log(res);
+                  setHashtagsData(res.data.data.hashtagsData);
+                  setIsUpdate(!isUpdate);
+                  // console.log('반영후 결과', hashtagsData);
+                  // setInputValue('');
+                  dispatch(notify('해시태그가 등록되었습니다'));
+                })
+                .catch((err) => {
+                  console.log(
+                    '해시태그 입력 기능에 대한 오류',
+                    err,
+                    err.response
+                  );
+                  // 이중 입력할 경우?
+                  if (err.response.data.message === 'double enter') {
+                    console.log('이미 입력되었습니다.');
+                  }
+                  // 부정적인 표현이 등록했을때
+                  else if (
+                    err.response.data.message === "let's use the right words"
+                  ) {
+                    dispatch(notify('해시태그에 부적절한 표현이 보이네요'));
+                  }
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+              if (err.response.data.message === 'invalid refresh token') {
+                dispatch(
+                  notify(
+                    '사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요'
+                  )
+                );
+              } else if (err.response.data.message === 'user not found') {
+                dispatch(
+                  notify('사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요')
+                );
+              } else if (
+                err.response.data.message === 'internal server error'
+              ) {
+                dispatch(
+                  notify('서버와의 통신 오류입니다. 다시 로그인해주세요')
+                );
+              }
+            });
+        }
         console.log('해시태그 입력 기능에 대한 오류', err, err.response);
         // 이중 입력할 경우?
         if (err.response.data.message === 'double enter') {
           console.log('이미 입력되었습니다.');
-        } 
+        }
         // 부정적인 표현이 등록했을때
-        else if (
-          err.response.data.message === "let's use the right words"
-        ) {
-          dispatch(notify('해시태그에 부적절한 표현이 보이네요')); 
+        else if (err.response.data.message === "let's use the right words") {
+          dispatch(notify('해시태그에 부적절한 표현이 보이네요'));
         }
       });
   };
@@ -116,10 +173,54 @@ function PerformanceTag({ isSignin, userInfo }) {
           dispatch(notify(`Hashtag '${hashtag}'에 공감을 표시했습니다.`));
         })
         .catch((err) => {
-          console.log("공감기능에 대한 오류", err.response);
+          if (err.response.status === 401) {
+            axios
+              .get(`${process.env.REACT_APP_END_POINT}/user/auth`, {
+                withCredentials: true,
+              })
+              .then((res) => {
+                axios
+                  .post(
+                    `${process.env.REACT_APP_END_POINT}/musical/hashtag`,
+                    { title, hashtag },
+                    { withCredentials: true }
+                  )
+                  .then((res) => {
+                    // console.log("공감을 표시했습니다");
+                    // console.log("공감표시의 결과에 대한 응답은?", res);
+                    setHashtagsData(res.data.data.hashtagsData);
+                    dispatch(
+                      notify(`Hashtag '${hashtag}'에 공감을 표시했습니다.`)
+                    );
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
+                if (err.response.data.message === 'invalid refresh token') {
+                  dispatch(
+                    notify(
+                      '사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요'
+                    )
+                  );
+                } else if (err.response.data.message === 'user not found') {
+                  dispatch(
+                    notify(
+                      '사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요'
+                    )
+                  );
+                } else if (
+                  err.response.data.message === 'internal server error'
+                ) {
+                  dispatch(
+                    notify('서버와의 통신 오류입니다. 다시 로그인해주세요')
+                  );
+                }
+              });
+          }
+          console.log('공감기능에 대한 오류', err.response);
         });
     } else if (checkHashtagUser(hashtag, email)) {
-      if (hashtag[0] === "#") {
+      if (hashtag[0] === '#') {
         hashtag = `%23${hashtag.slice(1)}`;
       }
       console.log(hashtag, title);
@@ -129,13 +230,50 @@ function PerformanceTag({ isSignin, userInfo }) {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log("공감취소의 결과에 대한 응답은?", res);
+          console.log('공감취소의 결과에 대한 응답은?', res);
           // console.log("공감이 취소되었습니다");
           setHashtagsData(res.data.data.hashtagsData);
-          dispatch(notify("공감이 취소 되었습니다"));
+          dispatch(notify('공감이 취소 되었습니다'));
         })
         .catch((err) => {
-          console.log("공감취소에 대한 오류", err.response);
+          axios
+            .get(`${process.env.REACT_APP_END_POINT}/user/auth`, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              axios
+                .delete(
+                  `${process.env.REACT_APP_END_POINT}/musical/hashtag/${title}/${hashtag}`,
+                  { withCredentials: true }
+                )
+                .then((res) => {
+                  console.log('공감취소의 결과에 대한 응답은?', res);
+                  // console.log("공감이 취소되었습니다");
+                  setHashtagsData(res.data.data.hashtagsData);
+                  dispatch(notify('공감이 취소 되었습니다'));
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+              if (err.response.data.message === 'invalid refresh token') {
+                dispatch(
+                  notify(
+                    '사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요'
+                  )
+                );
+              } else if (err.response.data.message === 'user not found') {
+                dispatch(
+                  notify('사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요')
+                );
+              } else if (
+                err.response.data.message === 'internal server error'
+              ) {
+                dispatch(
+                  notify('서버와의 통신 오류입니다. 다시 로그인해주세요')
+                );
+              }
+            });
+          console.log('공감취소에 대한 오류', err.response);
         });
     }
   };
@@ -170,7 +308,7 @@ function PerformanceTag({ isSignin, userInfo }) {
           hashtagsData={hashtagsData}
           sendHashtagRequestHandler={sendHashtagRequestHandler}
           setHashtagsData={setHashtagsData}
-          />
+        />
       </div>
       {/* {isModal ? <ChoiceModal setIsModal={setIsModal} /> : null} */}
     </div>

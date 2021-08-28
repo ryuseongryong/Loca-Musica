@@ -3,25 +3,20 @@ import WordCloud from 'react-d3-cloud';
 import React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import '../css/wordcloud.css';
-import _ from "lodash";
-import ChoiceModal from "./choiceModal";
-
+import _ from 'lodash';
+import ChoiceModal from './choiceModal';
 
 let count = 0;
-function WordCloud1({ 
-  isSignin,
-  controlLikeRequestHandler, 
-  hashtagsData 
-}) {
+function WordCloud1({ isSignin, controlLikeRequestHandler, hashtagsData }) {
   const [data, setData] = useState([]);
   const [isModal, setIsModal] = useState(false);
 
   const memoizedData = useMemo(() => {
-    let data = makeWordcloudData(hashtagsData)
+    let data = makeWordcloudData(hashtagsData);
     setData(data);
     return data;
   }, [hashtagsData]);
-  
+
   let fill = getRandomColor();
 
   const windowWidth = window.innerWidth; // 현재 화면의 width
@@ -62,7 +57,7 @@ function WordCloud1({
       return 7 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
     } else {
       // (y = 20 * ( log2(value) + 1 ) 그래프 https://www.desmos.com/calculator?lang=ko)
-      return 20 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
+      return 14 * (Math.log2(word.value) + 1) * wordCountValue(wordCount);
     }
   }
 
@@ -121,7 +116,9 @@ function WordCloud1({
           onWordMouseOut={onWordMouseOut}
         />
       </div>
-      {isModal ? <ChoiceModal isModal={isModal} setIsModal={setIsModal} /> : null}
+      {isModal ? (
+        <ChoiceModal isModal={isModal} setIsModal={setIsModal} />
+      ) : null}
     </>
   );
 }

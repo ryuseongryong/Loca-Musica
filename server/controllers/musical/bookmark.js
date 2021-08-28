@@ -4,17 +4,20 @@ const { checkAccessToken } = require('../tokenFunctions');
 module.exports = {
   post: async (req, res) => {
     const accessTokenData = checkAccessToken(req);
-    const { id } = accessTokenData;
-    const { title } = req.body;
+    console.log('accessTokenData: ', accessTokenData);
 
+    const { title } = req.body;
     if (!accessTokenData) {
       return res.status(401).send({ message: 'invalid access token' });
     }
+    const { id } = accessTokenData;
+
     if (!title) {
       return res
         .status(422)
         .send({ message: 'insufficient data information!' });
     }
+
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
 
@@ -59,12 +62,14 @@ module.exports = {
   },
   delete: async (req, res) => {
     const accessTokenData = checkAccessToken(req);
-    const { id } = accessTokenData;
     const { title } = req.params;
+    console.log('accessTokenData: ', accessTokenData);
 
     if (!accessTokenData) {
-      res.status(401).send({ message: 'invalid access token' });
+      return res.status(401).send({ message: 'invalid access token' });
     }
+    const { id } = accessTokenData;
+
     if (!title) {
       return res
         .status(422)
