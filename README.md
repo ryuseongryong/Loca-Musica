@@ -1,7 +1,7 @@
 # 🌈 서비스 소개
 
-landing page
-<img width="1200" alt="Landing Page" src="https://user-images.githubusercontent.com/58920833/131277437-5369e032-ecfc-4293-9482-e969e2387673.png">
+Landing page
+<img width="1200" alt="Landing Page" src="https://user-images.githubusercontent.com/58920833/131277542-9211dfe8-eda5-438d-8261-dfb0598f62c0.png">
 
 ### **새로운 매력을 느낄 수 있는 뮤지컬의 세계로 초대합니다!🎵**
 
