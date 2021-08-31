@@ -54,7 +54,7 @@ Landing page
 ![마이페이지gif640](https://user-images.githubusercontent.com/58920833/131304205-c229c071-2e04-44d1-82fe-b1d0fd6303c8.gif)
 
 
-# 👍 Team EveryOne
+# 👍 Team Overture
 
 |포지션|이름|GitHub|
 |------|---|---|
