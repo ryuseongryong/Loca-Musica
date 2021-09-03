@@ -1,3 +1,4 @@
+const { checkAccessToken } = require('../tokenFunctions');
 const { getPool } = require('../../db');
 
 module.exports = {
@@ -8,19 +9,17 @@ module.exports = {
     if (!accessTokenData)
       return res.status(401).send({ message: 'invalid access token' });
 
-    const {admin} = accessTokenData;
+    const { admin } = accessTokenData;
 
     //Admin 이 아닌 경우 종료
-    if (!admin){
-      return res.status(403).send({message: "not admin"})
+    if (!admin) {
+      return res.status(403).send({ message: 'not admin' });
     }
 
     const db = await getPool();
     const connection = await db.getConnection(async (conn) => conn);
 
     try {
-      
-
       await connection.beginTransaction();
 
       console.log('body:, ', req.body);
@@ -227,7 +226,8 @@ module.exports = {
         [musical_id]
       );
 
-      const [arrHashtagData] = await connection.execute(`
+      const [arrHashtagData] = await connection.execute(
+        `
         SELECT hashtags.name, musical_hashtag.likeCount, hashtags.totalLikeCount, hashtags.musicalCount
         FROM hashtags
         JOIN musical_hashtag
