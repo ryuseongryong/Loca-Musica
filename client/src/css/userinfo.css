@@ -1,0 +1,272 @@
+.allPageWrap {
+  width: 100%;
+  height: 100%;
+  margin-top: 80px;
+  position: relative;
+}
+#userInfo {
+  text-align: center;
+  width: 100%;
+  margin: 200px auto 80px;
+}
+
+.userInfoChangeWrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1286px;
+  margin: 45px auto;
+}
+.welcomtextP1 {
+  font-size: 1.75rem;
+  line-height: 72px;
+}
+.welcomtextP2 {
+  font-size: 1.25rem;
+}
+
+/* 프로필변경 css */
+.imgChangeWrap {
+  flex: 1;
+}
+.imgChangeWrap > img {
+  display: block;
+  width: 170px;
+  height: 170px;
+  border-radius: 120px;
+  /* border: 1px solid red; */
+  margin: 50px auto 20px;
+}
+.imgChangeWrap > span {
+  color: #32e6ff;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+/* 사용자이름, 비밀번호 변경 css */
+.infoChangeWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.infoChangeWrap > p {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  margin: 50px 0 20px 65px;
+}
+.infoChangeWrap > form > input {
+  width: 80%;
+  height: 50px;
+  margin: 0 auto 10px;
+}
+.infoChangeWrap > button {
+  font-size: 1rem;
+  width: 95px;
+  height: 46px;
+  margin: 5px 0 0 60px;
+}
+.mypageMsg {
+  text-align: left;
+  font-size: 0.75rem;
+  display: block;
+  margin: 5px 0 10px 50px;
+}
+
+/* 북마크리스트 관련 css */
+.bookmarkWrap {
+  max-width: 1160px;
+  margin: 100px auto;
+  padding: 0 20px;
+}
+.bookmarkText {
+  font-size: 1.75rem;
+  margin-bottom: 50px;
+}
+.bookmarksDataWrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  max-width: 1120px;
+  height: 100%;
+  margin: 0 auto;
+}
+.bookmarksDataWrap > p {
+  margin: 30px auto;
+  font-size: 1.2rem;
+  color: #4d4d4d;
+}
+/* .bookmarkImgWrap {
+  float: left;
+} */
+.bookmarkimg {
+  width: 200px;
+  height: 300px;
+  margin: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* 회원탈퇴 css */
+.btnWithdrawal {
+  font-size: 1rem;
+  width: 120px;
+  height: 46px;
+  margin: 0 auto;
+}
+
+.withdrawalModalWrap {
+  color: black;
+  max-width: 500px;
+  height: 420px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 30px;
+  position: absolute;
+  bottom: 150px;
+  left: calc(50% - 250px);
+  z-index: 10;
+}
+.btnCloseModal {
+  cursor: pointer;
+  width: 20px;
+  margin: 0 0 0 auto;
+}
+
+.withdrawalInfo > div {
+  text-align: left;
+  line-height: 2rem;
+  margin: 20px 0 10px 0;
+  border-bottom: double 2px #6200ee;
+}
+.withdrawalInfo > p {
+  text-align: left;
+  line-height: 1.2rem;
+  font-size: 0.9rem;
+  margin: 0 auto 10px;
+}
+.inputWithdrawal {
+  width: 70%;
+  height: 35px;
+  margin: 20px auto 10px;
+}
+.withdrawalModalWrap > form > p {
+  font-size: 0.9rem;
+}
+.lastCheck {
+  color: #6200ee;
+  margin: 30px 0 10px;
+}
+.c_e30052 {
+  color: #e30052;
+}
+.btnWithdrawalCheck {
+  width: 100px;
+  height: 33px;
+  margin: 10px auto;
+}
+.withdrawalForKakao {
+  margin-top: 50px;
+}
+/* edit profile input */
+#editProfileInput {
+  display: none;
+}
+
+/* 반응형css */
+@media screen and (max-width: 768px) {
+  #userInfo {
+    text-align: center;
+    width: 100%;
+    margin: 150px auto;
+  }
+  .welcomtextP1 {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+  .welcomtextP2 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .userInfoChangeWrap {
+    display: block;
+    flex-direction: column;
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  /* 이미지변경 768px */
+  .imgChangeWrap > img {
+    width: 128px;
+    height: 128px;
+    margin: 30px auto;
+  }
+  .imgChangeWrap > span {
+    display: block;
+    margin: 20px auto;
+  }
+  /* 정보변경 768px */
+  .infoChangeWrap {
+    max-width: 500px;
+    padding: 0 40px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .infoChangeWrap > p {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: left;
+    margin: 50px 0 20px 10px;
+  }
+  .infoChangeWrap > form > input {
+    width: 100%;
+    height: 50px;
+    margin: 0 auto 10px;
+  }
+  .infoChangeWrap > button {
+    font-size: 1rem;
+    width: 95px;
+    height: 46px;
+    margin: 0 auto;
+  }
+
+  /* 북마크 768px */
+  .bookmarkWrap {
+    max-width: 500px;
+    margin: 100px auto;
+  }
+  .bookmarkText {
+    font-size: 1.5rem;
+    margin-bottom: 36px;
+  }
+  .bookmarksDataWrap {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .bookmarkImgWrap {
+    margin: 10px 0;
+  }
+  .bookmarkimg {
+    max-width: 170px;
+    height: 100%;
+    margin: 10px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    float: left;
+  }
+
+  /* 회원탈퇴 */
+  .withdrawalModalWrap {
+    color: black;
+    max-width: 350px;
+    height: 460px;
+    padding: 25px;
+    bottom: 200px;
+    left: calc(50% - 175px);
+  }
+  .withdrawalInfo > p {
+    padding: 0 10px;
+  }
+}
