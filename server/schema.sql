@@ -82,7 +82,3 @@ CREATE TABLE user_number (
   FOREIGN KEY (number_id) REFERENCES numbers(id),
   CONSTRAINT userNumber UNIQUE (user_id, number_id)
 );
-
-/* mysql -u admin --host loca-musica-db.ct0ktlt3mttk.ap-northeast-2.rds.amazonaws.com -P 13306 -p
-mysql -u admin --host loca-musica-db.ct0ktlt3mttk.ap-northeast-2.rds.amazonaws.com < server/schema.sql -P 13306 -p -Dtest
-*/
