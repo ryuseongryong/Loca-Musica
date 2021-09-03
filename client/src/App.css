@@ -1,38 +1,131 @@
-.App {
-  text-align: center;
+/* 기본 font Montserrat */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
+
+/* common reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  word-break: keep-all;
+  text-decoration: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* list bullet reset */
+ul,
+li,
+ol {
+  list-style: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* button reset */
+button {
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  border: double 2px transparent;
+  border-radius: 24px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.App-link {
-  color: #61dafb;
+input {
+  background: #484848;
+  color: rgb(255, 255, 255);
+  padding: 0 25px;
+  border: 0;
+  border-radius: 50px;
+  caret-color: rgb(255, 255, 255);
+}
+input:focus {
+  outline: none;
 }
 
-@keyframes App-logo-spin {
+/* 알림 container */
+.notification-container {
+  font-size: 1rem;
+  position: fixed;
+  z-index: 999999;
+  top: 100px;
+  right: 12px;
+}
+.notification {
+  transition: transform 0.6s ease-in-out;
+  animation: toast-in-right 0.6s;
+  background: rgba(72, 72, 72, 0.95);
+  transition: 0.3s ease;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  line-height: 50px;
+
+  height: 50px;
+  width: 400px;
+  color: #fff;
+  padding: 0 20px;
+  margin: 10px;
+}
+.fade-out {
+  /* opacity: 0; */
+  /* transform: opacity 2s; */
+  animation: toast-out-left 1s;
+  transition: 0.3s ease;
+}
+@keyframes toast-in-right {
   from {
-    transform: rotate(0deg);
+    transform: translateX(100%);
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(0);
+  }
+}
+@keyframes toast-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.App {
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  .notification-container {
+    font-size: 1rem;
+    position: fixed;
+    z-index: 999999;
+    top: 100px;
+    right: 5px;
+  }
+  .notification {
+    transition: transform 0.6s ease-in-out;
+    animation: toast-in-right 0.6s;
+    background: rgba(72, 72, 72, 0.95);
+    transition: 0.3s ease;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    font-weight: 400;
+    line-height: 1.5;
+
+    height: 100%;
+    width: 320px;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px 0;
   }
 }

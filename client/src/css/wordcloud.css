@@ -1,0 +1,26 @@
+.wordcloud-container {
+  /* border: 1px solid red; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wordcloud {
+  width: 1080px;
+  height: 100%;
+  overflow: visible;
+  /* height: 1000px; */
+  margin: auto;
+  padding: auto;
+  /* border: 1px solid red; */
+}
+
+@media screen and (max-width: 768px) {
+  .wordcloud {
+    width: 100%;
+  }
+  .wordcloud-container > div > svg {
+    width: 100%; 
+  }
+}

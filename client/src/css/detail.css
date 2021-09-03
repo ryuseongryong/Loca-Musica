@@ -1,0 +1,361 @@
+.detailPageWrap {
+  width: 100%;
+  margin: 80px auto 0;
+  padding: 100px 0 0;
+}
+#detailPage {
+  max-width: 1080px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.adminBtnWrap {
+  text-align: right;
+  padding: 0 20px 0 0;
+  position: absolute;
+  top: -40px;
+  right: 10px;
+}
+.adminBtnWrap > button {
+  width: 100px;
+  height: 35px;
+  margin-left: 10px;
+}
+
+.pfInfoContainer {
+  /* width: calc(100% - 40px); */
+  padding: 20px;
+  margin: 0 auto;
+}
+.pfInfo {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 10px;
+  margin-bottom: 30px;
+}
+.pfItem {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+/* 뮤지컬 정보 텍스트 css */
+.pfInfoTextWrap {
+  width: calc(100% - 256px);
+  position: relative;
+  /* border: 1px solid green; */
+}
+.pfTitleWrap {
+  color: #868686;
+  display: flex;
+  max-width: 1024px;
+  width: 769px;
+  align-items: center;
+  margin: 0 0 30px 0;
+  position: absolute;
+}
+.cGreen {
+  color: #3fff52;
+}
+.pfStoryItem {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  padding-top: 78px;
+}
+
+.pfTitle {
+  color: rgb(255, 255, 255);
+  font-size: 3rem;
+  margin: 0 20px 0 0;
+}
+.pfStory {
+  line-height: 1.75rem;
+  height: 100%;
+  padding: 0 30px 0 0;
+}
+.pfActors {
+  margin-top: 28px;
+}
+
+/* 뮤지컬 포스터 이미지 css */
+.pfInfoImgWrap {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 256px;
+  padding-top: 78px;
+  /* border: 1px solid green; */
+}
+.pfPoster {
+  width: 256px;
+  height: 100%;
+  border-radius: 10px;
+  margin: 0;
+  /* border: 1px solid green; */
+}
+#btnBookmark {
+  width: 138px;
+  height: 43px;
+  margin: 20px auto 0;
+  background-image: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+}
+.iconBtn {
+  margin: 0 5px 0 0;
+  padding: 2px 0 0;
+}
+
+/* 뮤지컬 대표넘버 관련 css */
+.pfNumberWrap {
+  width: 100%;
+  margin-bottom: 160px;
+  /* border: 1 solid red; */
+}
+.pfNumberList {
+  max-width: 1180px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+.iframbox {
+  width: calc(100% - 20px);
+  height: 100%;
+}
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.numberVideoWrap > p {
+  font-size: 1rem;
+  margin: 15px 0 0;
+}
+
+.video-error {
+  color: rgb(114, 114, 114);
+  background-color: rgb(167, 167, 167);
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 뮤지컬 해시태그 관련 css */
+.pfHashtagWrap {
+  /* border: 1px solid blue; */
+}
+.pfHashtagWrap > form {
+  text-align: center;
+  display: block;
+}
+/* #hashtagItemList {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 50px auto;
+}
+.hashtagItem {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+} */
+
+#inputHashtag {
+  width: 400px;
+  height: 50px;
+  margin: 0 auto 10px;
+  background: #484848 url("../images/hashtag_icon.png") no-repeat 15px center;
+  background-size: 20px;
+  padding: 0 35px;
+}
+#btnHashtag {
+  font-size: 1rem;
+  width: 100px;
+  height: 43px;
+  margin: 0 15px;
+}
+
+.detailPageLoader {
+  position: fixed;
+  top: 20rem;
+  left: calc(50% - 5.5rem);
+}
+
+/* 반응형css */
+@media screen and (max-width: 768px) {
+  .detail {
+    width: 100%;
+  }
+  .detailPageWrap {
+    width: 100%;
+    margin: 80px auto 0;
+    padding: 0;
+    position: relative;
+  }
+  #detailPage {
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+  }
+  /* .pfInfoContainer {
+    max-width: 360px;
+    padding: 20px 12px;
+    margin: 0;
+    border: 1px solid red;
+  } */
+  .adminBtnWrap {
+    padding: 0 24px 0 0;
+    top: -24px;
+  }
+
+  /* 뮤지컬 정보 css */
+  .pfInfo {
+    display: block;
+    height: 100%;
+    /* flex-wrap: wrap-reverse; */
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+  /* 포스터이미지 */
+  .pfInfoImgWrap {
+    width: 100%;
+    padding: 0;
+    position: absolute;
+    top: -540px;
+  }
+  .pfPoster {
+    width: 363px;
+    height: 518px;
+    min-width: 336px;
+    min-height: 480px;
+    margin: 0 auto;
+    /* border: 1px solid green; */
+  }
+  /* 북마크버튼 */
+  #btnBookmark {
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    margin: 30px 0px 0 auto;
+    padding: 0;
+    line-height: 36px;
+    overflow: hidden;
+    position: relative;
+  }
+  .iconBtn {
+    /* bookmark 안쪽 기호 */
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* 뮤지컬 텍스트 */
+  .pfInfoTextWrap {
+    width: 100%;
+    margin: 540px 0 0 0;
+    padding: 0;
+    /* border: 1px solid green; */
+  }
+  .pfTitleWrap {
+    display: block;
+    width: 100%;
+    margin: 60px 0 46px 0;
+    position: relative;
+    padding: 10px 0 0;
+  }
+  .pfTitle {
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    margin: 0 20px 10px 0;
+  }
+  .pfState {
+    font-size: 0.75rem;
+  }
+  .pfStoryItem {
+    font-size: 1.25rem;
+    margin: 0 0 16px 0;
+    padding-top: 0;
+  }
+  .pfStory {
+    line-height: 1.8rem;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0 0 46px 0;
+    word-break: break-all;
+  }
+  .pfActors {
+    margin: 0 0 46px 0;
+  }
+
+  /* 뮤지컬 대표넘버 css */
+  .pfNumberWrap {
+    margin: 0 0 46px 0;
+    /* border: 1 solid red; */
+  }
+  .pfNumberList {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 30px 0 0 0;
+    /* position: relative; */
+    /* border: 1px solid red; */
+  }
+  .numberVideoWrap {
+    width: 100%;
+    margin: 0 auto;
+    /* border: 1px solid blue; */
+  }
+  .iframbox {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+  }
+  iframe {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: 100%;
+  }
+  .numberVideoWrap > p {
+    /* width: 368px; */
+    font-size: 1rem;
+    margin: 15px auto;
+  }
+
+  /* 해시태그 css */
+  #inputHashtag {
+    width: 330px;
+    height: 50px;
+    margin: 10px auto;
+    background: #484848 url("../images/hashtag_icon.png") no-repeat 15px center;
+    background-size: 20px;
+    padding: 0 35px;
+  }
+
+  ::placeholder {
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+
+  .detailPageLoader {
+    position: fixed;
+    top: 20rem;
+    left: calc(50% - 4rem);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pfInfoContainer {
+    padding: 20px 15px;
+    /* border: 1px solid red; */
+  }
+  .pfPoster {
+    width: 330px;
+    height: 472px;
+  }
+}

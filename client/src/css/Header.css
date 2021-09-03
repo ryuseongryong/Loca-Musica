@@ -1,0 +1,372 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+
+.header-main {
+  box-sizing: border-box;
+  display: flex;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 0 35px;
+  background: black;
+  /*   padding: 0 60px; */
+  width: 100%;
+  height: 80px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* .header-logo {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: 1px red solid;
+} */
+
+/* .header-section1 {
+  flex: 1;
+  text-align: center;
+  border: 1px red solid;
+}
+
+.header-section2 {
+  flex: 5;
+  display: flex;
+  justify-content: flex-end;
+  border: 1px red solid;
+} */
+
+.header-section3 {
+  /* flex: 3;
+  display: flex;
+  justify-content: center; */
+  /* max-width: 314px; */
+  margin: 20px 0;
+  /* border: 1px red solid; */
+}
+
+/* .header-section4 {
+  flex: 1;
+  text-align: center;
+  border: 1px red solid;
+}
+
+.header-section5 {
+  flex: 1;
+  text-align: center;
+  border: 1px red solid;
+} */
+
+.logo {
+  /* text gradient */
+  background: linear-gradient(90deg, #e30052 -22.18%, #6200ee 68.41%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  color: white;
+  /* overflow: hidden; */
+  /* flex-wrap: wrap; */
+  text-decoration: none;
+  cursor: pointer;
+  width: 180px;
+  line-height: 80px;
+}
+
+/* 버튼 테두리 그라데이션 효과 */
+.recommend-musical-button {
+  width: 160px;
+  height: 46px;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 17px 0 17px 34px;
+
+  text-align: center;
+  line-height: 42px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* react-router-dom Link태그 밑줄 제거 */
+.header-link-router {
+  text-decoration: none;
+}
+
+/* flex 조정 */
+.headerLeftSide {
+  display: flex;
+}
+.headerRightSide {
+  display: flex;
+}
+
+.signin-button {
+  width: 104px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 20px 0 20px 40px;
+
+  /* margin-left: 33em; */
+
+  text-align: center;
+  line-height: 34px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.signup-button {
+  width: 104px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 20px 0 20px 10px;
+  /* margin-left: 33em; */
+
+  text-align: center;
+  line-height: 34px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.signout-button {
+  width: 104px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 20px 10px;
+  /* margin-left: 33em; */
+
+  text-align: center;
+  line-height: 34px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+/* small button */
+.admin-musical-post-button {
+  width: 104px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 20px 10px;
+  /* margin-left: 33em; */
+
+  text-align: center;
+  line-height: 34px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.mypage-button {
+  width: 104px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(black, black),
+    linear-gradient(to right, #e30052, #6200ee);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 20px 10px;
+
+  text-align: center;
+  line-height: 34px;
+
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.mobileRightSideWrap {
+  display: none;
+}
+
+/* 반응형 css */
+@media screen and (max-width: 1080px) {
+  .header-main {
+    width: 100%;
+    padding: 0 25px;
+    /* border: 1px solid blue; */
+  }
+  .logo {
+    font-size: 1.625rem;
+    width: 170px;
+  }
+  .recommend-musical-button {
+    width: 128px;
+    height: 46px;
+    text-align: center;
+    line-height: 42px;
+    margin: 17px 0;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .admin-musical-post-button,
+  .mypage-button,
+  .signin-button,
+  .signup-button,
+  .signout-button {
+    width: 86px;
+    font-size: 0.75rem;
+    margin: 20px 0 20px 8px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* .header-main {
+    height: 100vh;
+  } */
+
+  /* mobile에서 display처리 */
+  .recommend-musical-button {
+    display: none;
+  }
+  .headerRightSide {
+    display: none;
+  }
+  .mobileRightSideWrap {
+    display: block;
+    position: relative;
+  }
+
+  /* 모바일화면에서 폰트사이즈, 높이조정 */
+  .header-main {
+    font-size: 1.125rem;
+    width: 100%;
+    height: 52px;
+    padding: 0;
+    background: #171717;
+  }
+  .header-main p {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+  }
+
+  .logo {
+    font-size: 20px;
+    width: 100%;
+    line-height: 52px;
+    margin-left: 28px;
+  }
+  .mobileRightSide {
+    display: flex;
+    margin: 14px 28px 14px 0;
+  }
+
+  /* 모바일에서 사용하는 아이콘 */
+  .mobileSearchIcon {
+    width: 24px;
+    height: 20px;
+    margin: auto 0;
+  }
+  .mobileHeaderIcon {
+    width: 24px;
+    height: 24px;
+    margin: 0 0 0 10px;
+  }
+
+  /* 클릭하면 보이는 히든메뉴 */
+  .mobileRightSideHidden {
+    width: 317px;
+    height: 100vh;
+    padding: 12px 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.81);
+    backdrop-filter: blur(1.5px);
+    transition: transform 0.6s ease-in-out;
+    animation: toast-in-right 0.6s;
+    transition: 0.3s ease;
+  }
+  /* 마이페이지 이동 및 close 공간 */
+  .mobileRightTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .mobileMypage {
+    display: flex;
+  }
+  .imgMobileProfile {
+    width: 35px;
+    height: 35px;
+    border-radius: 18px;
+  }
+  .imgMobileText {
+    line-height: 35px;
+    margin: 0 0 0 10px;
+  }
+
+  /* 모바일에서 추천 및 회원기능 버튼 공간 */
+  .mobileRightBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+  }
+  /* 모바일 추천버튼 */
+  .btnMobileRecommand {
+    background: linear-gradient(90deg, #e30052 -53.81%, #6200ee 152.86%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0;
+  }
+  /* 모바일 회원기능 버튼 */
+  .btnMobileMember {
+    text-align: right;
+    margin: 12px 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header-main {
+    padding: 0;
+    /* border: 1px solid blue; */
+  }
+}
